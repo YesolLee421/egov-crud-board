@@ -27,7 +27,7 @@
     <title>출장 정보 <c:if test="${registerFlag == 'create'}">생성</c:if>
                   <c:if test="${registerFlag == 'modify'}">수정</c:if>
     </title>
-    <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
+	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
     
     <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
@@ -63,141 +63,177 @@
 
     </script>
 </head>
-<body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
+<body>
+    <header id="header"/>
+        <div class="container">
+			<div class="header-top flex-between">
+				<h1>Forwiz</h1>
+				<div class="login-wrap">
+					<span class="user-name">관리자</span>
+					<a class="btn_logout" href="#">로그아웃</a>
+					<a class="btn_change_pw" href="#">비밀번호 변경</a>
+				</div>
+			</div>
 
-<form:form commandName="btVO" id="detailForm" name="detailForm">
-    <div id="content_pop">
-    	<!-- 타이틀 -->
-    	<div id="title">
-    		<ul>
-    			<li><img src="<c:url value='/images/egovframework/example/title_dot.gif'/>" alt=""/>
-                    <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-                    <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
-                </li>
-    		</ul>
-    	</div>
-    	<!-- // 타이틀 -->
-    	<div id="table">
-    	<table width="100%" border="1" cellpadding="0" cellspacing="0" style="bordercolor:#D3E2EC; bordercolordark:#FFFFFF; BORDER-TOP:#C2D0DB 2px solid; BORDER-LEFT:#ffffff 1px solid; BORDER-RIGHT:#ffffff 1px solid; BORDER-BOTTOM:#C2D0DB 1px solid; border-collapse: collapse;">
-    		<colgroup>
-    			<col width="150"/>
-    			<col width="?"/>
-    		</colgroup>
-    		<c:if test="${registerFlag == 'modify'}">
-        		<tr>
-        			<td class="tbtd_caption"><label for="btId">번호</label></td>
-        			<td class="tbtd_content">
-        				<form:input path="btId" cssClass="essentiality" maxlength="10" readonly="true" />
-        			</td>
-        		</tr>
-    		</c:if>
-    		<tr>
-    			<td class="tbtd_caption"><label for="title">제목</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="title" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="title" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="authorDepartment">부서</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="authorDepartment" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="authorDepartment" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="authorId">신청자</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="authorId" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="authorId" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="location">출장 장소</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="location" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="location" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="travelerId">출장자</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="travelerId" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="travelerId" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="tripStartDate">출장 시작일(YYYY-MM-DD)</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="tripStartDate" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="tripStartDate" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="tripEndDate">출장 종료일(YYYY-MM-DD)</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="tripEndDate" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="tripEndDate" />
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="transportationType">교통편</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="transportationType" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="transportationType" />
-    			</td>
-    		</tr>     		    		
-    		<tr>
-    			<td class="tbtd_caption"><label for="tripPurpose">출장 목적</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="tripPurpose" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="tripPurpose" />
-    			</td>
-    		</tr> 
-    	</table>
+			<nav>
+				<ul class="flex-between">
+					<li><a href="#">사용자관리</a></li>
+					<li><a href="#">부서/직급관리</a></li>
+					<li><a href="#">장비관리</a></li>
+					<li><a href="#">알림마당</a></li>
+					<li class="on"><a href="#">출장관리</a></li>
+				</ul>
+			</nav>
+        </div>
+    </header>
+    
+    <main>
+    	<div class="container">
     	
-		<!-- 예상경비내역 -->
-    		
     	
-      </div>
-    	<div id="sysbtn">
-    		<ul>
-    			<li>
-                    <span class="btn_blue_l">
-                        <a href="javascript:fn_egov_selectList();">목록</a>
-                        <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                    </span>
-                </li>
-    			<li>
-                    <span class="btn_blue_l">
-                        <a href="javascript:fn_egov_save();">
-                            <c:if test="${registerFlag == 'create'}">생성</c:if>
-                            <c:if test="${registerFlag == 'modify'}">수정</c:if>
-                        </a>
-                        <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                    </span>
-                </li>
-    			<c:if test="${registerFlag == 'modify'}">
-                    <li>
-                        <span class="btn_blue_l">
-                            <a href="javascript:fn_egov_delete();">삭제</a>
-                            <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                        </span>
-                    </li>
-    			</c:if>
-    			<li>
-                    <span class="btn_blue_l">
-                        <a href="javascript:document.detailForm.reset();">복원</a>
-                        <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                    </span>
-                </li>
-            </ul>
+    	<form:form commandName="btVO" id="detailForm" name="detailForm">
+    	<h1 class="board-title">
+    		<c:if test="${registerFlag == 'create'}">출장 정보 생성</c:if>
+	        <c:if test="${registerFlag == 'modify'}">출장 정보 수정</c:if>
+    	</h1>
+	    <div id="content_pop">
+	    	<!-- // 타이틀 -->
+	    	<div id="table">
+	    	<table class="main-table" width="100%" cellpadding="0" cellspacing="0">
+	    		<colgroup>
+	    			<col width="150"/>
+	    			<col width="?"/>
+	    			<col width="150"/>
+	    			<col width="?"/>
+	    		</colgroup>
+	    		<c:if test="${registerFlag == 'modify'}">
+	        		<tr>
+	        			<td class="tbtd_caption"><label for="btId">번호</label></td>
+	        			<td class="tbtd_content">
+	        				<form:input path="btId" maxlength="10" readonly="true" />
+	        			</td>
+	        			<!-- 
+	        			<td class="tbtd_caption"><label for="createdAt">작성일</label></td>
+	        			<td class="tbtd_content">
+	        				<form:input path="createdAt" maxlength="10" readonly="true" />
+	        			</td>
+	        			 -->
+	        		</tr>
+	    		</c:if>
+	    		<tr>
+	    			<td class="tbtd_caption"><label for="title">제목</label></td>
+	    			<td class="tbtd_content" colspan="3">
+	    				<form:input path="title" cssClass="txt"/>
+	    				&nbsp;<form:errors path="title" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="tbtd_caption"><label for="authorDepartment">부서</label></td>
+	    			<td class="tbtd_content">
+	    				<form:select path="authorDepartment">
+	    					<form:option value="SI사업부" label="SI사업부"/>
+	    					<form:option value="전략사업부" label="전략사업부"/>
+	    				</form:select>
+	    				<!-- 
+	    				<form:input path="authorDepartment" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="authorDepartment" />
+	    				 -->
+	    			</td>
+	    			<td class="tbtd_caption"><label for="authorId">신청자</label></td>
+	    			<td class="tbtd_content">
+	    				<form:input path="authorId" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="authorId" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="tbtd_caption"><label for="location">출장 장소</label></td>
+	    			<td class="tbtd_content" colspan="3">
+	    				<form:input path="location" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="location" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="tbtd_caption"><label for="travelerId">출장자</label></td>
+	    			<td class="tbtd_content" colspan="3">
+	    				<form:input path="travelerId" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="travelerId" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="tbtd_caption"><label for="tripStartDate">출장 시작일(YYYY-MM-DD)</label></td>
+	    			<td class="tbtd_content">
+	    				<form:input path="tripStartDate" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="tripStartDate" />
+	    			</td>
+	    			<td class="tbtd_caption"><label for="tripEndDate">출장 종료일(YYYY-MM-DD)</label></td>
+	    			<td class="tbtd_content">
+	    				<form:input path="tripEndDate" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="tripEndDate" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="tbtd_caption"><label for="transportationType">교통편</label></td>
+	    			<td class="tbtd_content">
+	    				<form:select path="transportationType">
+	    					<form:option value="시외버스" label="시외버스"/>
+	    					<form:option value="기차" label="기차"/>
+	    					<form:option value="자차" label="자차"/>
+	    					<form:option value="회사차량1" label="회사차량1"/>
+	    					<form:option value="회사차량2" label="회사차량2"/>
+	    				</form:select>
+	    				<!-- 
+	    				<form:input path="transportationType" maxlength="30"/>
+	    				&nbsp;<form:errors path="transportationType" />
+	    				 -->
+	    			</td>
+	    			<td class="tbtd_caption"><label for="tripPurpose">출장 목적</label></td>
+	    			<td class="tbtd_content">
+	    				<form:input path="tripPurpose" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="tripPurpose" />
+	    			</td>
+	    		</tr>     		    		
+	    	</table>
+	    	
+			<!-- 예상경비내역 -->
+	    		
+	    	
+	      </div>
+	   	<div id="sysbtn">
+	   		<ul class="flex-end">
+	   			<li>
+	            	<a class="btn" href="javascript:fn_egov_selectList();">목록</a>
+	            </li>
+	   			<li>
+                    <a class="btn" href="javascript:fn_egov_save();">
+                        <c:if test="${registerFlag == 'create'}">생성</c:if>
+                        <c:if test="${registerFlag == 'modify'}">수정</c:if>
+                    </a>
+	               </li>
+	   			<c:if test="${registerFlag == 'modify'}">
+	               <li>
+	                 	<a class="btn" href="javascript:fn_egov_delete();">삭제</a>
+	               </li>
+   				</c:if>
+   				<li>
+                     <a class="btn" href="javascript:document.detailForm.reset();">복원</a>
+               </li>
+	       </ul>
+	   	</div>
+	    </div>
+	    <!-- 검색조건 유지 -->
+	    <input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
+	    <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
+	    <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
+	</form:form>
+    	
     	</div>
-    </div>
-    <!-- 검색조건 유지 -->
-    <input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
-    <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
-    <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
-</form:form>
+    
+    
+    </main>
+    
+    
+   
+    
+    
 </body>
 </html>

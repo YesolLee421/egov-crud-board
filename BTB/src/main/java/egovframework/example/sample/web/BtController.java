@@ -54,6 +54,10 @@ public class BtController {
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
+	
+	// page test
+	private String listPage = "selectBtList2";
+	private String registerPage = "registerBt";
 
 	/**
 	 * 글 목록을 조회한다. (pageing)
@@ -91,7 +95,7 @@ public class BtController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "selectBtList2";
+		return listPage;
 	}
 
 	/**
@@ -103,9 +107,8 @@ public class BtController {
 	 */
 	@RequestMapping(value = "/addBtView.do", method = RequestMethod.POST)
 	public String addBtView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		System.out.println("addBtView 여기까진 된다");
 		model.addAttribute("btVO", new BtVO());
-		return "registerBt";
+		return registerPage;
 	}
 
 	/**
@@ -125,7 +128,7 @@ public class BtController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("btVO", btVO);
-			return "selectBtList";
+			return listPage;
 		}
 
 		btService.insertBt(btVO);
@@ -146,9 +149,9 @@ public class BtController {
 		BtVO btVO = new BtVO();
 		btVO.setBtId(id);
 		// 변수명은 CoC 에 따라 sampleVO
-		//model.addAttribute(selectSample(sampleVO, searchVO));
+
 		model.addAttribute(selectBt(btVO, searchVO));
-		return "registerBt";
+		return registerPage;
 	}
 
 	/**
@@ -179,11 +182,13 @@ public class BtController {
 		beanValidator.validate(btVO, bindingResult);
 
 		if (bindingResult.hasErrors()) {
+			System.out.println("에러: bindingResult");
 			model.addAttribute("btVO", btVO);
-			return "registerBt";
+			return registerPage;
 		}
-
+		System.out.println("Controller-updateBt: " + btVO.toString());
 		btService.updateBt(btVO);
+		
 		status.setComplete();
 		return "forward:/selectBtList.do";
 	}
@@ -198,6 +203,7 @@ public class BtController {
 	 */
 	@RequestMapping("/deleteBt.do")
 	public String deleteBt(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SessionStatus status) throws Exception {
+		System.out.println("Controller-deleteBt: " + btVO.toString());
 		btService.deleteBt(btVO);
 		status.setComplete();
 		return "forward:/selectBtList.do";

@@ -155,16 +155,24 @@ a:hover {
   padding: 10px 0;
   border-bottom: solid 1px lightgray;
 }
-.main-table th {
-  background-color: #ededed;
-}
 .main-table tr:last-child td {
   border-bottom: none;
+}
+
+
+.main-table td.tbtd_caption, .main-table td.tbtd_content {
+	padding: 0 10px;
+}
+.main-table th, .main-table td.tbtd_caption {
+  background-color: #ededed;
 }
 
 #sysbtn ul {
   margin-top: 20px;
   text-align: end;
+}
+#sysbtn ul li {
+	margin: 0 10px;
 }
 a.btn {
   display: inline-block;
@@ -172,6 +180,11 @@ a.btn {
   background-color: #ff8066;
   border-radius: 10px;
   color: #fff6e6;
+}
+
+#paging {
+	margin: 10px 0;
+	text-align: center;
 }
 
 #search {
