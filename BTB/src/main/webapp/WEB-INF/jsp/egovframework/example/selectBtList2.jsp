@@ -10,9 +10,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>출장 관리 게시판</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
-    <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style.css'/>"/>
+
+	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
     <script type="text/javaScript" language="javascript" defer="defer">
         /* 글 수정 화면 function */
         function fn_egov_select(id) {
@@ -46,44 +45,44 @@
 <body>
     <header id="header"/>
         <div class="container">
-            <div class="flex-between">
-                <h1>logo</h1>
-                <div class="login_wrap">
-                    <span>관리자</span>
-                    <a class="btn_logout" href="#">로그아웃</a>
-                    <a class="btn_change_pw" href="#">비밀번호 변경</a>
-                    
-                </div>
-            </div>
-            <nav>
-                <ul class="flex-between">
-                    <li><a href="#">사용자관리</a></li>
-                    <li><a href="#">부서/직급관리</a></li>
-                    <li><a href="#">장비관리</a></li>
-                    <li><a href="#">알림마당</a></li>
-                    <li class="on"><a href="#">출장관리</a></li>
-                </ul>
-            </nav>
+			<div class="header-top flex-between">
+				<h1>Forwiz</h1>
+				<div class="login-wrap">
+					<span class="user-name">관리자</span>
+					<a class="btn_logout" href="#">로그아웃</a>
+					<a class="btn_change_pw" href="#">비밀번호 변경</a>
+				</div>
+			</div>
+
+			<nav>
+				<ul class="flex-between">
+					<li><a href="#">사용자관리</a></li>
+					<li><a href="#">부서/직급관리</a></li>
+					<li><a href="#">장비관리</a></li>
+					<li><a href="#">알림마당</a></li>
+					<li class="on"><a href="#">출장관리</a></li>
+				</ul>
+			</nav>
         </div>
     </header>
 
     <main>
     
         <div class="container">
-            <h1>출장관리 게시판</h1>
+            <h1 class="board-title">출장관리 게시판</h1>
             
             <form:form commandName="searchVO" id="listForm" name="listForm" method="post">
             <input type="hidden" name="selectedId" />
             
             
-	            <table width="100%" border="0" cellpadding="0" cellspacing="0" summary="카테고리ID, 출장장소 ,작성자, 출장자, 출장기간">
+	            <table class="main-table" width="100%" border="0" cellpadding="0" cellspacing="0" summary="카테고리ID, 출장장소 ,작성자, 출장자, 출장기간">
 	                <caption style="visibility:hidden">번호, 출장장소, 작성자, 출장자, 출장기간</caption>
 	                <colgroup>
 	                    <col width="10%"/>
 	                    <col width="20%"/>
 	                    <col width="20%"/>
-	                    <col width="30%"/>
 	                    <col width="20%"/>
+	                    <col width="30%"/>
 	                </colgroup>
 	                <tr>
 	                    <th align="center">No</th>
@@ -91,8 +90,7 @@
 	                    <th align="center">작성자</th>
 	                    <th align="center">출장자</th>
 	                    <th align="center">출장기간</th>
-	                </tr>
-	
+	                </tr>	
 	                <c:forEach var="result" items="${resultList}" varStatus="status">
 	                    <tr>
 	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.btId}"/>')"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></a></td>                      
@@ -111,10 +109,7 @@
 	        	<div id="sysbtn">
 	        	  <ul>
 	        	      <li>
-	        	          <span class="btn_blue_l">
-	        	              <a href="javascript:fn_egov_addView();">생성</a>
-	                          <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-	                      </span>
+						  <a class="btn btn_blue_l" href="javascript:fn_egov_addView();">생성</a>
 	                  </li>
 	              </ul>
 	        	</div>
@@ -122,22 +117,35 @@
             
 	            <!-- // 타이틀 -->
 	        	<div id="search" class="flex-center">
-	        		<ul>
+	        		<ul class="flex-center">
+	        		<!-- 
 	        			<li>
-	        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
-	        				<form:select path="searchCondition" cssClass="use">
+	        			    <label for="searchCondition" style="visibility:hidden;display:none"><spring:message code="search.choose" /></label>
+	        				<form:select class="form-select" path="searchCondition" cssClass="use">
 	        					<form:option value="1" label="출장자" />
 	        					<form:option value="0" label="출장일" />
 	        				</form:select>
 	        			</li>
 	        			<li><label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-	                        <form:input path="searchKeyword" cssClass="txt"/>
+	                        <form:input class="form-input" path="searchKeyword" cssClass="txt"/>
 	                    </li>
 	        			<li>
-	        	            <span class="btn_blue_l">
-	        	                <a href="javascript:fn_egov_selectList();"><spring:message code="button.search" /></a>
-	        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-	        	            </span>
+	        				<a class="btn btn_blue_l" href="javascript:fn_egov_selectList();">검색</a>
+	        	        </li>
+	        	     -->    
+	        	        <li>
+							<label for="searchCondition" style="visibility: hidden;display:none;">검색조건 선택</label>
+							<select name="searchCondition" id="searchCondition">
+								<option name="travelerId" value="0">출장자</option>
+								<option name="tripDate" value="1">출장일</option>
+							</select>
+	        			</li>
+	        			<li>
+							<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+	                        <input type="text" name="searchKeyword">
+	                    </li>
+	        			<li>
+	        				<a class="btn btn_blue_l" href="javascript:fn_egov_selectList();">검색</a>
 	        	        </li>
 	                </ul>
 	        	</div>
@@ -147,8 +155,6 @@
     </main>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"></script>
 </body>
 
 
