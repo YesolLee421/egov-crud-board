@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Sample">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="btVO" type="egovframework.example.sample.service.BtVO"/>
+
+	<resultMap id="btVO" class="egovframework.example.sample.service.BtVO">
+		<result property="btId" column="bt_id"/>
+		<result property="authorId" column="author_id"/>
+		<result property="authorDepartment" column="author_department"/>
+		<result property="approverId" column="approver_id"/>
+		<result property="receiverId" column="receiver_id"/>
+		<result property="travelerId" column="traveler_id"/>
+		<result property="title" column="title"/>
+		<result property="location" column="location"/>
+		<result property="tripStartDate" column="trip_start_date"/>
+		<result property="tripEndDate" column="trip_end_date"/>
+		<result property="transportationType" column="transportation_type"/>
+		<result property="tripPurpose" column="trip_purpose"/>
+		<result property="fileDir" column="file_dir"/>
+		<result property="approvalState" column="approval_state"/>
+		<result property="createdAt" column="created_at"/>
+	</resultMap>
+	
+	<insert id="btDAO.insertBt">
+		<![CDATA[
+		
+			INSERT INTO TBBUSINESSTRIP
+				( BT_ID
+				  , AUTHOR_ID
+				  , AUTHOR_DEPARTMENT
+				  , APPROVER_ID
+				  , RECEIVER_ID
+				  , TRAVELER_ID
+				  , TITLE
+				  , LOCATION
+				  , TRIP_START_DATE
+				  , TRIP_END_DATE
+				  , TRANSPORTATION_TYPE
+				  , TRIP_PURPOSE
+				  , FILE_DIR
+				  , APPROVAL_STATE
+				  , CREATED_AT )
+			VALUES ( #btId#
+				  , #authorId#
+				  , #authorDepartment#
+				  , #approverId#
+				  , #receiverId#
+				  , #travelerId#
+				  , #title#
+				  , #location#
+				  , #tripStartDate#
+				  , #tripEndDate#
+				  , #transportationType#
+				  , #tripPurpose#
+				  , #fileDir#
+				  , 0
+				  , NOW())
+		]]>
+	</insert>
+	
+	<update id="btDAO.updateBt">
+		<![CDATA[
+			UPDATE TBBUSINESSTRIP
+			SET BT_ID=#btId#
+				, AUTHOR_ID=#authorId#
+				, AUTHOR_DEPARTMENT=#authorDepartment#
+				, APPROVER_ID=#approverId#
+				, RECEIVER_ID=#receiverId#
+				, TRAVELER_ID=#travelerId#
+				, TITLE=#title#
+				, LOCATION=#location#
+				, TRIP_START_DATE=#tripStartDate#
+				, TRIP_END_DATE=#tripEndDate#
+				, TRANSPORTATION_TYPE=#transportationType#
+				, TRIP_PURPOSE=#tripPurpose#
+				, FILE_DIR=#fileDir#
+			WHERE BT_ID=#btId#
+		]]>
+	</update>
+	
+	<delete id="btDAO.deleteBt">
+		<![CDATA[
+			DELETE FROM TBBUSINESSTRIP 
+			WHERE BT_ID=#btId#
+		]]>
+	</delete>
+    
+    <!-- selectBt할 때  여러 테이블 조인 필요 -->
+    <select id="btDAO.selectBt" resultMap="btVO">
+        <![CDATA[
+            SELECT
+                BT_ID
+				  , AUTHOR_ID
+				  , AUTHOR_DEPARTMENT
+				  , APPROVER_ID
+				  , RECEIVER_ID
+				  , TRAVELER_ID
+				  , TITLE
+				  , LOCATION
+				  , TRIP_START_DATE
+				  , TRIP_END_DATE
+				  , TRANSPORTATION_TYPE
+				  , TRIP_PURPOSE
+				  , FILE_DIR
+				  , APPROVAL_STATE
+				  , CREATED_AT
+            FROM TBBUSINESSTRIP 
+            WHERE BT_ID=#btId#
+        ]]>
+    </select>
+	
+	<select id="btDAO.selectBtList" parameterClass="searchVO" resultClass="egovMap">
+
+			SELECT
+				BT_ID, LOCATION, AUTHOR_ID, TRAVELER_ID, TRIP_START_DATE, TRIP_END_DATE
+			FROM TBBUSINESSTRIP
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TRAVELER_ID LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend=AND property="searchCondition" compareValue="1">
+				TRIP_START_DATE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			ORDER BY BT_ID DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	
+	<select id="btDAO.selectBtListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM TBBUSINESSTRIP
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TRAVELER_ID LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TRIP_START_DATE LIKE ' LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+
+</sqlMap>

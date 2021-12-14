@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.BtMapper">
+	
+	<resultMap id="btVO" type="egovframework.example.sample.service.BtVO">
+		<result property="btId" column="bt_id"/>
+		<result property="authorId" column="author_id"/>
+		<result property="authorDepartment" column="author_department"/>
+		<result property="approverId" column="approver_id"/>
+		<result property="receiverId" column="receiver_id"/>
+		<result property="travelerId" column="traveler_id"/>
+		<result property="title" column="title"/>
+		<result property="location" column="location"/>
+		<result property="tripStartDate" column="trip_start_date"/>
+		<result property="tripEndDate" column="trip_end_date"/>
+		<result property="transportationType" column="transportation_type"/>
+		<result property="tripPurpose" column="trip_purpose"/>
+		<result property="fileDir" column="file_dir"/>
+		<result property="approvalState" column="approval_state"/>
+		<result property="createdAt" column="created_at"/>
+	</resultMap>
+
+	<insert id="insertBt" parameterType="btVO">
+
+			INSERT INTO TBBUSINESSTRIP
+				( BT_ID
+				  , AUTHOR_ID
+				  , AUTHOR_DEPARTMENT
+				  , APPROVER_ID
+				  , RECEIVER_ID
+				  , TRAVELER_ID
+				  , TITLE
+				  , LOCATION
+				  , TRIP_START_DATE
+				  , TRIP_END_DATE
+				  , TRANSPORTATION_TYPE
+				  , TRIP_PURPOSE
+				  , FILE_DIR
+				  , APPROVAL_STATE
+				  , CREATED_AT )
+			VALUES ( #{btId}
+				  , #{authorId}
+				  , #{authorDepartment}#
+				  , #{approverId}#
+				  , #{receiverId}#
+				  , #{travelerId}#
+				  , #{title}#
+				  , #{location}#
+				  , #{tripStartDate}#
+				  , #{tripEndDate}#
+				  , #{transportationType}#
+				  , #{tripPurpose}#
+				  , #{fileDir}#
+				  , 0
+				  , NOW())
+
+	</insert>
+
+	<update id="updateBt">
+
+			UPDATE TBBUSINESSTRIP
+			SET BT_ID=#{btId}
+				, AUTHOR_ID=#{authorId}
+				, AUTHOR_DEPARTMENT=#{authorDepartment}
+				, APPROVER_ID=#{approverId}
+				, RECEIVER_ID=#{receiverId}
+				, TRAVELER_ID=#{travelerId}
+				, TITLE=#{title}
+				, LOCATION=#{location}
+				, TRIP_START_DATE=#{tripStartDate}
+				, TRIP_END_DATE=#{tripEndDate}
+				, TRANSPORTATION_TYPE=#{transportationType}
+				, TRIP_PURPOSE=#{tripPurpose}
+				, FILE_DIR=#{fileDir}
+			WHERE BT_ID=#{btId}
+
+	</update>
+
+	<delete id="deleteBt">
+
+			DELETE FROM TBBUSINESSTRIP
+			WHERE BT_ID=#{btId}
+
+	</delete>
+
+	<select id="selectBt" resultMap="btVO">
+
+            SELECT
+                BT_ID
+				  , AUTHOR_ID
+				  , AUTHOR_DEPARTMENT
+				  , APPROVER_ID
+				  , RECEIVER_ID
+				  , TRAVELER_ID
+				  , TITLE
+				  , LOCATION
+				  , TRIP_START_DATE
+				  , TRIP_END_DATE
+				  , TRANSPORTATION_TYPE
+				  , TRIP_PURPOSE
+				  , FILE_DIR
+				  , APPROVAL_STATE
+				  , CREATED_AT
+            FROM TBBUSINESSTRIP 
+            WHERE BT_ID=#{btId}
+
+	</select>
+
+	<select id="selectBtList" parameterType="searchVO" resultType="egovMap">
+
+			SELECT
+				BT_ID, LOCATION, AUTHOR_ID, TRAVELER_ID, TRIP_START_DATE, TRIP_END_DATE
+			FROM TBBUSINESSTRIP
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	TRAVELER_ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	TRIP_START_DATE LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+			ORDER BY CREATED_AT DESC
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+
+	<select id="selectBtListTotCnt" parameterType="searchVO" resultType="int">
+
+			SELECT COUNT(*) totcnt
+			FROM TBBUSINESSTRIP
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND TRAVELER_ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	TRIP_START_DATE LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+
+</mapper>
