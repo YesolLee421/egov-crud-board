@@ -161,7 +161,7 @@ a:hover {
 
 
 .main-table td.tbtd_caption, .main-table td.tbtd_content {
-	padding: 0 10px;
+	padding: 10px;
 }
 .main-table th, .main-table td.tbtd_caption {
   background-color: #ededed;
