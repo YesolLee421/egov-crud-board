@@ -41,14 +41,14 @@
     <script type="text/javaScript" language="javascript" defer="defer">
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/selectBtList.do'/>";
+           	document.detailForm.action = "<c:url value='/selectBtList2.do'/>";
            	document.detailForm.submit();
         }
         
         /* 글 삭제 function */
         function fn_egov_delete() {
         	if(confirm("정말 삭제하시겠습니까?")==true) {
-        		document.detailForm.action = "<c:url value='/deleteBt.do'/>";
+        		document.detailForm.action = "<c:url value='/deleteBt2.do'/>";
                	document.detailForm.submit();
         	} else {
         		return;
@@ -61,7 +61,7 @@
         	if(!validateBtVO(frm)){
                 return;
             }else{
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addBt.do' : '/updateBt.do'}"/>";
+            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addBt2.do' : '/updateBt2.do'}"/>";
                 frm.submit();
             }
         }
@@ -98,7 +98,32 @@
                  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                  dateFormat: "yy-mm-dd" 
             });    
-    	});
+            
+            // 금액 합계 기능
+            $(".price").on("change keyup paste", function() {
+            	var total = 0;
+            	$(".price").each(function() {
+            		total += Number($(this).val());
+            	});
+            	// 합계 출력
+            	$("#priceTotal").html(total);
+            });
+            
+            $("#btExpVOList[0].paymentMethod option").each(function() {
+            	$(this).val() = parseInt($(this).val());
+            });
+            $("#btExpVOList[1].paymentMethod option").each(function() {
+            	$(this).val() = parseInt($(this).val());
+            });
+            $("#btExpVOList[2].paymentMethod option").each(function() {
+            	$(this).val() = parseInt($(this).val());
+            });
+            $("#btExpVOList[3].paymentMethod option").each(function() {
+            	$(this).val() = parseInt($(this).val());
+            });
+            
+            
+    });
 
 
     </script>
@@ -152,16 +177,12 @@
 	        			<td class="tbtd_content">
 	        				<form:input path="btId" maxlength="10" readonly="true" />
 	        			</td>
-	        			
-	        			
-	        			
 	        			<!-- 
 	        			<td class="tbtd_caption"><label for="createdAt">작성일</label></td>
 	        			<td class="tbtd_content">
-	        				
+	        				<form:input path="createdAt" maxlength="10" readonly="true" />
 	        			</td>
 	        			 -->
-	        			
 	        		</tr>
 	    		</c:if>
 	    		<tr>
@@ -235,10 +256,124 @@
 	    				<form:input path="tripPurpose" maxlength="30" cssClass="txt"/>
 	    				&nbsp;<form:errors path="tripPurpose" />
 	    			</td>
-	    		</tr>     		    		
+	    		</tr>
+	    		
+	    		<!-- 예상경비내역 -->
+				<tr>
+	    			<td class="tbtd_caption" colspan="4">출장 예상경비내역</td>
+	    		</tr>
+				<tr>
+	    			<td class="tbtd_caption">항목</td>
+	    			<td class="tbtd_caption">내용</td>
+					<td class="tbtd_caption">결제방법</td>
+					<td class="tbtd_caption">금액</td>
+	    		</tr>
+	    		
+	    		<!-- 
+    			<tr>
+    				<td class="tbtd_caption">
+	    				<form:input path="btExpVOList[0].expenseType" maxlength="30" cssClass="txt" value="교통비" readonly="true"/>
+	    				&nbsp;<form:errors path="btExpVOList[0].expenseType" />
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[0].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[0].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[0].paymentMethod">
+	    					<form:option value="0" label="카드"/>
+	    					<form:option value="1" label="현금"/>
+	    					<form:option value="2" label="계좌이체"/>
+	    				</form:select>	    				
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[0].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[0].price" />
+	    			</td>
+				</tr>	    		
+
+    			<tr>
+					<td class="tbtd_caption">
+	    				<form:input path="btExpVOList[1].expenseType" maxlength="30" cssClass="txt" value="일비" readonly="true"/>
+	    				&nbsp;<form:errors path="btExpVOList[1].expenseType" />
+					</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[1].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[1].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[1].paymentMethod">
+	    					<form:option value="0" label="카드"/>
+	    					<form:option value="1" label="현금"/>
+	    					<form:option value="2" label="계좌이체"/>
+	    				</form:select>	 
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[1].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[1].price" />	
+	    			</td>
+				</tr>
+    			<tr>
+					<td class="tbtd_caption">
+	    				<form:input path="btExpVOList[2].expenseType" maxlength="30" cssClass="txt" value="숙박" readonly="true"/>
+	    				&nbsp;<form:errors path="btExpVOList[2].expenseType" />
+					</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[2].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[2].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[2].paymentMethod">
+	    					<form:option value="0" label="카드"/>
+	    					<form:option value="1" label="현금"/>
+	    					<form:option value="2" label="계좌이체"/>
+	    				</form:select>	 
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[2].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[2].price" />
+	    			</td>
+				</tr>
+    			<tr>
+					<td class="tbtd_caption">
+	    				<form:input path="btExpVOList[3].expenseType" maxlength="30" cssClass="txt" value="기타" readonly="true"/>
+	    				&nbsp;<form:errors path="btExpVOList[3].expenseType" />
+					</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[3].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[3].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[3].paymentMethod">
+	    					<form:option value="0" label="카드"/>
+	    					<form:option value="1" label="현금"/>
+	    					<form:option value="2" label="계좌이체"/>
+	    				</form:select>	 
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[3].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[3].price" />
+	    			</td>
+				</tr>					
+	    		
+				<tr>
+					<td class="tbtd_caption" colspan="3">합계</td>
+					<td id="priceTotal" class="tbtd_content"></td>
+				</tr>
+				 -->
+				<tr>
+					<td class="tbtd_caption"><label for="fileDir">첨부파일</label></td>
+					<td class="tbtd_content" colspan="3">
+						<input type="file" id="fileDir" name="fileDir"/>
+						
+	    				<!-- <form:input path="fileDir"/>
+	    				&nbsp;<form:errors path="fileDir" /> -->
+	    			</td>
+				</tr>     		    		
 	    	</table>
 	    	
-			<!-- 예상경비내역 -->
+			
+			
 	    		
 	    	
 	      </div>
@@ -248,7 +383,7 @@
 	            	<a class="btn" href="javascript:fn_egov_selectList();">목록</a>
 	            </li>
 	   			<li>
-                    <a class="btn" href="javascript:fn_egov_save();">
+                    <a id="btnSave" class="btn" href="javascript:fn_egov_save();">
                         <c:if test="${registerFlag == 'create'}">생성</c:if>
                         <c:if test="${registerFlag == 'modify'}">수정</c:if>
                     </a>

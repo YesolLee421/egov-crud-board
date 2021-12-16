@@ -20,48 +20,50 @@ public class BtRoleVO extends SampleDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	// 출장 관련자 번호
-	private int bt_role_id;
+	private int btRoleId;
 
 	// 츌장 일련번호
-	private String bt_id;
+	private String btId;
 	
 	// 직원 id (일단 이름)
-	private String user_id;
+	private String userId;
 	
 	// 이름
-	private String user_name;
+	private String userName;
 	
 	// 부서
 	private String department;
 	
-	// 직급
-	private String user_position;
-	
-	// 관련자 분류: 출장자, 결재자, 수신자
-	private String user_type;
-
-	public int getBt_role_id() {
-		return bt_role_id;
+	public int getBtRoleId() {
+		return btRoleId;
 	}
 
-	public void setBt_role_id(int bt_role_id) {
-		this.bt_role_id = bt_role_id;
+	public void setBtRoleId(int btRoleId) {
+		this.btRoleId = btRoleId;
 	}
 
-	public String getBt_id() {
-		return bt_id;
+	public String getBtId() {
+		return btId;
 	}
 
-	public void setBt_id(String bt_id) {
-		this.bt_id = bt_id;
+	public void setBtId(String btId) {
+		this.btId = btId;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getDepartment() {
@@ -72,29 +74,29 @@ public class BtRoleVO extends SampleDefaultVO {
 		this.department = department;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getUserPosition() {
+		return userPosition;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserPosition(String userPosition) {
+		this.userPosition = userPosition;
 	}
 
-	public String getUser_position() {
-		return user_position;
+	public String getUserType() {
+		return userType;
 	}
 
-	public void setUser_position(String user_position) {
-		this.user_position = user_position;
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
-	public String getUser_type() {
-		return user_type;
-	}
+	// 직급
+	private String userPosition;
+	
+	// 관련자 분류: 출장자, 결재자, 수신자
+	private String userType;
 
-	public void setUser_type(String user_type) {
-		this.user_type = user_type;
-	}
+	
 
 
 	

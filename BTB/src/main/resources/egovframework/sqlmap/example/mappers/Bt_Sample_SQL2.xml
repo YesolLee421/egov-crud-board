@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovframework.example.sample.service.impl.BtMapper">
+<mapper namespace="egovframework.example.sample.service.impl.BtMapper2">
 	
 	<resultMap id="btVO" type="egovframework.example.sample.service.BtVO">
 		<result property="btId" column="bt_id"/>
@@ -18,10 +18,49 @@
 		<result property="fileDir" column="file_dir"/>
 		<result property="approvalState" column="approval_state"/>
 		<result property="createdAt" column="created_at"/>
+		<collection property="btExpVOList" resultMap="BtExpVO" />
 	</resultMap>
+	
+	<resultMap id="btAll" type="egovframework.example.sample.service.BtVO">
+		<result property="btId" column="bt_id"/>
+		<result property="authorId" column="author_id"/>
+		<result property="authorDepartment" column="author_department"/>
+		<result property="approverId" column="approver_id"/>
+		<result property="receiverId" column="receiver_id"/>
+		<result property="travelerId" column="traveler_id"/>
+		<result property="title" column="title"/>
+		<result property="location" column="location"/>
+		<result property="tripStartDate" column="trip_start_date"/>
+		<result property="tripEndDate" column="trip_end_date"/>
+		<result property="transportationType" column="transportation_type"/>
+		<result property="tripPurpose" column="trip_purpose"/>
+		<result property="fileDir" column="file_dir"/>
+		<result property="approvalState" column="approval_state"/>
+		<result property="createdAt" column="created_at"/>
+	</resultMap>
+	
+	<resultMap id="btRoleVO" type="egovframework.example.sample.service.BtRoleVO">
+		<result property="btRoleId" column="bt_role_id"/>
+		<result property="btId" column="bt_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="userName" column="user_name"/>
+		<result property="department" column="department"/>
+		<result property="userPosition" column="user_position"/>
+		<result property="userType" column="user_type"/>
+	</resultMap>
+	
+	<resultMap id="btExpVO" type="egovframework.example.sample.service.BtExpVO">
+		<result property="btExpId" column="bt_exp_id"/>
+		<result property="btId" column="bt_id"/>
+		<result property="expenseType" column="expense_type"/>
+		<result property="expenseDetail" column="expense_detail"/>
+		<result property="paymentMethod" column="payment_method"/>
+		<result property="price" column="price"/>
+	</resultMap>
+	
+	
 
 	<insert id="insertBt" parameterType="btVO">
-
 			INSERT INTO TBBUSINESSTRIP
 				( BT_ID
 				  , AUTHOR_ID
@@ -53,14 +92,44 @@
 				  , #{fileDir}
 				  , 0
 				  , NOW())
-
 	</insert>
+	<insert id="insertBtRole" parameterType="btRoleVO">
+			INSERT INTO TBBTROLE
+				( BT_ID
+				  , USER_ID
+				  , USER_NAME
+				  , DEPARTMENT
+				  , USER_POSITION
+				  , USER_TYPE )
+			VALUES ( #{btId}
+				  , #{userId}
+				  , #{userName}
+				  , #{department}
+				  , #{userPosition}
+				  , #{userType} )
+	</insert>
+	
+	<insert id="insertBtExp" parameterType="btExpVO">
+			INSERT INTO TBBTEXPENSES
+				( BT_ID
+				  , EXPENSE_TYPE
+				  , EXPENSE_DETAIL
+				  , PAYMENT_METHOD
+				  , PRICE )
+			VALUES ( #{btId}
+				  , #{expenseType}
+				  , #{expenseDetail}
+				  , #{paymentMethod}
+				  , #{price} )
+	</insert>	
+	
+	
+		
 
 	<update id="updateBt">
-
 			UPDATE TBBUSINESSTRIP
-			SET BT_ID=#{btId}
-				, AUTHOR_ID=#{authorId}
+			SET 
+				 AUTHOR_ID=#{authorId}
 				, AUTHOR_DEPARTMENT=#{authorDepartment}
 				, APPROVER_ID=#{approverId}
 				, RECEIVER_ID=#{receiverId}
@@ -73,7 +142,25 @@
 				, TRIP_PURPOSE=#{tripPurpose}
 				, FILE_DIR=#{fileDir}
 			WHERE BT_ID=#{btId}
-
+	</update>
+	<update id="updateBtRole">
+			UPDATE TBBTROLE
+			SET BT_ID=#{btId}
+				, USER_ID=#{userId}
+				, USER_NAME=#{userName}
+				, DEPARTMENT=#{department}
+				, USER_POSITION=#{userPosition}
+				, USER_TYPE=#{userType}
+			WHERE BT_ROLE_ID=#{btRoleId}
+	</update>	
+	<update id="updateBtExp">
+			UPDATE TBBTEXPENSE
+			SET BT_ID=#{btId}
+				, EXPENSE_TYPE=#{expenseType}
+				, EXPENSE_DETAIL=#{expenseDetail}
+				, PAYMENT_METHOD=#{paymentMethod}
+				, PRICE=#{PRICE}
+			WHERE BT_EXP_ID=#{btExpId}
 	</update>
 
 	<delete id="deleteBt">
@@ -82,8 +169,20 @@
 			WHERE BT_ID=#{btId}
 
 	</delete>
+	<delete id="deleteBtRole">
 
-	<select id="selectBt" resultMap="btVO">
+			DELETE FROM TBBTROLE
+			WHERE BT_ROLE_ID=#{btRoleId}
+
+	</delete>
+	<delete id="deleteBtExp">
+
+			DELETE FROM TBBTEXPENSE
+			WHERE BT_EXP_ID=#{btExpId}
+
+	</delete>
+
+	<select id="selectBt" resultMap="btVO" parameterType="btVO">
 
             SELECT
                 BT_ID
@@ -106,6 +205,7 @@
 
 	</select>
 
+
 	<select id="selectBtList" parameterType="searchVO" resultType="egovMap">
 
 			SELECT
@@ -125,6 +225,17 @@
 			ORDER BY CREATED_AT DESC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
+	
+	<select id="selectBtRoleList" parameterType="String" resultType="egovMap">
+			SELECT * FROM TBBTROLE
+			WHERE BT_ID=#{btId}
+	</select>
+	
+	<select id="selectBtExpList" parameterType="String" resultType="egovMap">
+			SELECT BT_ID, EXPENSE_TYPE, EXPENSE_DETAIL, PAYMENT_METHOD, PRICE FROM TBBTEXPENSES
+			WHERE BT_ID=#{btId}
+	</select>
+
 
 	<select id="selectBtListTotCnt" parameterType="searchVO" resultType="int">
 

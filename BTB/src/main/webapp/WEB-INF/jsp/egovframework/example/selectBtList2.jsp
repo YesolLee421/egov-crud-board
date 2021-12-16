@@ -16,26 +16,26 @@
         /* 글 수정 화면 function */
         function fn_egov_select(id) {
         	document.listForm.selectedId.value = id;
-           	document.listForm.action = "<c:url value='/updateBtView.do'/>";
+           	document.listForm.action = "<c:url value='/updateBtView2.do'/>";
            	document.listForm.submit();
         }
         
         /* 글 등록 화면 function */
         function fn_egov_addView() {
-           	document.listForm.action = "<c:url value='/addBtView.do'/>";
+           	document.listForm.action = "<c:url value='/addBtView2.do'/>";
            	document.listForm.submit();
         }
         
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-        	document.listForm.action = "<c:url value='/selectBtList.do'/>";
+        	document.listForm.action = "<c:url value='/selectBtList2.do'/>";
            	document.listForm.submit();
         }
         
         /* pagination 페이지 링크 function */
         function fn_egov_link_page(pageNo){
         	document.listForm.pageIndex.value = pageNo;
-        	document.listForm.action = "<c:url value='/selectBtList.do'/>";
+        	document.listForm.action = "<c:url value='/selectBtList2.do'/>";
            	document.listForm.submit();
         }
     </script>

@@ -23,70 +23,72 @@ public class BtExpVO extends SampleDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	// 출장 경비 번호
-	private int bt_exp_id;
+	 private int btExpId; // auto-increment
 
 	// 츌장 일련번호
-	private String bt_id;
+	private String btId;
 	
 	// 비용 종류: 교통비, 일비, 숙박비, 기타
-	private String expense_type;
+	private String expenseType;
 	
 	// 내용
-	private String expense_detail;
+	private String expenseDetail;
 	
 	// 결제방법: 카드=0, 현금=1, 계좌이체=2
-	private String payment_method;
+	private int paymentMethod;
 	
 	// 금액
-	private String price;
+	private int price;
 
-	public int getBt_exp_id() {
-		return bt_exp_id;
+	public int getBtExpId() {
+		return btExpId;
 	}
 
-	public void setBt_exp_id(int bt_exp_id) {
-		this.bt_exp_id = bt_exp_id;
+	public void setBtExpId(int btExpId) {
+		this.btExpId = btExpId;
 	}
 
-	public String getBt_id() {
-		return bt_id;
+	public String getBtId() {
+		return btId;
 	}
 
-	public void setBt_id(String bt_id) {
-		this.bt_id = bt_id;
+	public void setBtId(String btId) {
+		this.btId = btId;
 	}
 
-	public String getExpense_type() {
-		return expense_type;
+	public String getExpenseType() {
+		return expenseType;
 	}
 
-	public void setExpense_type(String expense_type) {
-		this.expense_type = expense_type;
+	public void setExpenseType(String expenseType) {
+		this.expenseType = expenseType;
 	}
 
-	public String getExpense_detail() {
-		return expense_detail;
+	public String getExpenseDetail() {
+		return expenseDetail;
 	}
 
-	public void setExpense_detail(String expense_detail) {
-		this.expense_detail = expense_detail;
+	public void setExpenseDetail(String expenseDetail) {
+		this.expenseDetail = expenseDetail;
 	}
 
-	public String getPayment_method() {
-		return payment_method;
+	public int getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setPayment_method(String payment_method) {
-		this.payment_method = payment_method;
+	public void setPaymentMethod(int paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
+
+	
 
 
 

@@ -17,6 +17,7 @@ package egovframework.example.sample.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class BtVO extends SampleDefaultVO {
 
@@ -66,6 +67,10 @@ public class BtVO extends SampleDefaultVO {
 	
 	// 작성일: mysql의 now()로 생성된 timestamp	
 	private Timestamp createdAt;
+	
+	// 쿼리로 조인할 vo 리스트
+	//private List<BtRoleVO> btRoleVOList;
+	private List<BtExpVO> btExpVOList;
 
 	public String getBtId() {
 		return btId;
@@ -185,6 +190,22 @@ public class BtVO extends SampleDefaultVO {
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+
+//	public List<BtRoleVO> getBtRoleVOList() {
+//		return btRoleVOList;
+//	}
+//
+//	public void setBtRoleVOList(List<BtRoleVO> btRoleVOList) {
+//		this.btRoleVOList = btRoleVOList;
+//	}
+
+	public List<BtExpVO> getBtExpVOList() {
+		return btExpVOList;
+	}
+
+	public void setBtExpVOList(List<BtExpVO> btExpVOList) {
+		this.btExpVOList = btExpVOList;
 	}
 
 

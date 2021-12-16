@@ -1,4 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<jsp:forward page="/selectBtList.do"/>
+<jsp:forward page="/selectBtList2.do"/>
 
-<!-- egovSampleList / selectBtList -->
+<!-- egovSampleList / selectBtList2 -->

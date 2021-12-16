@@ -40,17 +40,17 @@
 				  , CREATED_AT )
 			VALUES ( #{btId}
 				  , #{authorId}
-				  , #{authorDepartment}#
-				  , #{approverId}#
-				  , #{receiverId}#
-				  , #{travelerId}#
-				  , #{title}#
-				  , #{location}#
-				  , #{tripStartDate}#
-				  , #{tripEndDate}#
-				  , #{transportationType}#
-				  , #{tripPurpose}#
-				  , #{fileDir}#
+				  , #{authorDepartment}
+				  , #{approverId}
+				  , #{receiverId}
+				  , #{travelerId}
+				  , #{title}
+				  , #{location}
+				  , #{tripStartDate}
+				  , #{tripEndDate}
+				  , #{transportationType}
+				  , #{tripPurpose}
+				  , #{fileDir}
 				  , 0
 				  , NOW())
 
