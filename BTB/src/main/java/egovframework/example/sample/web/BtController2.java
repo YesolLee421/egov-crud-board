@@ -126,9 +126,9 @@ public class BtController2 {
 		}
 		btVO.setBtExpVOList(btExpList);
 		
-		System.err.println("addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().toString());
+		System.err.println("addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().getClass().getSimpleName());
 		model.addAttribute("btVO", btVO);
-		model.addAttribute("btExpVOList", btExpList);
+		//model.addAttribute("expResults", btExpList);
 		
 		return registerPage;
 	}
@@ -196,8 +196,6 @@ public class BtController2 {
 	 * @exception Exception
 	 */
 	public BtVO selectBt(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
-//		List<?> btList = btService.selectBtList(searchVO);
-//		model.addAttribute("resultList", btList);
 		
 		System.out.print("글 조회 결과 = "+ btService.selectBt(btVO).toString());
 		return btService.selectBt(btVO);
@@ -209,14 +207,18 @@ public class BtController2 {
 		
 		BtVO getVO = btService.selectBt(btVO);
 		
+		List<BtExpVO> expListDb = btService.selectBtExpList(btVO.getBtId());
+		List<BtExpVO> btExpList = new ArrayList<BtExpVO>();
 		
+		// dao로 가져온 객체 arraylist에 넣어서 저장
+		for (int i=0; i<expListDb.size(); i++) {
+			System.out.println(expListDb.get(i).getClass().getSimpleName());
+			BtExpVO exp = expListDb.get(i);
+			btExpList.add(exp);
+		}
+		getVO.setBtExpVOList(btExpList);
 		
-		List<BtExpVO> expList = btService.selectBtExpList(btVO.getBtId());
-		
-		System.out.println("Controller-selectBtAll-expList =" + expList.toString());
-		
-		getVO.setBtExpVOList(expList);
-		System.out.println("Controller-selectBtAll-getVO + ExpList =" + getVO.toString());
+		System.out.println("Controller-selectBtAll-getVO + ExpList =" + getVO.getBtExpVOList().toString());
 		 
 		return getVO;
 	}

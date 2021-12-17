@@ -144,6 +144,7 @@ a:hover {
 
 .board-title {
   font-size: 20px;
+  margin-bottom: 20px;
 }
 
 .main-table {
@@ -165,6 +166,7 @@ a:hover {
 }
 .main-table td.tbtd_caption input {
 	border: none;
+	background-color: transparant;
 }
 .main-table th, .main-table td.tbtd_caption {
   background-color: #ededed;

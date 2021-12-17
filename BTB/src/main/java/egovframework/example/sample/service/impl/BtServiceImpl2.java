@@ -166,7 +166,7 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 	
 	
 //	@Override
-//	public List<BtRoleVO> selectBtRoleList(String btId) throws Exception {
+//	public List<?> selectBtRoleList(String btId) throws Exception {
 //		return btDAO.selectBtRoleList(btId);
 //	}
 	@Override

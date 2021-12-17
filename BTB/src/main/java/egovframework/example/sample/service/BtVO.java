@@ -204,8 +204,8 @@ public class BtVO extends SampleDefaultVO {
 		return btExpVOList;
 	}
 
-	public void setBtExpVOList(List<BtExpVO> btExpVOList) {
-		this.btExpVOList = btExpVOList;
+	public void setBtExpVOList(List<BtExpVO> expList) {
+		this.btExpVOList = expList;
 	}
 
 

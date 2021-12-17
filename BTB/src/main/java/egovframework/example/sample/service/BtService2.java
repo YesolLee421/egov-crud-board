@@ -15,6 +15,7 @@
  */
 package egovframework.example.sample.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface BtService2 {
@@ -67,7 +68,7 @@ public interface BtService2 {
 	 */
 	List<?> selectBtList(SampleDefaultVO searchVO) throws Exception;
 	
-//	List<BtRoleVO> selectBtRoleList(String btId) throws Exception;
+//	List<?> selectBtRoleList(String btId) throws Exception;
 	List<BtExpVO> selectBtExpList(String btId) throws Exception;
 
 	/**

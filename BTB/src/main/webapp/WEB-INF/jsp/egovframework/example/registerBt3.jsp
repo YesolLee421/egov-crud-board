@@ -85,7 +85,6 @@
                       //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
                      $("#tripEndDate").datepicker( "option", "minDate", selectedDate );
                  }    
- 
             });
             $( "#tripEndDate" ).datepicker({
                  changeMonth: true, 
@@ -177,12 +176,12 @@
 	        			<td class="tbtd_content">
 	        				<form:input path="btId" maxlength="10" readonly="true" />
 	        			</td>
-	        			<!-- 
+	        			
 	        			<td class="tbtd_caption"><label for="createdAt">작성일</label></td>
 	        			<td class="tbtd_content">
 	        				<form:input path="createdAt" maxlength="10" readonly="true" />
 	        			</td>
-	        			 -->
+	        			
 	        		</tr>
 	    		</c:if>
 	    		<tr>
@@ -227,12 +226,12 @@
 	    		<tr>
 	    			<td class="tbtd_caption"><label for="tripStartDate">출장 시작일(YYYY-MM-DD)</label></td>
 	    			<td class="tbtd_content">
-	    				<form:input path="tripStartDate" maxlength="30" cssClass="txt"/>
+	    				<form:input class="hasDatepicker" type="date" path="tripStartDate" maxlength="30" cssClass="txt"/>
 	    				&nbsp;<form:errors path="tripStartDate" />
 	    			</td>
 	    			<td class="tbtd_caption"><label for="tripEndDate">출장 종료일(YYYY-MM-DD)</label></td>
 	    			<td class="tbtd_content">
-	    				<form:input path="tripEndDate" maxlength="30" cssClass="txt"/>
+	    				<form:input class="hasDatepicker" type="date" path="tripEndDate" maxlength="30" cssClass="txt"/>
 	    				&nbsp;<form:errors path="tripEndDate" />
 	    			</td>
 	    		</tr>
@@ -269,11 +268,11 @@
 					<td class="tbtd_caption">금액</td>
 	    		</tr>
 	    		
-	    		<!-- 
+	    		
     			<tr>
     				<td class="tbtd_caption">
 	    				<form:input path="btExpVOList[0].expenseType" maxlength="30" cssClass="txt" value="교통비" readonly="true"/>
-	    				&nbsp;<form:errors path="btExpVOList[0].expenseType" />
+	    				<form:errors path="btExpVOList[0].expenseType" />
 	    			</td>
 					<td class="tbtd_content">
 	    				<form:input path="btExpVOList[0].expenseDetail" maxlength="30" cssClass="txt"/>
@@ -295,7 +294,7 @@
     			<tr>
 					<td class="tbtd_caption">
 	    				<form:input path="btExpVOList[1].expenseType" maxlength="30" cssClass="txt" value="일비" readonly="true"/>
-	    				&nbsp;<form:errors path="btExpVOList[1].expenseType" />
+	    				<form:errors path="btExpVOList[1].expenseType" />
 					</td>
 					<td class="tbtd_content">
 	    				<form:input path="btExpVOList[1].expenseDetail" maxlength="30" cssClass="txt"/>
@@ -316,7 +315,7 @@
     			<tr>
 					<td class="tbtd_caption">
 	    				<form:input path="btExpVOList[2].expenseType" maxlength="30" cssClass="txt" value="숙박" readonly="true"/>
-	    				&nbsp;<form:errors path="btExpVOList[2].expenseType" />
+	    				<form:errors path="btExpVOList[2].expenseType" />
 					</td>
 					<td class="tbtd_content">
 	    				<form:input path="btExpVOList[2].expenseDetail" maxlength="30" cssClass="txt"/>
@@ -337,7 +336,7 @@
     			<tr>
 					<td class="tbtd_caption">
 	    				<form:input path="btExpVOList[3].expenseType" maxlength="30" cssClass="txt" value="기타" readonly="true"/>
-	    				&nbsp;<form:errors path="btExpVOList[3].expenseType" />
+	    				<form:errors path="btExpVOList[3].expenseType" />
 					</td>
 					<td class="tbtd_content">
 	    				<form:input path="btExpVOList[3].expenseDetail" maxlength="30" cssClass="txt"/>
@@ -360,7 +359,7 @@
 					<td class="tbtd_caption" colspan="3">합계</td>
 					<td id="priceTotal" class="tbtd_content"></td>
 				</tr>
-				 -->
+				
 				<tr>
 					<td class="tbtd_caption"><label for="fileDir">첨부파일</label></td>
 					<td class="tbtd_content" colspan="3">

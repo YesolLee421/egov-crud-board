@@ -207,7 +207,7 @@
 
 
 	<select id="selectBtList" parameterType="searchVO" resultType="egovMap">
-
+	
 			SELECT
 				BT_ID, LOCATION, AUTHOR_ID, TRAVELER_ID, TRIP_START_DATE, TRIP_END_DATE
 			FROM TBBUSINESSTRIP
@@ -215,15 +215,19 @@
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
-						AND	TRAVELER_ID LIKE '%' || #{searchKeyword} || '%'
+						AND	TRAVELER_ID LIKE CONCAT('%', #{searchKeyword},'%')
 					</when>
 		            <when test="searchCondition == 1">
-						AND	TRIP_START_DATE LIKE '%' || #{searchKeyword} || '%'
+		            	
+		            	<![CDATA[
+						AND	TRIP_START_DATE < CONCAT(#{searchKeyword}) AND TRIP_END_DATE > CONCAT(#{searchKeyword})
+						]]>
 					</when>
 				</choose>
 			</if>
 			ORDER BY CREATED_AT DESC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+			
 	</select>
 	
 	<select id="selectBtRoleList" parameterType="String" resultType="egovMap">
@@ -245,10 +249,12 @@
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
-						AND TRAVELER_ID LIKE '%' || #{searchKeyword} || '%'
+						AND	TRAVELER_ID LIKE CONCAT('%', #{searchKeyword},'%')
 					</when>
 		            <when test="searchCondition == 1">
-						AND	TRIP_START_DATE LIKE '%' || #{searchKeyword} || '%'
+						<![CDATA[
+						AND	TRIP_START_DATE < CONCAT(#{searchKeyword}) AND TRIP_END_DATE > CONCAT(#{searchKeyword})
+						]]>
 					</when>
 				</choose>
 			</if>

@@ -12,6 +12,12 @@
     <title>출장 관리 게시판</title>
 
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
+	<!-- datePicker를 위한 코드 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
     <script type="text/javaScript" language="javascript" defer="defer">
         /* 글 수정 화면 function */
         function fn_egov_select(id) {
@@ -38,6 +44,31 @@
         	document.listForm.action = "<c:url value='/selectBtList2.do'/>";
            	document.listForm.submit();
         }
+        
+        // 날짜 검색 입력 기능 jquery
+        $(document).ready(function () {
+            // 날짜검색 선택 시
+            $("#searchCondition").change(function() {
+            	if($("#searchCondition option:selected").val()==1) {
+                	
+                	$("#searchKeyword").prop("type", "date");
+                	$("#searchKeyword").datepicker({
+                        changeMonth: true, 
+                        changeYear: true,
+                        nextText: '다음 달',
+                        prevText: '이전 달', 
+                        dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+                        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+                        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                        monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                        dateFormat: "yy-mm-dd",
+                	});
+                } else {
+                	$("#searchKeyword").prop("type", "text");
+                	$("#searchKeyword").datepicker('option', 'disabled', true);
+                }
+            })  
+        });
     </script>
 </head>
 
@@ -117,22 +148,7 @@
             
 	            <!-- // 타이틀 -->
 	        	<div id="search" class="flex-center">
-	        		<ul class="flex-center">
-	        		<!-- 
-	        			<li>
-	        			    <label for="searchCondition" style="visibility:hidden;display:none"><spring:message code="search.choose" /></label>
-	        				<form:select class="form-select" path="searchCondition" cssClass="use">
-	        					<form:option value="1" label="출장자" />
-	        					<form:option value="0" label="출장일" />
-	        				</form:select>
-	        			</li>
-	        			<li><label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-	                        <form:input class="form-input" path="searchKeyword" cssClass="txt"/>
-	                    </li>
-	        			<li>
-	        				<a class="btn btn_blue_l" href="javascript:fn_egov_selectList();">검색</a>
-	        	        </li>
-	        	     -->    
+	        		<ul class="flex-center">    
 	        	        <li>
 							<label for="searchCondition" style="visibility: hidden;display:none;">검색조건 선택</label>
 							<select name="searchCondition" id="searchCondition">
@@ -142,7 +158,7 @@
 	        			</li>
 	        			<li>
 							<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-	                        <input type="text" name="searchKeyword">
+	                        <input type="text" name="searchKeyword" id="searchKeyword">
 	                    </li>
 	        			<li>
 	        				<a class="btn btn_blue_l" href="javascript:fn_egov_selectList();">검색</a>
