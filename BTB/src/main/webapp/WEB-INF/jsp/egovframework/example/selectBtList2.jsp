@@ -76,7 +76,7 @@
     <header id="header"/>
         <div class="container">
 			<div class="header-top flex-between">
-				<h1>Forwiz</h1>
+				<h1><a href="javascript:fn_egov_selectList();">Forwiz<a/></h1>
 				<div class="login-wrap">
 					<span class="user-name">관리자</span>
 					<a class="btn_logout" href="#">로그아웃</a>

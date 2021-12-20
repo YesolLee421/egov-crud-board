@@ -104,9 +104,10 @@ a:hover {
 #header .header-left {
   width: calc(100% - 210px);
 }
-#header .header-top h1 {
+#header .header-top h1 a{
   font-size: 40px;
 }
+
 
 #header .login-wrap {
   margin-top: 10px;
@@ -163,10 +164,6 @@ a:hover {
 
 .main-table td.tbtd_caption, .main-table td.tbtd_content {
 	padding: 10px;
-}
-.main-table td.tbtd_caption input {
-	border: none;
-	background-color: transparant;
 }
 .main-table th, .main-table td.tbtd_caption {
   background-color: #ededed;

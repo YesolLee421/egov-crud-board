@@ -126,7 +126,7 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 	
 	@Override
 	public BtVO selectBt(BtVO vo) throws Exception {
-		System.out.println(vo.getBtId());
+		
 		BtVO resultVO = btDAO.selectBt(vo);
 		if (resultVO == null)
 			throw processException("info.nodata.msg");

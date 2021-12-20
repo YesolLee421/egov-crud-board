@@ -182,7 +182,7 @@
 
 	</delete>
 
-	<select id="selectBt" resultMap="btVO" parameterType="btVO">
+	<select id="selectBt" resultMap="btAll">
 
             SELECT
                 BT_ID
@@ -200,7 +200,7 @@
 				  , FILE_DIR
 				  , APPROVAL_STATE
 				  , CREATED_AT
-            FROM TBBUSINESSTRIP 
+            FROM TBBUSINESSTRIP
             WHERE BT_ID=#{btId}
 
 	</select>
@@ -220,14 +220,13 @@
 		            <when test="searchCondition == 1">
 		            	
 		            	<![CDATA[
-						AND	TRIP_START_DATE < CONCAT(#{searchKeyword}) AND TRIP_END_DATE > CONCAT(#{searchKeyword})
+						AND	TRIP_START_DATE <= CONCAT(#{searchKeyword}) AND TRIP_END_DATE >= CONCAT(#{searchKeyword})
 						]]>
 					</when>
 				</choose>
 			</if>
 			ORDER BY CREATED_AT DESC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
-			
 	</select>
 	
 	<select id="selectBtRoleList" parameterType="String" resultType="egovMap">
@@ -236,7 +235,7 @@
 	</select>
 	
 	<select id="selectBtExpList" parameterType="String" resultType="egovMap">
-			SELECT BT_ID, EXPENSE_TYPE, EXPENSE_DETAIL, PAYMENT_METHOD, PRICE FROM TBBTEXPENSES
+			SELECT BT_EXP_ID, BT_ID, EXPENSE_TYPE, EXPENSE_DETAIL, PAYMENT_METHOD, PRICE FROM TBBTEXPENSES
 			WHERE BT_ID=#{btId}
 	</select>
 
@@ -253,7 +252,7 @@
 					</when>
 		            <when test="searchCondition == 1">
 						<![CDATA[
-						AND	TRIP_START_DATE < CONCAT(#{searchKeyword}) AND TRIP_END_DATE > CONCAT(#{searchKeyword})
+						AND	TRIP_START_DATE <= CONCAT(#{searchKeyword}) AND TRIP_END_DATE >= CONCAT(#{searchKeyword})
 						]]>
 					</when>
 				</choose>
