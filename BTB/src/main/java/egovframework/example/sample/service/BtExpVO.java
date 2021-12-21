@@ -34,8 +34,8 @@ public class BtExpVO extends SampleDefaultVO {
 	// 내용
 	private String expenseDetail;
 	
-	// 결제방법: 카드=0, 현금=1, 계좌이체=2
-	private int paymentMethod;
+	// 결제방법: 카드, 현금, 계좌이체
+	private String paymentMethod;
 	
 	// 금액
 	private int price;
@@ -72,11 +72,11 @@ public class BtExpVO extends SampleDefaultVO {
 		this.expenseDetail = expenseDetail;
 	}
 
-	public int getPaymentMethod() {
+	public String getPaymentMethod() {
 		return paymentMethod;
 	}
 
-	public void setPaymentMethod(int paymentMethod) {
+	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 

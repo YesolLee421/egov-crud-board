@@ -3,7 +3,9 @@
 <%@ taglib prefix="form"      uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring"    uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
+	
   /**
   * @Class Name : egovSampleRegister.jsp
   * @Description : Sample Register 화면
@@ -19,6 +21,7 @@
   * Copyright (C) 2009 by MOPAS  All right reserved.
   */
 %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
@@ -38,7 +41,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    <script type="text/javaScript" language="javascript" defer="defer">
+    <script type="text/javaScript" language="javascript" defer="defer">  
+    
+    	
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
            	document.detailForm.action = "<c:url value='/selectBtList2.do'/>";
@@ -99,7 +104,14 @@
             });    
             
             // 금액 합계 기능
-            
+            $(window).on('load', function () {
+            	var total = 0;
+            	$(".price").each(function() {
+            		total += Number($(this).val());
+            	});
+            	// 합계 출력
+            	$("#priceTotal").html(total);
+            });
             $(".price").on("change keyup paste", function() {
             	var total = 0;
             	$(".price").each(function() {
@@ -109,21 +121,7 @@
             	$("#priceTotal").html(total);
             });
             
-            $("#btExpVOList[0].paymentMethod option").each(function() {
-            	$(this).val() = parseInt($(this).val());
-            });
-            $("#btExpVOList[1].paymentMethod option").each(function() {
-            	$(this).val() = parseInt($(this).val());
-            });
-            $("#btExpVOList[2].paymentMethod option").each(function() {
-            	$(this).val() = parseInt($(this).val());
-            });
-            $("#btExpVOList[3].paymentMethod option").each(function() {
-            	$(this).val() = parseInt($(this).val());
-            });
-           
-            
-            
+
     });
 
 
@@ -179,9 +177,10 @@
 	        				<form:input path="btId" maxlength="10" readonly="true" />
 	        			</td>
 	        			
+	        			<fmt:formatDate var="createdDate" value="${btVO.createdAt}" pattern="yyyy-MM-dd"/>
 	        			<td class="tbtd_caption"><label for="createdAt">작성일</label></td>
 	        			<td class="tbtd_content">
-	        				<form:input path="createdAt" maxlength="10" readonly="true" />
+	        				<c:out value="${createdDate}"/>
 	        			</td>
 	        			
 	        		</tr>
@@ -261,29 +260,121 @@
 					<td class="tbtd_caption">결제방법</td>
 					<td class="tbtd_caption">금액</td>
 	    		</tr>
-    			<c:forEach var="btExp" items="${btVO.btExpVOList}" varStatus="status">
-		    		<tr>
-	    				<td class="tbtd_caption">
-	    					<c:out value="${btExp.expenseType}"/>
-	    					<input type="hidden" id="btExp.expenseType" value="${btExp.expenseType}" />
-		    			</td>
-	    				<td class="tbtd_content">
-	    					<input type="text" id="btExp.expenseDetail" value="${btExp.expenseDetail}"/>
-		    			</td>
-						<td class="tbtd_content">
-							<select id="btExp.paymentMethod">
-								<option value="0">카드</option>
-								<option value="1">현금</option>
-								<option value="2">계좌이체</option>  
-							</select>  				
-		    			</td>
-	    				<td class="tbtd_content">
-	    					<input class="price" type="text" id="btExp.price" value="${btExp.price}"/>
-		    			</td>
-					</tr>	 
-                </c:forEach>
 	    		
+	    		<c:set var="expenseType">카드, 현금, 계좌이체</c:set>
+	    		<c:set var="btExpVOList" value="${btVO.btExpVOList }"/>
 
+                
+				<tr>
+				<c:if test="${registerFlag == 'modify'}">
+
+                	<!-- 비용 정보 번호, bt_id값 저장 -->
+                	<form:hidden path="btExpVOList[0].btExpId" readonly="true" />
+                	<form:hidden path="btExpVOList[0].btId" readonly="true" />
+	    		</c:if>
+    				<td class="tbtd_caption">
+    					<c:out value="교통비"/>
+	    				<form:hidden path="btExpVOList[0].expenseType" maxlength="30" cssClass="txt" value="교통비" readonly="true"/>
+	    				<form:errors path="btExpVOList[0].expenseType" />
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[0].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[0].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[0].paymentMethod">
+	    					<form:option value="카드" label="카드"/>
+	    					<form:option value="현금" label="현금"/>
+	    					<form:option value="계좌이체" label="계좌이체"/>
+	    				</form:select>	    				
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[0].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[0].price" />
+	    			</td>
+				</tr>	    		
+
+    			<tr>
+				<c:if test="${registerFlag == 'modify'}">
+                	<!-- 비용 정보 번호, bt_id값 저장 -->
+                	<form:hidden path="btExpVOList[1].btExpId" readonly="true" />
+                	<form:hidden path="btExpVOList[1].btId" readonly="true" />
+	    		</c:if>
+					<td class="tbtd_caption">
+						<c:out value="일비"/>
+	    				<form:hidden path="btExpVOList[1].expenseType" maxlength="30" cssClass="txt" value="일비" readonly="true"/>
+	    				<form:errors path="btExpVOList[1].expenseType" />
+					</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[1].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[1].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[1].paymentMethod">
+	    					<form:option value="카드" label="카드"/>
+	    					<form:option value="현금" label="현금"/>
+	    					<form:option value="계좌이체" label="계좌이체"/>
+	    				</form:select>	 
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[1].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[1].price" />	
+	    			</td>
+				</tr>
+    			<tr>
+				<c:if test="${registerFlag == 'modify'}">
+                	<!-- 비용 정보 번호, bt_id값 저장 -->
+                	<form:hidden path="btExpVOList[2].btExpId" readonly="true" />
+                	<form:hidden path="btExpVOList[2].btId" readonly="true" />
+	    		</c:if>
+					<td class="tbtd_caption">
+						<c:out value="숙박비"/>					
+	    				<form:hidden path="btExpVOList[2].expenseType" maxlength="30" cssClass="txt" value="숙박비" readonly="true"/>
+	    				<form:errors path="btExpVOList[2].expenseType" />
+					</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[2].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[2].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[2].paymentMethod">
+	    					<form:option value="카드" label="카드"/>
+	    					<form:option value="현금" label="현금"/>
+	    					<form:option value="계좌이체" label="계좌이체"/>
+	    				</form:select>	 
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[2].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[2].price" />
+	    			</td>
+				</tr>
+    			<tr>
+				<c:if test="${registerFlag == 'modify'}">
+                	<!-- 비용 정보 번호, bt_id값 저장 -->
+                	<form:hidden path="btExpVOList[3].btExpId" readonly="true" />
+                	<form:hidden path="btExpVOList[3].btId" readonly="true" />
+	    		</c:if>
+					<td class="tbtd_caption">
+						<c:out value="기타"/>	
+	    				<form:hidden path="btExpVOList[3].expenseType" maxlength="30" cssClass="txt" value="기타" readonly="true"/>
+	    				<form:errors path="btExpVOList[3].expenseType" />
+					</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[3].expenseDetail" maxlength="30" cssClass="txt"/>
+	    				&nbsp;<form:errors path="btExpVOList[3].expenseDetail" />
+	    			</td>
+					<td class="tbtd_content">
+						<form:select path="btExpVOList[3].paymentMethod">
+	    					<form:option value="카드" label="카드"/>
+	    					<form:option value="현금" label="현금"/>
+	    					<form:option value="계좌이체" label="계좌이체"/>
+	    				</form:select>	 
+	    			</td>
+					<td class="tbtd_content">
+	    				<form:input path="btExpVOList[3].price" maxlength="30" cssClass="price"/>
+	    				&nbsp;<form:errors path="btExpVOList[3].price" />
+	    			</td>
+				</tr>		    		
 	    		
 				<tr>
 					<td class="tbtd_caption" colspan="3">합계</td>

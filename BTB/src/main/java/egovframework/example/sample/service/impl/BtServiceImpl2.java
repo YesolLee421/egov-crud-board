@@ -15,17 +15,14 @@
  */
 package egovframework.example.sample.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import egovframework.example.sample.service.BtExpVO;
 import egovframework.example.sample.service.BtRoleVO;
-import egovframework.example.sample.service.BtService;
+
 import egovframework.example.sample.service.BtService2;
 import egovframework.example.sample.service.BtVO;
-import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -130,7 +127,7 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 		BtVO resultVO = btDAO.selectBt(vo);
 		if (resultVO == null)
 			throw processException("info.nodata.msg");
-		LOGGER.debug(resultVO.toString());
+		// LOGGER.debug(resultVO.toString());
 		return resultVO;
 	}
 	
@@ -163,25 +160,11 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 	public int selectBtListTotCnt(SampleDefaultVO searchVO) {
 		return btDAO.selectBtListTotCnt(searchVO);
 	}
-	
-	
-//	@Override
-//	public List<?> selectBtRoleList(String btId) throws Exception {
-//		return btDAO.selectBtRoleList(btId);
-//	}
+
 	@Override
 	public List<BtExpVO> selectBtExpList(String btId) throws Exception {
-		LOGGER.debug("ServiceImpl-selectBtExpList - btId=" + btId);
 		return btDAO.selectBtExpList(btId);
 	}
-//	@Override
-//	public BtVO selectBtAll(BtVO vo) throws Exception {
-//		BtVO resultVO = btDAO.selectBtAll(vo);
-//		if (resultVO == null)
-//			throw processException("info.nodata.msg");
-//		LOGGER.debug(resultVO.toString());
-//		return resultVO;
-//	}
 
 
 

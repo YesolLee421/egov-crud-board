@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import egovframework.example.sample.service.BtExpVO;
-import egovframework.example.sample.service.BtService;
 import egovframework.example.sample.service.BtService2;
 import egovframework.example.sample.service.BtVO;
-import egovframework.example.sample.service.EgovSampleService;
+
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -93,7 +92,7 @@ public class BtController2 {
 		List<?> btList = btService.selectBtList(searchVO);
 		model.addAttribute("resultList", btList);
 		
-		System.out.print("resultList = "+ btList.toString());
+		System.err.print("controller2-selectList2- resultList = "+ btList.toString());
 		
 
 		int totCnt = btService.selectBtListTotCnt(searchVO);
@@ -122,14 +121,14 @@ public class BtController2 {
 			BtExpVO exp = new BtExpVO();
 			exp.setExpenseType(expenseType[i]);
 			exp.setExpenseDetail("");
-			exp.setPaymentMethod(0);
+			exp.setPaymentMethod("카드");
 			exp.setPrice(0);
+			
 			btExpList.add(exp);
 		}
 		btVO.setBtExpVOList(btExpList);
 		
-		System.err.println("addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().getClass().getSimpleName());
-		model.addAttribute("list", btExpList);
+		System.err.println("controller2-addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().toString());
 		model.addAttribute("btVO", btVO);
 		
 		return registerPage;
@@ -154,16 +153,17 @@ public class BtController2 {
 			model.addAttribute("btVO", btVO);
 			return listPage;
 		}
-		System.out.println("addBt2.do - BtVO = " + btVO.toString());
-		String bt_id = btService.insertBt(btVO); //bt_id값 반환함
+		System.err.println("controller2-addBt2.do - BtVO = " + btVO.toString());
+		btService.insertBt(btVO); //bt_id값 반환함
 		
 		// btVO의 explist 가져와서 Exp 하나씩 insert
-		for (BtExpVO expVo : btVO.getBtExpVOList()) {
-			expVo.setBtId(bt_id);
-			
-			System.out.println("addBt2.do - BtExpVO = " + expVo.toString());
-			System.out.println(expVo.getPaymentMethod());
-			btService.insertBtExp(expVo);
+		if(btVO.getBtExpVOList() != null) {
+			for (BtExpVO expVo : btVO.getBtExpVOList()) {
+				expVo.setBtId(btVO.getBtId());
+				btService.insertBtExp(expVo);
+			}
+		} else {
+			System.err.println("controller2-addBt2.do - btexpvolist is null");
 		}
 
 		status.setComplete();
@@ -182,9 +182,8 @@ public class BtController2 {
 	public String updateBtView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		BtVO btVO = new BtVO();
 		btVO.setBtId(id);
-
 		BtVO newVO = selectBtAll(btVO, searchVO);
-
+		System.err.println("controller2 -updateView2 - btVO = " + newVO.toString());
 		model.addAttribute("btVO", newVO);
 		
 		return registerPage;
@@ -206,19 +205,13 @@ public class BtController2 {
 	
 	@Transactional
 	public BtVO selectBtAll(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO ) throws Exception {
-		System.out.println(btVO.getBtId());
-		System.out.println("Controller SelectAll 실행");
-		
-		try {
 
+		try {
 			BtVO newVO = btService.selectBt(btVO);
-			List<BtExpVO> list = btService.selectBtExpList(btVO.getBtId());
-			
+			List<BtExpVO> list = selectBtExpList(btVO, searchVO);
 			newVO.setBtExpVOList(list);
-			System.err.println("bt에 btExp 넣기 결과 = " + newVO.getBtExpVOList().toString());
-			 
-			return newVO;
 			
+			return newVO;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			throw e;
@@ -228,7 +221,7 @@ public class BtController2 {
 	
 	public List<BtExpVO> selectBtExpList(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
 		List<BtExpVO> list = btService.selectBtExpList(btVO.getBtId());
-		System.err.println("Controller: selectBtExpList = " + list.toString());
+		System.err.println("Controller2-selectBtExpList list = " + list.toString());
 		return list;
 	}
 
@@ -251,15 +244,20 @@ public class BtController2 {
 		if (bindingResult.hasErrors()) {
 			System.out.println("에러: bindingResult");
 			model.addAttribute("btVO", btVO);
-			model.addAttribute("list", btVO.getBtExpVOList());
+			
 			return registerPage;
 		}
 		System.out.println("Controller-updateBt: " + btVO.toString());
 		
 		// btVO의 explist 가져와서 Exp 하나씩 update
-		for (BtExpVO expVo : btVO.getBtExpVOList()) {
-			btService.updateBtExp(expVo);
+		if(btVO.getBtExpVOList() != null) {
+			for (BtExpVO expVo : btVO.getBtExpVOList()) {
+				btService.updateBtExp(expVo);
+			}
+		} else {
+			System.err.println("controller2-updateBt2.do - btexpvolist is null");
 		}
+
 		
 		btService.updateBt(btVO);
 		
@@ -279,9 +277,14 @@ public class BtController2 {
 	public String deleteBt(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SessionStatus status) throws Exception {
 		System.out.println("Controller-deleteBt: " + btVO.toString());
 		// btVO의 explist 가져와서 Exp 하나씩 delete
-		for (BtExpVO expVo : btVO.getBtExpVOList()) {
-			btService.deleteBtExp(expVo);
+		if(btVO.getBtExpVOList() != null) {
+			for (BtExpVO expVo : btVO.getBtExpVOList()) {
+				btService.deleteBtExp(expVo);
+			}
+		} else {
+			System.err.println("controller2-deleteBt2.do - btexpvolist is null");
 		}
+
 		
 		btService.deleteBt(btVO);
 		status.setComplete();

@@ -154,12 +154,12 @@
 			WHERE BT_ROLE_ID=#{btRoleId}
 	</update>	
 	<update id="updateBtExp">
-			UPDATE TBBTEXPENSE
-			SET BT_ID=#{btId}
-				, EXPENSE_TYPE=#{expenseType}
+			UPDATE TBBTEXPENSES
+			SET 
+				 EXPENSE_TYPE=#{expenseType}
 				, EXPENSE_DETAIL=#{expenseDetail}
 				, PAYMENT_METHOD=#{paymentMethod}
-				, PRICE=#{PRICE}
+				, PRICE=#{price}
 			WHERE BT_EXP_ID=#{btExpId}
 	</update>
 
@@ -177,7 +177,7 @@
 	</delete>
 	<delete id="deleteBtExp">
 
-			DELETE FROM TBBTEXPENSE
+			DELETE FROM TBBTEXPENSES
 			WHERE BT_EXP_ID=#{btExpId}
 
 	</delete>
@@ -234,7 +234,7 @@
 			WHERE BT_ID=#{btId}
 	</select>
 	
-	<select id="selectBtExpList" parameterType="String" resultType="egovMap">
+	<select id="selectBtExpList" parameterType="String" resultMap="btExpVO">
 			SELECT BT_EXP_ID, BT_ID, EXPENSE_TYPE, EXPENSE_DETAIL, PAYMENT_METHOD, PRICE FROM TBBTEXPENSES
 			WHERE BT_ID=#{btId}
 	</select>
