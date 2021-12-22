@@ -44,7 +44,7 @@
 		<result property="btId" column="bt_id"/>
 		<result property="userId" column="user_id"/>
 		<result property="userName" column="user_name"/>
-		<result property="department" column="department"/>
+		<result property="userDept" column="user_dept"/>
 		<result property="userPosition" column="user_position"/>
 		<result property="userType" column="user_type"/>
 	</resultMap>
@@ -98,13 +98,13 @@
 				( BT_ID
 				  , USER_ID
 				  , USER_NAME
-				  , DEPARTMENT
+				  , USER_DEPT
 				  , USER_POSITION
 				  , USER_TYPE )
 			VALUES ( #{btId}
 				  , #{userId}
 				  , #{userName}
-				  , #{department}
+				  , #{userDept}
 				  , #{userPosition}
 				  , #{userType} )
 	</insert>
@@ -148,7 +148,7 @@
 			SET BT_ID=#{btId}
 				, USER_ID=#{userId}
 				, USER_NAME=#{userName}
-				, DEPARTMENT=#{department}
+				, USER_DEPT=#{userDept}
 				, USER_POSITION=#{userPosition}
 				, USER_TYPE=#{userType}
 			WHERE BT_ROLE_ID=#{btRoleId}
@@ -229,8 +229,8 @@
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 	
-	<select id="selectBtRoleList" parameterType="String" resultType="egovMap">
-			SELECT * FROM TBBTROLE
+	<select id="selectBtRoleList" parameterType="String" resultMap="btRoleVO">
+			SELECT BT_ROLE_ID, BT_ID, USER_ID, USER_NAME, USER_DEPT, USER_POSITION, USER_TYPE FROM TBBTROLE
 			WHERE BT_ID=#{btId}
 	</select>
 	

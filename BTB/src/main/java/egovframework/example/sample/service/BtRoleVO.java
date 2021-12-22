@@ -32,7 +32,7 @@ public class BtRoleVO extends SampleDefaultVO {
 	private String userName;
 	
 	// 부서
-	private String department;
+	private String userDept;
 	
 	public int getBtRoleId() {
 		return btRoleId;
@@ -66,12 +66,12 @@ public class BtRoleVO extends SampleDefaultVO {
 		this.userName = userName;
 	}
 
-	public String getDepartment() {
-		return department;
+	public String getUserDept() {
+		return userDept;
 	}
 
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setUserDept(String userDept) {
+		this.userDept = userDept;
 	}
 
 	public String getUserPosition() {

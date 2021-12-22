@@ -97,6 +97,7 @@ a:hover {
   margin: 0 auto;
 }
 
+
 #header {
   margin: 20px 0 40px;
   border-bottom: solid 1px #ededed;
@@ -202,3 +203,11 @@ a.btn {
   	padding: 0 10px;
   	height: 100%;
 }
+
+/* dialog */
+#dialog .dialog-container {
+  width: 550px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import egovframework.example.sample.service.BtExpVO;
+import egovframework.example.sample.service.BtRoleVO;
 import egovframework.example.sample.service.BtService2;
 import egovframework.example.sample.service.BtVO;
 
@@ -61,7 +62,7 @@ public class BtController2 {
 	
 	// page test
 	private String listPage = "selectBtList2";
-	private String registerPage = "registerBt3";
+	private String registerPage = "registerBt4";
 
 	/**
 	 * 글 목록을 조회한다. (pageing)
@@ -187,6 +188,15 @@ public class BtController2 {
 		model.addAttribute("btVO", newVO);
 		
 		return registerPage;
+	}
+	
+	@RequestMapping(value = "/searchBtRoleView.do", method = RequestMethod.GET)
+	public String searchBtRoleView(@RequestParam("userType") String userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception{
+		System.err.println("Controller2 - searchBtRoleView- userType = " + userType);
+		BtRoleVO vo = new BtRoleVO();
+		vo.setUserType(userType);
+		model.addAttribute("btRoleVO", vo);
+		return "searchBtRole";
 	}
 
 	/**
