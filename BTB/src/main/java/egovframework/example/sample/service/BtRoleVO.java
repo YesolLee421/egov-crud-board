@@ -20,81 +20,85 @@ public class BtRoleVO extends SampleDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	// 출장 관련자 번호
-	private int btRoleId;
+	private int BT_ROLE_ID;
 
 	// 츌장 일련번호
-	private String btId;
+	private String BT_ID;
 	
 	// 직원 id (일단 이름)
-	private String userId;
+	private String USER_ID;
 	
 	// 이름
-	private String userName;
+	private String USER_NAME;
 	
 	// 부서
-	private String userDept;
+	private String USER_DEPT;
 	
-	public int getBtRoleId() {
-		return btRoleId;
-	}
-
-	public void setBtRoleId(int btRoleId) {
-		this.btRoleId = btRoleId;
-	}
-
-	public String getBtId() {
-		return btId;
-	}
-
-	public void setBtId(String btId) {
-		this.btId = btId;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getUserDept() {
-		return userDept;
-	}
-
-	public void setUserDept(String userDept) {
-		this.userDept = userDept;
-	}
-
-	public String getUserPosition() {
-		return userPosition;
-	}
-
-	public void setUserPosition(String userPosition) {
-		this.userPosition = userPosition;
-	}
-
-	public String getUserType() {
-		return userType;
-	}
-
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
-
 	// 직급
-	private String userPosition;
+	private String USER_POSITION;
 	
-	// 관련자 분류: 출장자, 결재자, 수신자
-	private String userType;
+	// 관련자 분류: 출장자=0, 결재자=1, 수신자=2
+	private int USER_TYPE;
+
+	public int getBT_ROLE_ID() {
+		return BT_ROLE_ID;
+	}
+
+	public void setBT_ROLE_ID(int bT_ROLE_ID) {
+		BT_ROLE_ID = bT_ROLE_ID;
+	}
+
+	public String getBT_ID() {
+		return BT_ID;
+	}
+
+	public void setBT_ID(String bT_ID) {
+		BT_ID = bT_ID;
+	}
+
+	public String getUSER_ID() {
+		return USER_ID;
+	}
+
+	public void setUSER_ID(String uSER_ID) {
+		USER_ID = uSER_ID;
+	}
+
+	public String getUSER_NAME() {
+		return USER_NAME;
+	}
+
+	public void setUSER_NAME(String uSER_NAME) {
+		USER_NAME = uSER_NAME;
+	}
+
+	public String getUSER_DEPT() {
+		return USER_DEPT;
+	}
+
+	public void setUSER_DEPT(String uSER_DEPT) {
+		USER_DEPT = uSER_DEPT;
+	}
+
+	public String getUSER_POSITION() {
+		return USER_POSITION;
+	}
+
+	public void setUSER_POSITION(String uSER_POSITION) {
+		USER_POSITION = uSER_POSITION;
+	}
+
+	public int getUSER_TYPE() {
+		return USER_TYPE;
+	}
+
+	public void setUSER_TYPE(int USER_TYPE) {
+		this.USER_TYPE = USER_TYPE;
+	}
+	
+	
+
+
 
 	
 

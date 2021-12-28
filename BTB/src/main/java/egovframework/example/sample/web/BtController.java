@@ -147,7 +147,7 @@ public class BtController {
 	@RequestMapping("/updateBtView.do")
 	public String updateBtView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		BtVO btVO = new BtVO();
-		btVO.setBtId(id);
+		btVO.setBT_ID(id);
 		// 변수명은 CoC 에 따라 sampleVO
 
 		model.addAttribute(selectBt(btVO, searchVO));

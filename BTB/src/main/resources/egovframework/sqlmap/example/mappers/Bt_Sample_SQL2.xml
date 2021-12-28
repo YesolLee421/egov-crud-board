@@ -3,68 +3,68 @@
 <mapper namespace="egovframework.example.sample.service.impl.BtMapper2">
 	
 	<resultMap id="btVO" type="egovframework.example.sample.service.BtVO">
-		<result property="btId" column="bt_id"/>
-		<result property="authorId" column="author_id"/>
-		<result property="authorDepartment" column="author_department"/>
-		<result property="approverId" column="approver_id"/>
-		<result property="receiverId" column="receiver_id"/>
-		<result property="travelerId" column="traveler_id"/>
-		<result property="title" column="title"/>
-		<result property="location" column="location"/>
-		<result property="tripStartDate" column="trip_start_date"/>
-		<result property="tripEndDate" column="trip_end_date"/>
-		<result property="transportationType" column="transportation_type"/>
-		<result property="tripPurpose" column="trip_purpose"/>
-		<result property="fileDir" column="file_dir"/>
-		<result property="approvalState" column="approval_state"/>
-		<result property="createdAt" column="created_at"/>
-		<collection property="btExpVOList" resultMap="BtExpVO" />
-	</resultMap>
-	
-	<resultMap id="btAll" type="egovframework.example.sample.service.BtVO">
-		<result property="btId" column="bt_id"/>
-		<result property="authorId" column="author_id"/>
-		<result property="authorDepartment" column="author_department"/>
-		<result property="approverId" column="approver_id"/>
-		<result property="receiverId" column="receiver_id"/>
-		<result property="travelerId" column="traveler_id"/>
-		<result property="title" column="title"/>
-		<result property="location" column="location"/>
-		<result property="tripStartDate" column="trip_start_date"/>
-		<result property="tripEndDate" column="trip_end_date"/>
-		<result property="transportationType" column="transportation_type"/>
-		<result property="tripPurpose" column="trip_purpose"/>
-		<result property="fileDir" column="file_dir"/>
-		<result property="approvalState" column="approval_state"/>
-		<result property="createdAt" column="created_at"/>
+		<result property="BT_ID" column="BT_ID"/>
+		<result property="AUTHOR_ID" column="AUTHOR_ID"/>
+		<result property="AUTHOR_DEPT" column="AUTHOR_DEPT"/>
+		<result property="APPROVER_ID" column="APPROVER_ID"/>
+		<result property="RECEIVER_ID" column="RECEIVER_ID"/>
+		<result property="TRAVELER_ID" column="TRAVELER_ID"/>
+		<result property="TITLE" column="TITLE"/>
+		<result property="LOCATION" column="LOCATION"/>
+		<result property="TRIP_START_DATE" column="TRIP_START_DATE"/>
+		<result property="TRIP_END_DATE" column="TRIP_END_DATE"/>
+		<result property="TRANSPORTATION_TYPE" column="TRANSPORTATION_TYPE"/>
+		<result property="TRIP_PURPOSE" column="TRIP_PURPOSE"/>
+		<result property="FILENAME" column="FILENAME"/>
+		<result property="APPROVAL_STATE" column="APPROVAL_STATE"/>
+		<result property="CREATED_AT" column="CREATED_AT"/>
 	</resultMap>
 	
 	<resultMap id="btRoleVO" type="egovframework.example.sample.service.BtRoleVO">
-		<result property="btRoleId" column="bt_role_id"/>
-		<result property="btId" column="bt_id"/>
-		<result property="userId" column="user_id"/>
-		<result property="userName" column="user_name"/>
-		<result property="userDept" column="user_dept"/>
-		<result property="userPosition" column="user_position"/>
-		<result property="userType" column="user_type"/>
+		<result property="BT_ROLE_ID" column="BT_ROLE_ID"/>
+		<result property="BT_ID" column="BT_ID"/>
+		<result property="USER_ID" column="USER_ID"/>
+		<result property="USER_NAME" column="USER_NAME"/>
+		<result property="USER_DEPT" column="USER_DEPT"/>
+		<result property="USER_POSITION" column="USER_POSITION"/>
+		<result property="USER_TYPE" column="USER_TYPE"/>
 	</resultMap>
 	
 	<resultMap id="btExpVO" type="egovframework.example.sample.service.BtExpVO">
-		<result property="btExpId" column="bt_exp_id"/>
-		<result property="btId" column="bt_id"/>
-		<result property="expenseType" column="expense_type"/>
-		<result property="expenseDetail" column="expense_detail"/>
-		<result property="paymentMethod" column="payment_method"/>
-		<result property="price" column="price"/>
+		<result property="BT_EXP_ID" column="BT_EXP_ID"/>
+		<result property="BT_ID" column="BT_ID"/>
+		<result property="EXPENSE_ID" column="EXPENSE_ID"/>
+		<result property="EXPENSE_TYPE" column="EXPENSE_TYPE"/>
+		<result property="EXPENSE_DETAIL" column="EXPENSE_DETAIL"/>
+		<result property="PAYMENT_METHOD" column="PAYMENT_METHOD"/>
+		<result property="PRICE" column="PRICE"/>
+	</resultMap>
+	
+	<resultMap id="comExpVO" type="egovframework.example.sample.service.ComExpVO">
+		<result property="EXPENSE_SEQ" column="EXPENSE_SEQ"/>
+		<result property="EXPENSE_ID" column="EXPENSE_ID"/>
+		<result property="EXPENSE_DATE" column="EXPENSE_DATE"/>
+		<result property="EXPENSE_TYPE" column="EXPENSE_TYPE"/>
+		<result property="EXPENSE_DETAIL" column="EXPENSE_DETAIL"/>
+		<result property="PAYMENT_METHOD" column="PAYMENT_METHOD"/>
+		<result property="PRICE" column="PRICE"/>
+	</resultMap>
+	
+	<resultMap id="btFileVO" type="egovframework.example.sample.service.BtFileVO">
+		<result property="FILE_ID" column="FILE_ID"/>
+		<result property="BT_ID" column="BT_ID"/>
+		<result property="ORIGIN_FILENAME" column="ORIGIN_FILENAME"/>
+		<result property="FILENAME" column="FILENAME"/>
+		<result property="UPLOADED_AT" column="UPLOADED_AT"/>
 	</resultMap>
 	
 	
 
 	<insert id="insertBt" parameterType="btVO">
-			INSERT INTO TBBUSINESSTRIP
+			INSERT INTO BUSINESSTRIP
 				( BT_ID
 				  , AUTHOR_ID
-				  , AUTHOR_DEPARTMENT
+				  , AUTHOR_DEPT
 				  , APPROVER_ID
 				  , RECEIVER_ID
 				  , TRAVELER_ID
@@ -74,120 +74,179 @@
 				  , TRIP_END_DATE
 				  , TRANSPORTATION_TYPE
 				  , TRIP_PURPOSE
-				  , FILE_DIR
+				  , FILENAME
 				  , APPROVAL_STATE
 				  , CREATED_AT )
-			VALUES ( #{btId}
-				  , #{authorId}
-				  , #{authorDepartment}
-				  , #{approverId}
-				  , #{receiverId}
-				  , #{travelerId}
-				  , #{title}
-				  , #{location}
-				  , #{tripStartDate}
-				  , #{tripEndDate}
-				  , #{transportationType}
-				  , #{tripPurpose}
-				  , #{fileDir}
+			VALUES ( #{BT_ID}
+				  , #{AUTHOR_ID}
+				  , #{AUTHOR_DEPT}
+				  , #{APPROVER_ID}
+				  , #{RECEIVER_ID}
+				  , #{TRAVELER_ID}
+				  , #{TITLE}
+				  , #{LOCATION}
+				  , #{TRIP_START_DATE}
+				  , #{TRIP_END_DATE}
+				  , #{TRANSPORTATION_TYPE}
+				  , #{TRIP_PURPOSE}
+				  , #{FILENAME}
 				  , 0
 				  , NOW())
 	</insert>
 	<insert id="insertBtRole" parameterType="btRoleVO">
-			INSERT INTO TBBTROLE
+			INSERT INTO BUSINESSTRIP_ROLES
 				( BT_ID
 				  , USER_ID
 				  , USER_NAME
 				  , USER_DEPT
 				  , USER_POSITION
 				  , USER_TYPE )
-			VALUES ( #{btId}
-				  , #{userId}
-				  , #{userName}
-				  , #{userDept}
-				  , #{userPosition}
-				  , #{userType} )
+			VALUES ( #{BT_ID}
+				  , #{USER_ID}
+				  , #{USER_NAME}
+				  , #{USER_DEPT}
+				  , #{USER_POSITION}
+				  , #{USER_TYPE} )
 	</insert>
 	
 	<insert id="insertBtExp" parameterType="btExpVO">
-			INSERT INTO TBBTEXPENSES
+			INSERT INTO BUSINESSTRIP_EXPENSES
 				( BT_ID
+				  , EXPENSE_ID
 				  , EXPENSE_TYPE
 				  , EXPENSE_DETAIL
 				  , PAYMENT_METHOD
 				  , PRICE )
-			VALUES ( #{btId}
-				  , #{expenseType}
-				  , #{expenseDetail}
-				  , #{paymentMethod}
-				  , #{price} )
+			VALUES ( #{BT_ID}
+				  , #{EXPENSE_ID}
+				  , #{EXPENSE_TYPE}
+				  , #{EXPENSE_DETAIL}
+				  , #{PAYMENT_METHOD}
+				  , #{PRICE} )
+	</insert>	
+
+	<insert id="insertComExp" parameterType="comExpVO">
+			INSERT INTO COMPANY_EXPENSES
+				( EXPENSE_ID
+				  , EXPENSE_DATE
+				  , EXPENSE_DETAIL
+				  , EXPENSE_TYPE
+				  , PAYMENT_METHOD
+				  , PRICE )
+			VALUES ( #{EXPENSE_ID}
+				  , #{EXPENSE_DATE}
+				  , #{EXPENSE_DETAIL}
+				  , #{EXPENSE_TYPE}
+				  , #{PAYMENT_METHOD}
+				  , #{PRICE} )
 	</insert>	
 	
+	
+	
+	<insert id="insertFile" parameterType="btFileVO" >
+			INSERT INTO BUSINESSTRIP_FILES
+				( BT_ID
+				  , ORIGIN_FILE_NAME
+				  , FILENAME
+				  , UPLOADED_AT )
+			VALUES ( #{BT_ID}
+				  , #{ORIGIN_FILE_NAME}
+				  , #{FILENAME}
+				  , #{UPLOADED_AT})
+	</insert>
 	
 		
 
 	<update id="updateBt">
-			UPDATE TBBUSINESSTRIP
+			UPDATE BUSINESSTRIP
 			SET 
-				 AUTHOR_ID=#{authorId}
-				, AUTHOR_DEPARTMENT=#{authorDepartment}
-				, APPROVER_ID=#{approverId}
-				, RECEIVER_ID=#{receiverId}
-				, TRAVELER_ID=#{travelerId}
-				, TITLE=#{title}
-				, LOCATION=#{location}
-				, TRIP_START_DATE=#{tripStartDate}
-				, TRIP_END_DATE=#{tripEndDate}
-				, TRANSPORTATION_TYPE=#{transportationType}
-				, TRIP_PURPOSE=#{tripPurpose}
-				, FILE_DIR=#{fileDir}
-			WHERE BT_ID=#{btId}
+				 AUTHOR_ID=#{AUTHOR_ID}
+				, AUTHOR_DEPT=#{AUTHOR_DEPT}
+				, APPROVER_ID=#{APPROVER_ID}
+				, RECEIVER_ID=#{RECEIVER_ID}
+				, TRAVELER_ID=#{TRAVELER_ID}
+				, TITLE=#{TITLE}
+				, LOCATION=#{LOCATION}
+				, TRIP_START_DATE=#{TRIP_START_DATE}
+				, TRIP_END_DATE=#{TRIP_END_DATE}
+				, TRANSPORTATION_TYPE=#{TRANSPORTATION_TYPE}
+				, TRIP_PURPOSE=#{TRIP_PURPOSE}
+				, FILENAME=#{FILENAME}
+			WHERE BT_ID=#{BT_ID}
 	</update>
 	<update id="updateBtRole">
-			UPDATE TBBTROLE
-			SET BT_ID=#{btId}
-				, USER_ID=#{userId}
-				, USER_NAME=#{userName}
-				, USER_DEPT=#{userDept}
-				, USER_POSITION=#{userPosition}
-				, USER_TYPE=#{userType}
-			WHERE BT_ROLE_ID=#{btRoleId}
+			UPDATE BUSINESSTRIP_ROLES
+			SET BT_ID=#{BT_ID}
+				, USER_ID=#{USER_ID}
+				, USER_NAME=#{USER_NAME}
+				, USER_DEPT=#{USER_DEPT}
+				, USER_POSITION=#{USER_POSITION}
+				, USER_TYPE=#{USER_TYPE}
+			WHERE BT_ROLE_ID=#{BT_ROLE_ID}
 	</update>	
 	<update id="updateBtExp">
-			UPDATE TBBTEXPENSES
+			UPDATE BUSINESSTRIP_EXPENSES
 			SET 
-				 EXPENSE_TYPE=#{expenseType}
-				, EXPENSE_DETAIL=#{expenseDetail}
-				, PAYMENT_METHOD=#{paymentMethod}
-				, PRICE=#{price}
-			WHERE BT_EXP_ID=#{btExpId}
+				EXPENSE_ID=#{EXPENSE_ID}
+				, EXPENSE_TYPE=#{EXPENSE_TYPE}
+				, EXPENSE_DETAIL=#{EXPENSE_DETAIL}
+				, PAYMENT_METHOD=#{PAYMENT_METHOD}
+				, PRICE=#{PRICE}
+			WHERE BT_EXP_ID=#{BT_EXP_ID}
 	</update>
+	
+	<update id="updateComExp">
+			UPDATE COMPANY_EXPENSES
+			SET 
+				EXPENSE_DATE=#{EXPENSE_DATE}
+				, EXPENSE_DETAIL=#{EXPENSE_DETAIL}
+				, EXPENSE_TYPE=#{EXPENSE_TYPE}
+				, PAYMENT_METHOD=#{PAYMENT_METHOD}
+				, PRICE=#{PRICE}
+			WHERE EXPENSE_ID=#{EXPENSE_ID}
+			
+	</update>		
+
 
 	<delete id="deleteBt">
 
-			DELETE FROM TBBUSINESSTRIP
-			WHERE BT_ID=#{btId}
+			DELETE FROM BUSINESSTRIP
+			WHERE BT_ID=#{BT_ID}
 
 	</delete>
 	<delete id="deleteBtRole">
 
-			DELETE FROM TBBTROLE
-			WHERE BT_ROLE_ID=#{btRoleId}
+			DELETE FROM BUSINESSTRIP_ROLES
+			WHERE BT_ROLE_ID=#{BT_ROLE_ID}
 
 	</delete>
 	<delete id="deleteBtExp">
 
-			DELETE FROM TBBTEXPENSES
-			WHERE BT_EXP_ID=#{btExpId}
+			DELETE FROM BUSINESSTRIP_EXPENSES
+			WHERE BT_EXP_ID=#{BT_EXP_ID}
+
+	</delete>
+	
+	<delete id="deleteComExp">
+
+			DELETE FROM COMPANY_EXPENSES
+			WHERE EXPENSE_ID=#{EXPENSE_ID}
+
+	</delete>
+	
+	<delete id="deleteFile">
+
+			DELETE FROM BUSINESSTRIP_FILES
+			WHERE FILE_ID=#{FILE_ID}
 
 	</delete>
 
-	<select id="selectBt" resultMap="btAll">
+	<select id="selectBt" resultMap="btVO">
 
             SELECT
                 BT_ID
 				  , AUTHOR_ID
-				  , AUTHOR_DEPARTMENT
+				  , AUTHOR_DEPT
 				  , APPROVER_ID
 				  , RECEIVER_ID
 				  , TRAVELER_ID
@@ -197,11 +256,11 @@
 				  , TRIP_END_DATE
 				  , TRANSPORTATION_TYPE
 				  , TRIP_PURPOSE
-				  , FILE_DIR
+				  , FILENAME
 				  , APPROVAL_STATE
 				  , CREATED_AT
-            FROM TBBUSINESSTRIP
-            WHERE BT_ID=#{btId}
+            FROM BUSINESSTRIP
+            WHERE BT_ID=#{BT_ID}
 
 	</select>
 
@@ -209,8 +268,13 @@
 	<select id="selectBtList" parameterType="searchVO" resultType="egovMap">
 	
 			SELECT
-				BT_ID, LOCATION, AUTHOR_ID, TRAVELER_ID, TRIP_START_DATE, TRIP_END_DATE
-			FROM TBBUSINESSTRIP
+				BT_ID
+				, LOCATION
+				, AUTHOR_ID
+				, TRAVELER_ID
+				, TRIP_START_DATE
+				, TRIP_END_DATE
+			FROM BUSINESSTRIP
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
@@ -220,7 +284,8 @@
 		            <when test="searchCondition == 1">
 		            	
 		            	<![CDATA[
-						AND	TRIP_START_DATE <= CONCAT(#{searchKeyword}) AND TRIP_END_DATE >= CONCAT(#{searchKeyword})
+						AND	TRIP_START_DATE <= CONCAT(#{searchKeyword}) 
+						AND TRIP_END_DATE >= CONCAT(#{searchKeyword})
 						]]>
 					</when>
 				</choose>
@@ -230,20 +295,36 @@
 	</select>
 	
 	<select id="selectBtRoleList" parameterType="String" resultMap="btRoleVO">
-			SELECT BT_ROLE_ID, BT_ID, USER_ID, USER_NAME, USER_DEPT, USER_POSITION, USER_TYPE FROM TBBTROLE
-			WHERE BT_ID=#{btId}
+			SELECT 
+				BT_ROLE_ID
+				, BT_ID
+				, USER_ID
+				, USER_NAME
+				, USER_DEPT
+				, USER_POSITION
+				, USER_TYPE 
+			FROM BUSINESSTRIP_ROLES
+			WHERE BT_ID=#{BT_ID}
 	</select>
 	
 	<select id="selectBtExpList" parameterType="String" resultMap="btExpVO">
-			SELECT BT_EXP_ID, BT_ID, EXPENSE_TYPE, EXPENSE_DETAIL, PAYMENT_METHOD, PRICE FROM TBBTEXPENSES
-			WHERE BT_ID=#{btId}
+			SELECT 
+				BT_EXP_ID
+				, EXPENSE_ID
+				, BT_ID
+				, EXPENSE_TYPE
+				, EXPENSE_DETAIL
+				, PAYMENT_METHOD
+				, PRICE 
+			FROM BUSINESSTRIP_EXPENSES
+			WHERE BT_ID=#{BT_ID}
 	</select>
 
 
 	<select id="selectBtListTotCnt" parameterType="searchVO" resultType="int">
 
 			SELECT COUNT(*) totcnt
-			FROM TBBUSINESSTRIP
+			FROM BUSINESSTRIP
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
@@ -252,11 +333,15 @@
 					</when>
 		            <when test="searchCondition == 1">
 						<![CDATA[
-						AND	TRIP_START_DATE <= CONCAT(#{searchKeyword}) AND TRIP_END_DATE >= CONCAT(#{searchKeyword})
+						AND	TRIP_START_DATE <= CONCAT(#{searchKeyword}) 
+						AND TRIP_END_DATE >= CONCAT(#{searchKeyword})
 						]]>
 					</when>
 				</choose>
 			</if>
 	</select>
+	
+	
+
 
 </mapper>

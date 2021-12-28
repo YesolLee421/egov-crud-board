@@ -108,7 +108,7 @@
             			<tr>
             				<td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
             				<td align="left" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.btId}"/>')"><c:out value="${result.location}"/></a></td>
-            				<td align="center" class="listtd"><c:out value="${result.authorId}"/>&nbsp;</td>
+            				<td align="center" class="listtd"><c:out value="${result.AUTHOR_ID}"/>&nbsp;</td>
             				<td align="center" class="listtd"><c:out value="${result.travelerId}"/>&nbsp;</td>
             				<td align="center" class="listtd"><c:out value="${result.tripStartDate} ~ ${result.tripEndDate} }"/>&nbsp;</td>
             			</tr>

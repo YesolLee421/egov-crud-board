@@ -29,6 +29,7 @@ public interface BtService2 {
 	String insertBt(BtVO vo) throws Exception;
 	String insertBtRole(BtRoleVO vo) throws Exception;
 	String insertBtExp(BtExpVO vo) throws Exception;
+	String insertComExp(ComExpVO comExp) throws Exception;
 
 	/**
 	 * 글을 수정한다.
@@ -39,6 +40,8 @@ public interface BtService2 {
 	void updateBt(BtVO vo) throws Exception;
 	void updateBtRole(BtRoleVO vo) throws Exception;
 	void updateBtExp(BtExpVO vo) throws Exception;
+	void updateComExp(ComExpVO comExp) throws Exception;
+	
 
 	/**
 	 * 글을 삭제한다.
@@ -49,6 +52,7 @@ public interface BtService2 {
 	void deleteBt(BtVO vo) throws Exception;
 	void deleteBtRole(BtRoleVO vo) throws Exception;
 	void deleteBtExp(BtExpVO vo) throws Exception;
+	void deleteComExp(ComExpVO comExp) throws Exception;
 
 	/**
 	 * 글을 조회한다.
@@ -78,6 +82,13 @@ public interface BtService2 {
 	 * @exception
 	 */
 	int selectBtListTotCnt(SampleDefaultVO searchVO);
+	
+	void fileUpload(BtFileVO fileVo) throws Exception;
+	
+	ComExpVO makeComExp(BtVO btVO, BtExpVO expVo) throws Exception;
+
+	
+
 	
 //	BtVO selectBtAll(BtVO vo) throws Exception;
 

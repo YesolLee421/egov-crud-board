@@ -7,6 +7,5 @@
 	<sqlMap resource="egovframework/sqlmap/example/sample/Bt_Sample_SQL.xml"/>
  -->	
 	<sqlMap resource="egovframework/sqlmap/example/mappers/EgovSample_Sample_SQL.xml"/>
-	<sqlMap resource="egovframework/sqlmap/example/mappers/Bt_Sample_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/example/mappers/Bt_Sample_SQL2.xml"/>
 </sqlMapConfig>

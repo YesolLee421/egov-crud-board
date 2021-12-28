@@ -22,10 +22,10 @@
   
     <formset>
         <form name="btVO">
-        	<field property="travelerId" depends="required">
+        	<field property="TRAVELER_ID" depends="required">
         		<arg0 key="출장자 이름" />
 			</field>
-			<field property="location" depends="required">
+			<field property="LOCATION" depends="required">
         		<arg0 key="출장 장소" />
 			</field>
         </form>

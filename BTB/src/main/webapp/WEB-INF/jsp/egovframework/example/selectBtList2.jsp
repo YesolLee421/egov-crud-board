@@ -90,7 +90,7 @@
 					<li><a href="#">부서/직급관리</a></li>
 					<li><a href="#">장비관리</a></li>
 					<li><a href="#">알림마당</a></li>
-					<li class="on"><a href="#">출장관리</a></li>
+					<li class="on"><a href="javascript:fn_egov_selectList();">출장관리</a></li>
 				</ul>
 			</nav>
         </div>

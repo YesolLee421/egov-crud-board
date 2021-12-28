@@ -15,26 +15,28 @@
  */
 package egovframework.example.sample.service;
 
-public class BtExpVO extends SampleDefaultVO {
+import java.util.Date;
+
+public class ComExpVO extends SampleDefaultVO {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// 출장 경비 번호
-	 private int BT_EXP_ID; // auto-increment
+	// 경비 번호
+	 private int EXPENSE_SEQ; // auto-increment
+	
+	// 경비 고유 ID : EXPS-000
+	 private String EXPENSE_ID;
 
-	// 츌장 고유번호
-	private String BT_ID;
+	// 비용 등록일
+	private Date EXPENSE_DATE;
 	
-	// 비용 고유번호
-	private String EXPENSE_ID;
-	
-	// 비용 종류: 교통비, 일비, 숙박비, 기타
+	// 비용 종류: 교통비, 일비, 숙박비, 기타, 추가...
 	private int EXPENSE_TYPE;
 	
-	// 내용
+	// 내용: 출장자 + "츨장"
 	private String EXPENSE_DETAIL;
 	
 	// 결제방법: 카드, 현금, 계좌이체
@@ -43,20 +45,12 @@ public class BtExpVO extends SampleDefaultVO {
 	// 금액
 	private int PRICE;
 
-	public int getBT_EXP_ID() {
-		return BT_EXP_ID;
+	public int getEXPENSE_SEQ() {
+		return EXPENSE_SEQ;
 	}
 
-	public void setBT_EXP_ID(int bT_EXP_ID) {
-		BT_EXP_ID = bT_EXP_ID;
-	}
-
-	public String getBT_ID() {
-		return BT_ID;
-	}
-
-	public void setBT_ID(String bT_ID) {
-		BT_ID = bT_ID;
+	public void setEXPENSE_SEQ(int eXPENSE_SEQ) {
+		EXPENSE_SEQ = eXPENSE_SEQ;
 	}
 
 	public String getEXPENSE_ID() {
@@ -65,6 +59,14 @@ public class BtExpVO extends SampleDefaultVO {
 
 	public void setEXPENSE_ID(String eXPENSE_ID) {
 		EXPENSE_ID = eXPENSE_ID;
+	}
+
+	public Date getEXPENSE_DATE() {
+		return EXPENSE_DATE;
+	}
+
+	public void setEXPENSE_DATE(Date eXPENSE_DATE) {
+		EXPENSE_DATE = eXPENSE_DATE;
 	}
 
 	public int getEXPENSE_TYPE() {
@@ -98,7 +100,6 @@ public class BtExpVO extends SampleDefaultVO {
 	public void setPRICE(int pRICE) {
 		PRICE = pRICE;
 	}
-
 
 
 	

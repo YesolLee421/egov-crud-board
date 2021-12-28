@@ -24,193 +24,181 @@ public class BtVO extends SampleDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	// 츌장 일련번호
-	private String btId;
+	private String BT_ID;
 	
 	// 기안자 id (일단 이름 저장)
-	private String authorId;
+	private String AUTHOR_ID;
 	
 	// 기안부서
-	private String authorDepartment;
+	private String AUTHOR_DEPT;
 	
 	// 결재자 id (이름)
-	private String approverId;
+	private String APPROVER_ID;
 	
 	// 수신자 id (이름)
-	private String receiverId;
+	private String RECEIVER_ID;
 	
 	// 출장자 id 
-	private String travelerId;
+	private String TRAVELER_ID;
 	
 	// 제목
-	private String title;
+	private String TITLE;
 	
 	// 출장 장소
-	private String location;
+	private String LOCATION;
 	
 	// 출장 시작일
-	private Date tripStartDate;
+	private Date TRIP_START_DATE;
 	
 	// 출장 종료일
-	private Date tripEndDate;
+	private Date TRIP_END_DATE;
 	
-	// 교통편
-	private String transportationType;
+	// 교통편: 시외버스=0, 기차=1, 자차=2, 회사차량1=3, 회사차량2=4
+	private int TRANSPORTATION_TYPE;
 	
 	// 출장 목적
-	private String tripPurpose;
+	private String TRIP_PURPOSE;
 	
 	// 첨부파일경로
-	private String fileDir;
+	private String FILENAME;
 	
 	// 결재 상태: 결재 대기=0, 결재 반려=1, 결재 완료=2
-	private int approvalState;
+	private int APPROVAL_STATE;
 	
 	// 작성일: mysql의 now()로 생성된 timestamp	
-	private Timestamp createdAt;
+	private Timestamp CREATED_AT;
 	
 	// 쿼리로 조인할 vo 리스트
 	//private List<BtRoleVO> btRoleVOList;
 	private List<BtExpVO> btExpVOList;
 
-	public String getBtId() {
-		return btId;
+	public String getBT_ID() {
+		return BT_ID;
 	}
 
-	public void setBtId(String btId) {
-		this.btId = btId;
+	public void setBT_ID(String bT_ID) {
+		BT_ID = bT_ID;
 	}
 
-	public String getAuthorId() {
-		return authorId;
+	public String getAUTHOR_ID() {
+		return AUTHOR_ID;
 	}
 
-	public void setAuthorId(String authorId) {
-		this.authorId = authorId;
+	public void setAUTHOR_ID(String aUTHOR_ID) {
+		AUTHOR_ID = aUTHOR_ID;
 	}
 
-	public String getAuthorDepartment() {
-		return authorDepartment;
+	public String getAUTHOR_DEPT() {
+		return AUTHOR_DEPT;
 	}
 
-	public void setAuthorDepartment(String authorDepartment) {
-		this.authorDepartment = authorDepartment;
+	public void setAUTHOR_DEPT(String aUTHOR_DEPT) {
+		AUTHOR_DEPT = aUTHOR_DEPT;
 	}
 
-	public String getApproverId() {
-		return approverId;
+	public String getAPPROVER_ID() {
+		return APPROVER_ID;
 	}
 
-	public void setApproverId(String approverId) {
-		this.approverId = approverId;
+	public void setAPPROVER_ID(String aPPROVER_ID) {
+		APPROVER_ID = aPPROVER_ID;
 	}
 
-	public String getReceiverId() {
-		return receiverId;
+	public String getRECEIVER_ID() {
+		return RECEIVER_ID;
 	}
 
-	public void setReceiverId(String receiverId) {
-		this.receiverId = receiverId;
+	public void setRECEIVER_ID(String rECEIVER_ID) {
+		RECEIVER_ID = rECEIVER_ID;
 	}
 
-	public String getTravelerId() {
-		return travelerId;
+	public String getTRAVELER_ID() {
+		return TRAVELER_ID;
 	}
 
-	public void setTravelerId(String travelerId) {
-		this.travelerId = travelerId;
+	public void setTRAVELER_ID(String tRAVELER_ID) {
+		TRAVELER_ID = tRAVELER_ID;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getTITLE() {
+		return TITLE;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTITLE(String tITLE) {
+		TITLE = tITLE;
 	}
 
-	public String getLocation() {
-		return location;
+	public String getLOCATION() {
+		return LOCATION;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setLOCATION(String lOCATION) {
+		LOCATION = lOCATION;
 	}
 
-	public Date getTripStartDate() {
-		return tripStartDate;
+	public Date getTRIP_START_DATE() {
+		return TRIP_START_DATE;
 	}
 
-	public void setTripStartDate(Date tripStartDate) {
-		this.tripStartDate = tripStartDate;
+	public void setTRIP_START_DATE(Date tRIP_START_DATE) {
+		TRIP_START_DATE = tRIP_START_DATE;
 	}
 
-	public Date getTripEndDate() {
-		return tripEndDate;
+	public Date getTRIP_END_DATE() {
+		return TRIP_END_DATE;
 	}
 
-	public void setTripEndDate(Date tripEndDate) {
-		this.tripEndDate = tripEndDate;
+	public void setTRIP_END_DATE(Date tRIP_END_DATE) {
+		TRIP_END_DATE = tRIP_END_DATE;
 	}
 
-	public String getTransportationType() {
-		return transportationType;
+	public int getTRANSPORTATION_TYPE() {
+		return TRANSPORTATION_TYPE;
 	}
 
-	public void setTransportationType(String transportationType) {
-		this.transportationType = transportationType;
+	public void setTRANSPORTATION_TYPE(int tRANSPORTATION_TYPE) {
+		TRANSPORTATION_TYPE = tRANSPORTATION_TYPE;
 	}
 
-	public String getTripPurpose() {
-		return tripPurpose;
+	public String getTRIP_PURPOSE() {
+		return TRIP_PURPOSE;
 	}
 
-	public void setTripPurpose(String tripPurpose) {
-		this.tripPurpose = tripPurpose;
+	public void setTRIP_PURPOSE(String tRIP_PURPOSE) {
+		TRIP_PURPOSE = tRIP_PURPOSE;
 	}
 
-	public String getFileDir() {
-		return fileDir;
+	public String getFILENAME() {
+		return FILENAME;
 	}
 
-	public void setFileDir(String fileDir) {
-		this.fileDir = fileDir;
+	public void setFILENAME(String fILENAME) {
+		FILENAME = fILENAME;
 	}
 
-	public int getApprovalState() {
-		return approvalState;
+	public int getAPPROVAL_STATE() {
+		return APPROVAL_STATE;
 	}
 
-	public void setApprovalState(int approvalState) {
-		this.approvalState = approvalState;
+	public void setAPPROVAL_STATE(int aPPROVAL_STATE) {
+		APPROVAL_STATE = aPPROVAL_STATE;
 	}
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
+	public Timestamp getCREATED_AT() {
+		return CREATED_AT;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+	public void setCREATED_AT(Timestamp cREATED_AT) {
+		CREATED_AT = cREATED_AT;
 	}
-
-//	public List<BtRoleVO> getBtRoleVOList() {
-//		return btRoleVOList;
-//	}
-//
-//	public void setBtRoleVOList(List<BtRoleVO> btRoleVOList) {
-//		this.btRoleVOList = btRoleVOList;
-//	}
 
 	public List<BtExpVO> getBtExpVOList() {
 		return btExpVOList;
 	}
 
-	public void setBtExpVOList(List<BtExpVO> expList) {
-		this.btExpVOList = expList;
+	public void setBtExpVOList(List<BtExpVO> btExpVOList) {
+		this.btExpVOList = btExpVOList;
 	}
-
-
-	
-
 
 
 }

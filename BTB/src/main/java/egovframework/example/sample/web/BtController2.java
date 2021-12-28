@@ -15,22 +15,28 @@
  */
 package egovframework.example.sample.web;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import egovframework.example.sample.service.BtExpVO;
+import egovframework.example.sample.service.BtFileVO;
 import egovframework.example.sample.service.BtRoleVO;
 import egovframework.example.sample.service.BtService2;
 import egovframework.example.sample.service.BtVO;
-
+import egovframework.example.sample.service.ComExpVO;
 import egovframework.example.sample.service.SampleDefaultVO;
-
-
+import egovframework.example.sample.service.impl.BtServiceImpl2;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +48,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
@@ -62,7 +71,109 @@ public class BtController2 {
 	
 	// page test
 	private String listPage = "selectBtList2";
-	private String registerPage = "registerBt4";
+	private String registerPage = "registerBt3";
+	
+	
+	@Resource(name = "multipartResolver")
+	CommonsMultipartResolver multipartResolver;
+	
+	// LOGGER
+	private static final Logger LOGGER = LoggerFactory.getLogger(BtController2.class);
+
+	
+	/**
+	 * 파일 첨부하면서 글을 등록한다.
+	 * @param sampleVO - 등록할 정보가 담긴 VO
+	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @param multipartFile - 첨부할 파일
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/addBtFile.do", method = RequestMethod.POST)
+	public String addBtFile(@ModelAttribute("searchVO") SampleDefaultVO searchVO, BtVO btVO, BindingResult bindingResult, Model model,
+			SessionStatus status, MultipartHttpServletRequest request )
+			throws Exception {
+
+		// Server-Side Validation
+		beanValidator.validate(btVO, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("btVO", btVO);
+			return listPage;
+		}
+		LOGGER.debug("addBtFile.do - BtVO = " + btVO.toString());
+		btService.insertBt(btVO); //bt_id값 반환함
+		
+		// btVO의 explist 가져와서 Exp 하나씩 insert
+		if(btVO.getBtExpVOList() != null) {
+			for (BtExpVO expVo : btVO.getBtExpVOList()) {
+				expVo.setBT_ID(btVO.getBT_ID());
+				btService.insertBtExp(expVo);
+			}
+		} else {
+			LOGGER.error("addBtFile.do - BtVO = btexpvolist is null");
+		}
+		
+		LOGGER.debug("addBtFile.do - file" + request.getParameterNames());
+		
+		
+		// 파일 업로드
+//		if (request.getPart("fileDir") != null) {
+//			System.err.println("controller2-addBtFile.do - request.getPart(fileDir) = " + request.getPart("fileDir"));
+//			Iterator<String> originFileNameList = request.getFileNames();
+//			
+//			while(originFileNameList.hasNext()) {
+//				String fileName = originFileNameList.next();
+//				if (fileName != null && fileName == btVO.getFileDir()) {
+//					System.err.println("BtFileController - addFile - btVO.getFileDir() = " + fileName);
+//					
+//					BtFileVO fileVo = new BtFileVO();
+//					fileVo.setBtId(btVO.getBtId());
+//					fileVo.setUploadedAt(new Timestamp(System.currentTimeMillis()));
+//					fileVo.setOriginFileName(fileName);
+//					
+//					MultipartFile mpf = request.getFile(fileName);
+//					
+//					if(!mpf.isEmpty()) {
+//						fileVo.setMpfile(mpf);
+//						btService.fileUpload(fileVo);
+//					}
+//				}
+//			}
+//		}
+		
+		status.setComplete();
+		return "forward:/selectBtList2.do";
+	}
+	
+	// @RequestParam("file") MultipartFile file
+//	public void addFile(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO, MultipartHttpServletRequest request ) throws Exception {
+//		
+//		Iterator<String> originFileNameList = request.getFileNames();
+//		
+//		while(originFileNameList.hasNext()) {
+//			String fileName = originFileNameList.next();
+//			if (fileName != null && fileName == btVO.getFileDir()) {
+//				System.err.println("BtFileController - addFile - btVO.getFileDir() = " + fileName);
+//				
+//				BtFileVO fileVo = new BtFileVO();
+//				fileVo.setBtId(btVO.getBtId());
+//				fileVo.setUploadedAt(new Timestamp(System.currentTimeMillis()));
+//				fileVo.setOriginFileName(fileName);
+//				
+//				MultipartFile mpf = request.getFile(fileName);
+//				
+//				if(!mpf.isEmpty()) {
+//					fileVo.setMpfile(mpf);
+//					btService.fileUpload(fileVo);
+//				}
+//			}
+//		}
+//	}
+	
+	
+	
 
 	/**
 	 * 글 목록을 조회한다. (pageing)
@@ -73,8 +184,6 @@ public class BtController2 {
 	 */
 	@RequestMapping(value = "/selectBtList2.do")
 	public String selectBtList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
-		
-		System.err.print("컨트롤러 실행");
 
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -93,9 +202,8 @@ public class BtController2 {
 		List<?> btList = btService.selectBtList(searchVO);
 		model.addAttribute("resultList", btList);
 		
-		System.err.print("controller2-selectList2- resultList = "+ btList.toString());
+		LOGGER.debug("selectList2- resultList = "+ btList.toString());
 		
-
 		int totCnt = btService.selectBtListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
@@ -110,6 +218,17 @@ public class BtController2 {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
+	public BtVO setDefault(BtVO btVO) {
+		btVO.setAUTHOR_ID("관리자");
+		btVO.setLOCATION("서울 00구");
+		btVO.setTRAVELER_ID("이예솔");
+		btVO.setTRIP_START_DATE(new Date());
+		btVO.setTRIP_END_DATE(new Date());
+		
+		return btVO;
+	}
+	
+	
 	@RequestMapping(value = "/addBtView2.do", method = RequestMethod.POST)
 	public String addBtView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		BtVO btVO = new BtVO();
@@ -120,17 +239,19 @@ public class BtController2 {
 		String [] expenseType = {"교통비", "일비", "숙박비", "기타"};
 		for (int i=0; i<expenseType.length; i++) {
 			BtExpVO exp = new BtExpVO();
-			exp.setExpenseType(expenseType[i]);
-			exp.setExpenseDetail("");
-			exp.setPaymentMethod("카드");
-			exp.setPrice(0);
+			exp.setEXPENSE_TYPE(0);
+			exp.setEXPENSE_DETAIL("");
+			exp.setPAYMENT_METHOD(0);
+			exp.setPRICE(0);
 			
 			btExpList.add(exp);
 		}
 		btVO.setBtExpVOList(btExpList);
 		
-		System.err.println("controller2-addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().toString());
-		model.addAttribute("btVO", btVO);
+		LOGGER.debug("addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().toString());
+		
+		model.addAttribute("btVO", setDefault(btVO));
+		//model.addAttribute("btVO", btVO);
 		
 		return registerPage;
 	}
@@ -154,22 +275,35 @@ public class BtController2 {
 			model.addAttribute("btVO", btVO);
 			return listPage;
 		}
-		System.err.println("controller2-addBt2.do - BtVO = " + btVO.toString());
+		
+		LOGGER.debug("addBt2.do - BtVO = " + btVO.toString());
 		btService.insertBt(btVO); //bt_id값 반환함
 		
 		// btVO의 explist 가져와서 Exp 하나씩 insert
 		if(btVO.getBtExpVOList() != null) {
 			for (BtExpVO expVo : btVO.getBtExpVOList()) {
-				expVo.setBtId(btVO.getBtId());
+
+				// 회사 경비 테이블 추가: 비용 지출이 있을때만 추가
+				if(expVo.getPRICE()>0) {					
+					String exp_id = btService.insertComExp(btService.makeComExp(btVO, expVo));
+					expVo.setEXPENSE_ID(exp_id);
+				}
+				
+				expVo.setBT_ID(btVO.getBT_ID());
+
 				btService.insertBtExp(expVo);
 			}
 		} else {
-			System.err.println("controller2-addBt2.do - btexpvolist is null");
+			LOGGER.error("addBt2.do btexpvolist is null ");
 		}
 
 		status.setComplete();
 		return "forward:/selectBtList2.do";
 	}
+
+
+	
+	
 
 	/**
 	 * 글 수정화면을 조회한다.
@@ -182,19 +316,21 @@ public class BtController2 {
 	@RequestMapping("/updateBtView2.do")
 	public String updateBtView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		BtVO btVO = new BtVO();
-		btVO.setBtId(id);
+		btVO.setBT_ID(id);
 		BtVO newVO = selectBtAll(btVO, searchVO);
-		System.err.println("controller2 -updateView2 - btVO = " + newVO.toString());
+		
+		
+		LOGGER.debug("updateView2 - btVO = " + newVO.toString());
+		
 		model.addAttribute("btVO", newVO);
 		
 		return registerPage;
 	}
 	
 	@RequestMapping(value = "/searchBtRoleView.do", method = RequestMethod.GET)
-	public String searchBtRoleView(@RequestParam("userType") String userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception{
-		System.err.println("Controller2 - searchBtRoleView- userType = " + userType);
+	public String searchBtRoleView(@RequestParam("userType") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception{
 		BtRoleVO vo = new BtRoleVO();
-		vo.setUserType(userType);
+		vo.setUSER_TYPE(userType);;
 		model.addAttribute("btRoleVO", vo);
 		return "searchBtRole";
 	}
@@ -207,13 +343,7 @@ public class BtController2 {
 	 * @return @ModelAttribute("sampleVO") - 조회한 정보
 	 * @exception Exception
 	 */
-	public BtVO selectBt(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
-		
-		System.out.print("글 조회 ");
-		return btService.selectBt(btVO);
-	}
-	
-	@Transactional
+
 	public BtVO selectBtAll(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO ) throws Exception {
 
 		try {
@@ -230,8 +360,10 @@ public class BtController2 {
 	}
 	
 	public List<BtExpVO> selectBtExpList(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
-		List<BtExpVO> list = btService.selectBtExpList(btVO.getBtId());
-		System.err.println("Controller2-selectBtExpList list = " + list.toString());
+		List<BtExpVO> list = btService.selectBtExpList(btVO.getBT_ID());
+		
+		LOGGER.debug("selectBtExpList list = " + list.toString());
+		
 		return list;
 	}
 
@@ -252,27 +384,50 @@ public class BtController2 {
 		beanValidator.validate(btVO, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			System.out.println("에러: bindingResult");
+			LOGGER.error("updateBt2 = 에러: bindingResult");
 			model.addAttribute("btVO", btVO);
 			
 			return registerPage;
 		}
-		System.out.println("Controller-updateBt: " + btVO.toString());
-		
+		LOGGER.debug("updateBt2: " + btVO.toString());
+
 		// btVO의 explist 가져와서 Exp 하나씩 update
 		if(btVO.getBtExpVOList() != null) {
 			for (BtExpVO expVo : btVO.getBtExpVOList()) {
+				
+				String exp_id = expVo.getEXPENSE_ID();
+				
+				// 여기서 이미 comExp의 id 세팅됨
+				ComExpVO comExp = btService.makeComExp(btVO, expVo);
+				
+				LOGGER.error("세팅 전 exp_id = " + exp_id + " / comExp.id = " + comExp.getEXPENSE_ID() + " / price = " + comExp.getPRICE());
+				
+				// 회사 경비 테이블 추가: 비용 지출이 있을때만 추가
+				if(!exp_id.isEmpty()) {
+					if(comExp.getPRICE()>0) {
+						btService.updateComExp(comExp);
+					}else {
+						btService.deleteComExp(comExp);
+						expVo.setEXPENSE_ID("");
+					}
+				}else {
+					if (comExp.getPRICE()>0) {
+						btService.insertComExp(comExp);
+						expVo.setEXPENSE_ID(comExp.getEXPENSE_ID());
+					}
+				}
+				LOGGER.error("세팅 후 exp_id = " + exp_id + " / comExp.id = " + comExp.getEXPENSE_ID() + " / price = " + comExp.getPRICE());
+				expVo.setBT_ID(btVO.getBT_ID());			
 				btService.updateBtExp(expVo);
 			}
 		} else {
-			System.err.println("controller2-updateBt2.do - btexpvolist is null");
+			LOGGER.error("updateBt2.do - btexpvolist is null");
 		}
 
-		
 		btService.updateBt(btVO);
 		
 		status.setComplete();
-		return "forward:/selectBtList.do";
+		return "forward:/selectBtList2.do";
 	}
 
 	/**
@@ -285,20 +440,22 @@ public class BtController2 {
 	 */
 	@RequestMapping("/deleteBt2.do")
 	public String deleteBt(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SessionStatus status) throws Exception {
+		LOGGER.debug("deleteBt2: " + btVO.toString());
+		
 		System.out.println("Controller-deleteBt: " + btVO.toString());
 		// btVO의 explist 가져와서 Exp 하나씩 delete
 		if(btVO.getBtExpVOList() != null) {
 			for (BtExpVO expVo : btVO.getBtExpVOList()) {
+				btService.deleteComExp(btService.makeComExp(btVO, expVo));
 				btService.deleteBtExp(expVo);
 			}
 		} else {
-			System.err.println("controller2-deleteBt2.do - btexpvolist is null");
+			LOGGER.error("deleteBt2.do - btexpvolist is null");
 		}
 
-		
 		btService.deleteBt(btVO);
 		status.setComplete();
-		return "forward:/selectBtList.do";
+		return "forward:/selectBtList2.do";
 	}
 
 }

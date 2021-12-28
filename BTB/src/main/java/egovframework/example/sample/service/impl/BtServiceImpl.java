@@ -60,7 +60,7 @@ public class BtServiceImpl extends EgovAbstractServiceImpl implements BtService 
 
 		/** ID Generation Service */
 		String bt_id = btIdGnrService.getNextStringId();
-		vo.setBtId(bt_id);
+		vo.setBT_ID(bt_id);
 		LOGGER.debug(vo.toString());
 
 		btDAO.insertBt(vo);

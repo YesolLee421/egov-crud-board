@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import egovframework.example.sample.service.BtExpVO;
+import egovframework.example.sample.service.BtFileVO;
 import egovframework.example.sample.service.BtRoleVO;
 import egovframework.example.sample.service.BtVO;
+import egovframework.example.sample.service.ComExpVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
@@ -53,7 +55,8 @@ public interface BtMapper2 {
 	void insertBt(BtVO vo) throws Exception;
 	void insertBtRole(BtRoleVO vo) throws Exception;
 	void insertBtExp(BtExpVO vo) throws Exception;
-
+	void insertComExp(ComExpVO comExp) throws Exception;
+	
 	/**
 	 * 글을 수정한다.
 	 * @param vo - 수정할 정보가 담긴 SampleVO
@@ -63,6 +66,7 @@ public interface BtMapper2 {
 	void updateBt(BtVO vo) throws Exception;
 	void updateBtRole(BtRoleVO vo) throws Exception;
 	void updateBtExp(BtExpVO vo) throws Exception;
+	void updateComExp(ComExpVO vo) throws Exception;
 
 	/**
 	 * 글을 삭제한다.
@@ -73,6 +77,7 @@ public interface BtMapper2 {
 	void deleteBt(BtVO vo) throws Exception;
 	void deleteBtRole(BtRoleVO vo) throws Exception;
 	void deleteBtExp(BtExpVO vo) throws Exception;
+	void deleteComExp(ComExpVO vo) throws Exception;
 
 	/**
 	 * 글을 조회한다.
@@ -101,6 +106,11 @@ public interface BtMapper2 {
 	 * @exception
 	 */
 	int selectBtListTotCnt(SampleDefaultVO searchVO);
+	
+	void insertFile(BtFileVO fileVo);
+
+
+
 	
 
 }
