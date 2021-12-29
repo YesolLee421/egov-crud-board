@@ -211,3 +211,8 @@ a.btn {
   padding-top: 20px;
 }
 
+#dialog .dialog-container #search {
+	width: 100%;
+	margin-bottom: 20px;
+}
+

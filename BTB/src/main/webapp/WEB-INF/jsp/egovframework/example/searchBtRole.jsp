@@ -37,31 +37,51 @@
     
     	
         /* 글 목록 화면 function */
-        function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/selectBtList2.do'/>";
-           	document.detailForm.submit();
+        function fn_egov_selectUserList(BT_ID, userType) {
+           	document.listForm.action = "<c:url value='/selectUserList.do?selectedId="+BT_ID+"&USER_TYPE="+userType+"'/>";
+           	document.listForm.submit();
         }
     	
         
-        /* 글 삭제 function */
-        function fn_egov_delete() {
-        	if(confirm("정말 삭제하시겠습니까?")==true) {
-        		document.detailForm.action = "<c:url value='/deleteBt2.do'/>";
-               	document.detailForm.submit();
-        	} else {
-        		return;
-        	}
+        /* pagination 페이지 링크 function */
+        function fn_egov_link_page(pageNo){
+        	document.listForm.pageIndex.value = pageNo;
+        	document.listForm.action = "<c:url value='/selectUserList.do'/>";
+           	document.listForm.submit();
+        }
+        /* 개별 직원 선택 function */
+        function fn_egov_select(USER_ID) {
+        	document.listForm.selectedId.value = USER_ID;
+           	document.listForm.action = "<c:url value='/updateBtView2.do'/>";
+           	document.listForm.submit();
         }
         
-        /* 글 등록 function */
-        function fn_egov_save() {
-        	frm = document.detailForm;
-        	if(!validateBtVO(frm)){
-                return;
-            }else{
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addBt2.do' : '/updateBt2.do'}"/>";
-                frm.submit();
-            }
+        // 이름만 원래 form에 넣어주는 function
+        function setRegisterPage(USER_NAME, USER_TYPE) {
+        	var parent = window.opener.document;
+        	
+        	console.log(parent);
+        	var tb;
+        	
+        	switch(USER_TYPE) {
+        	case "0":
+        		tb = parent.getElementById("TRAVELER_ID");
+        		break;
+        	case "1":
+        		tb = parent.getElementById("APPROVER_ID");
+        		break;
+        	case "2":
+        		tb = parent.getElementById("RECEIVER_ID");
+        		break;
+        	}
+        	console.log(tb);
+    		if(tb.value.length==0) {
+    			tb.value = USER_NAME;
+    		}else {
+    			tb.value = tb.value+  ", " + USER_NAME;
+    		}
+    		self.close();
+    		
         }
         
         
@@ -72,57 +92,74 @@
    
 <main id="dialog">
 	<div class="dialog-container">
-    	<form:form commandName="btRoleVO" id="detailForm" name="detailForm">
-	    	<h1 class="board-title">
-				<c:out value="${btRoleVO.userType} 등록"/>
-	    	</h1>
-	    <div id="content_pop">
-	    	<!-- // 타이틀 -->
+        <c:choose>
+            <c:when test="${btRoleVO.USER_TYPE == 0}">
+                <c:set var="USER_TYPE_TEXT">출장자</c:set>
+            </c:when>         
+            <c:when test="${btRoleVO.USER_TYPE == 1}">
+                <c:set var="USER_TYPE_TEXT">결재자</c:set>
+            </c:when> 
+            <c:when test="${btRoleVO.USER_TYPE == 2}">
+                <c:set var="USER_TYPE_TEXT">수신자</c:set>
+            </c:when> 		        
+        </c:choose>    		
+        
+        <h1 class="board-title">
+            <c:out value="${USER_TYPE_TEXT} 등록"/>
+        </h1>
+        
+        <form:form commandName="searchVO" id="listForm" name="listForm" method="post">
+
+            <div id="search" class="flex-center">
+                <ul class="flex-center">    
+                    <li>
+                        <label for="searchCondition" style="visibility: hidden;display:none;">검색조건 선택</label>
+                        <select name="searchCondition" id="searchCondition">
+                            <option name="travelerId" value="0">이름</option>
+                            <option name="userDept" value="1">부서명</option>
+                            <option name="userPosition" value="2">직급명</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+                        <input type="text" name="searchKeyword" id="searchKeyword">
+                    </li>
+                    <li>
+                        <a class="btn btn_blue_l" href="javascript:fn_egov_selectUserList('<c:out value="${btRoleVO.BT_ID }"/>', '<c:out value="${btRoleVO.USER_TYPE}"/>');">검색</a>
+                    </li>
+                </ul>
+            </div>
+
+            <input type="hidden" name="selectedId" />
+            
 	    	<div id="table">
 		    	<table class="main-table" width="100%" cellpadding="0" cellspacing="0">
-		    		<tr>
-		    			<td class="tbtd_caption"><label for="userName">이름</label></td>
-		    			<td class="tbtd_content">
-		    				<form:input path="userName" cssClass="txt"/>
-		    				&nbsp;<form:errors path="userName" />
-		    			</td>
-		    			<td class="tbtd_caption"><label for="userDept">부서</label></td>
-		    			<td class="tbtd_content">
-		    				<form:input path="userDept" cssClass="txt"/>
-		    				&nbsp;<form:errors path="userDept" />
-		    			</td>
-		    		</tr>
+	                <tr>
+	                    <th align="center">No</th>
+	                    <th align="center">이름</th>
+	                    <th align="center">부서명</th>
+	                    <th align="center">직급</th>
+	                </tr>
 
-		    		<tr>
-		    			<td class="tbtd_caption"><label for="userPosition">직급</label></td>
-		    			<td class="tbtd_content">
-		    				<form:input path="userPosition" cssClass="txt"/>
-		    				&nbsp;<form:errors path="userPosition" />
-		    			</td>
-		    			<td class="tbtd_caption"><label for="userType">분류</label></td>
-		    			<td class="tbtd_content">
-		    				<form:select path="userType">
-		    					<form:option value="출장자" label="출장자"/>
-		    					<form:option value="결재자" label="결재자"/>
-		    					<form:option value="수신자" label="수신자"/>
-		    				</form:select>
-		    			</td>	    			
-		    		</tr>		    		
+                    <c:forEach var="user" items="${userList}" varStatus="status">
+	                    <tr>
+	                        <td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+	                        <!-- 
+	                        <td align="center" class="listtd"><a href="javascript:fn_egov_selectUser('<c:out value="${user.userId}"/>')"><c:out value="${user.userName}"/>&nbsp;</a></td>
+	                         -->
+	                        <td align="center" class="listtd"><a href="javascript:setRegisterPage('<c:out value="${user.userName}"/>', '<c:out value="${btRoleVO.USER_TYPE}"/>')"><c:out value="${user.userName}"/>&nbsp;</a></td>
+                            <td align="center" class="listtd"><c:out value="${user.depName}"/>&nbsp;</td>
+	                        <td align="center" class="listtd"><c:out value="${user.posName}"/>&nbsp;</td>	                        
+	                    </tr>
+	                </c:forEach>
 		    	</table>
 	      	</div>
-			   	<div id="sysbtn">
-			   		<ul class="flex-end">
-			   			<li>
-		                    <a id="btnSave" class="btn" href="javascript:window.close();">추가</a>
-			            </li>
-			       </ul>
-			   	</div>
-		    </div>
-		    <!-- 검색조건 유지 -->
-		    <input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
-		    <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
-		    <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
-		</form:form>    	
+
+	        	<div id="paging">
+	        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page" />
+	        		<form:hidden path="pageIndex" />
+	        	</div>
+        </form:form>  	
     </div>
 </main>
 

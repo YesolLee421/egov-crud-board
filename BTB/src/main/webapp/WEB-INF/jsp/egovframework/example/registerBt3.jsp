@@ -71,6 +71,12 @@
             }
         }
         
+        /* 직원 검색 dialog 띄우기 */
+        var openWin;
+        function openUserSearch(BT_ID, userType) {
+        	openWin = window.open("<c:url value='/selectUserList.do?selectedId="+BT_ID+"&USER_TYPE="+userType+"'/>", "", "width=600, height=600, left=100, top=50");
+        }
+        
         
         /* jquery 날짜 입력 설정*/
         $(document).ready(function () {
@@ -115,7 +121,10 @@
             setTotalPrice();
             
             $(".PRICE").on("change keyup paste", setTotalPrice);
+            
     });
+        
+        
 
 
     </script>
@@ -138,7 +147,7 @@
 					<li><a href="#">부서/직급관리</a></li>
 					<li><a href="#">장비관리</a></li>
 					<li><a href="#">알림마당</a></li>
-					<li class="on"><a href="href="javascript:fn_egov_selectList();"">출장관리</a></li>
+					<li class="on"><a href="javascript:fn_egov_selectList();">출장관리</a></li>
 				</ul>
 			</nav>
         </div>
@@ -200,6 +209,21 @@
 	    			</td>
 	    		</tr>
 	    		<tr>
+	    			<td class="tbtd_caption"><label for="APPROVER_ID">결재자</label></td>
+	    			<td class="tbtd_content">
+	    				<form:input path="APPROVER_ID" />
+	    				&nbsp;<form:errors path="APPROVER_ID" />
+	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="1"/>');">찾기</a>
+	    			</td>
+	    			
+	    			<td class="tbtd_caption"><label for=RECEIVER_ID>수신자</label></td>
+	    			<td class="tbtd_content">
+	    				<form:input path="RECEIVER_ID"/>
+	    				&nbsp;<form:errors path="RECEIVER_ID" />
+	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="2"/>');">찾기</a>
+	    			</td>
+	    		</tr>
+	    		<tr>
 	    			<td class="tbtd_caption"><label for="LOCATION">출장 장소</label></td>
 	    			<td class="tbtd_content" colspan="3">
 	    				<form:input path="LOCATION" maxlength="30" cssClass="txt"/>
@@ -211,6 +235,7 @@
 	    			<td class="tbtd_content" colspan="3">
 	    				<form:input path="TRAVELER_ID" maxlength="30" cssClass="txt"/>
 	    				&nbsp;<form:errors path="TRAVELER_ID" />
+	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="0"/>');">찾기</a>
 	    			</td>
 	    		</tr>
 	    		<tr>

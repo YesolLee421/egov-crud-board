@@ -58,7 +58,15 @@
 		<result property="UPLOADED_AT" column="UPLOADED_AT"/>
 	</resultMap>
 	
-	
+	<resultMap id="userVO" type="egovframework.example.sample.service.UserVO">
+		<result property="USER_ID" column="USER_ID"/>
+		<result property="USER_NAME" column="USER_NAME"/>
+		<result property="USER_DEPT_CODE" column="USER_DEPT"/>
+		<result property="USER_POS_CODE" column="USER_RANK"/>
+		<result property="USER_DEPT_NAME" column="POS_NAME"/>
+		<result property="USER_POS_NAME" column="DEP_NAME"/>
+	</resultMap>	
+
 
 	<insert id="insertBt" parameterType="btVO">
 			INSERT INTO BUSINESSTRIP
@@ -341,7 +349,68 @@
 			</if>
 	</select>
 	
+	<select id="selectUserList" parameterType="searchVO" resultType="egovMap">
 	
+			SELECT
+				USER.USER_ID
+				, USER.USER_NAME
+				, USER.USER_DEPT
+				, USER.USER_RANK
+				, POS.POS_NAME
+				, DEP.DEP_NAME
+			FROM SDH_USER AS USER
+			
+			LEFT JOIN DEP
+			ON USER.USER_DEPT = DEP.DEP_CODE
+			
+			LEFT JOIN POS
+			ON USER.USER_RANK = POS.POS_CODE
+			
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	USER.USER_NAME LIKE CONCAT('%', #{searchKeyword},'%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND	DEP.DEP_NAME LIKE CONCAT('%', #{searchKeyword},'%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND	POS.POS_NAME LIKE CONCAT('%', #{searchKeyword},'%')
+					</when>
+				</choose>
+			</if>
+			ORDER BY USER.USER_NUM DESC
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>	
+	
+	<select id="selectUserListTotCnt" parameterType="searchVO" resultType="int">
+	
+				SELECT COUNT(USER.USER_ID) totcnt
+				FROM SDH_USER AS USER
+				LEFT JOIN DEP
+				ON USER.USER_DEPT = DEP.DEP_CODE
+				LEFT JOIN POS
+				ON USER.USER_RANK = POS.POS_CODE
+				WHERE 1=1
+				<if test="searchKeyword != null and searchKeyword != ''">
+			        <choose>
+			            <when test="searchCondition == 0">
+							AND	USER.USER_NAME LIKE CONCAT('%', #{searchKeyword},'%')
+						</when>
+			            <when test="searchCondition == 1">
+							AND	DEP.DEP_NAME LIKE CONCAT('%', #{searchKeyword},'%')
+						</when>
+			            <when test="searchCondition == 2">
+							AND	POS.POS_NAME LIKE CONCAT('%', #{searchKeyword},'%')
+						</when>
+					</choose>
+				</if>
+		</select>
+	
+	
+	
+
 
 
 </mapper>

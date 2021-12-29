@@ -210,6 +210,42 @@ public class BtController2 {
 
 		return listPage;
 	}
+	
+	
+	@RequestMapping(value = "/selectUserList.do")
+	public String selectUserList(@RequestParam("selectedId") String btId, @RequestParam("USER_TYPE") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+
+		/** EgovPropertyService.sample */
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		List<?> userList = btService.selectUserList(searchVO);
+		model.addAttribute("userList", userList);
+		
+		LOGGER.debug("selectUserList- userList = "+ userList.toString());
+		
+		int totCnt = btService.selectUserListTotCnt(searchVO);
+		//int totCnt = 5;
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		BtRoleVO vo = new BtRoleVO();
+		vo.setBT_ID(btId);
+		vo.setUSER_TYPE(userType);
+		model.addAttribute("btRoleVO", vo);
+
+		return "searchBtRole";
+	}
 
 	/**
 	 * 글 등록 화면을 조회한다.
@@ -313,6 +349,7 @@ public class BtController2 {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
+	// BT_ID값 가진 주소로 만들기
 	@RequestMapping("/updateBtView2.do")
 	public String updateBtView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		BtVO btVO = new BtVO();
@@ -327,13 +364,14 @@ public class BtController2 {
 		return registerPage;
 	}
 	
-	@RequestMapping(value = "/searchBtRoleView.do", method = RequestMethod.GET)
-	public String searchBtRoleView(@RequestParam("userType") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception{
-		BtRoleVO vo = new BtRoleVO();
-		vo.setUSER_TYPE(userType);;
-		model.addAttribute("btRoleVO", vo);
-		return "searchBtRole";
-	}
+//	@RequestMapping(value = "/searchBtRoleView.do", method = RequestMethod.GET)
+//	public String searchBtRoleView(@RequestParam("selectedId") String btId, @RequestParam("USER_TYPE") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception{
+//		BtRoleVO vo = new BtRoleVO();
+//		vo.setBT_ID(btId);
+//		vo.setUSER_TYPE(userType);
+//		model.addAttribute("btRoleVO", vo);
+//		return "searchBtRole";
+//	}
 
 	/**
 	 * 글을 조회한다.

@@ -219,6 +219,15 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 	public int selectBtListTotCnt(SampleDefaultVO searchVO) {
 		return btDAO.selectBtListTotCnt(searchVO);
 	}
+	
+	@Override
+	public List<?> selectUserList(SampleDefaultVO searchVO) throws Exception {
+		return btDAO.selectUserList(searchVO);
+	}
+	@Override
+	public int selectUserListTotCnt(SampleDefaultVO searchVO){
+		return btDAO.selectUserListTotCnt(searchVO);
+	}
 
 	@Override
 	public List<BtExpVO> selectBtExpList(String btId) throws Exception {
@@ -254,6 +263,7 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 			e.printStackTrace();
 		}
 	}
+
 
 
 
