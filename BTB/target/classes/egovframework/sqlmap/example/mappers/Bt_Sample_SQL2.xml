@@ -282,6 +282,7 @@
 				, TRAVELER_ID
 				, TRIP_START_DATE
 				, TRIP_END_DATE
+				, CONCAT(DATEDIFF(TRIP_END_DATE, TRIP_START_DATE)+1, "일") AS TRIP_PERIOD
 			FROM BUSINESSTRIP
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
