@@ -36,13 +36,12 @@
     <script type="text/javaScript" language="javascript" defer="defer">  
     
     	
-        /* 글 목록 화면 function */
+        /* 사용자 목록 화면 function */
         function fn_egov_selectUserList(BT_ID, userType) {
            	document.listForm.action = "<c:url value='/selectUserList.do?selectedId="+BT_ID+"&USER_TYPE="+userType+"'/>";
            	document.listForm.submit();
         }
     	
-        
         /* pagination 페이지 링크 function */
         function fn_egov_link_page(pageNo){
         	document.listForm.pageIndex.value = pageNo;
@@ -115,7 +114,7 @@
                     <li>
                         <label for="searchCondition" style="visibility: hidden;display:none;">검색조건 선택</label>
                         <select name="searchCondition" id="searchCondition">
-                            <option name="travelerId" value="0">이름</option>
+                            <option name="userName" value="0">이름</option>
                             <option name="userDept" value="1">부서명</option>
                             <option name="userPosition" value="2">직급명</option>
                         </select>
@@ -144,10 +143,7 @@
                     <c:forEach var="user" items="${userList}" varStatus="status">
 	                    <tr>
 	                        <td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-	                        <!-- 
-	                        <td align="center" class="listtd"><a href="javascript:fn_egov_selectUser('<c:out value="${user.userId}"/>')"><c:out value="${user.userName}"/>&nbsp;</a></td>
-	                         -->
-	                        <td align="center" class="listtd"><a href="javascript:setRegisterPage('<c:out value="${user.userName}"/>', '<c:out value="${btRoleVO.USER_TYPE}"/>')"><c:out value="${user.userName}"/>&nbsp;</a></td>
+	                        <td align="center" class="listtd"><a href="javascript:setRegisterPage('<c:out value="${user.empName}"/>', '<c:out value="${btRoleVO.USER_TYPE}"/>')"><c:out value="${user.empName}"/>&nbsp;</a></td>
                             <td align="center" class="listtd"><c:out value="${user.depName}"/>&nbsp;</td>
 	                        <td align="center" class="listtd"><c:out value="${user.posName}"/>&nbsp;</td>	                        
 	                    </tr>
