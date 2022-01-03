@@ -72,7 +72,7 @@ public interface BtService2 {
 	 */
 	List<?> selectBtList(SampleDefaultVO searchVO) throws Exception;
 	
-//	List<?> selectBtRoleList(String btId) throws Exception;
+	List<BtRoleVO> selectBtRoleList(String bt_ID) throws Exception;
 	
 	List<BtExpVO> selectBtExpList(String btId) throws Exception;
 	
@@ -94,6 +94,7 @@ public interface BtService2 {
 	void fileUpload(BtFileVO fileVo) throws Exception;
 	
 	ComExpVO makeComExp(BtVO btVO, BtExpVO expVo) throws Exception;
+	
 	
 	
 

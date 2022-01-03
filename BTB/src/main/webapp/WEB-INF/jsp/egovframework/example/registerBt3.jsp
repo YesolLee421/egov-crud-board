@@ -208,33 +208,51 @@
 	    				&nbsp;<form:errors path="AUTHOR_ID" />
 	    			</td>
 	    		</tr>
+	    		
+	    		<!-- 출장 인물정보 가져오기 -->
+	    		<c:set var="btRoleVOList" value="${btVO.btRoleVOList }"/>
 	    		<tr>
 	    			<td class="tbtd_caption"><label for="APPROVER_ID">결재자</label></td>
-	    			<td class="tbtd_content">
-	    				<form:input path="APPROVER_ID" />
-	    				&nbsp;<form:errors path="APPROVER_ID" />
+	    			<td class="tbtd_content flex-between">
+						<p class="multi-user">
+		    				<c:forEach var="role" items="${btRoleVOList }" varStatus="status">
+		    					<c:if test="${role.USER_TYPE == 1}">
+		    						<c:out value="${role.USER_NAME }"/>
+		    					</c:if>
+		    				</c:forEach>
+		    			</p>
 	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="1"/>');">찾기</a>
 	    			</td>
 	    			
 	    			<td class="tbtd_caption"><label for=RECEIVER_ID>수신자</label></td>
-	    			<td class="tbtd_content">
-	    				<form:input path="RECEIVER_ID"/>
-	    				&nbsp;<form:errors path="RECEIVER_ID" />
+	    			<td class="tbtd_content flex-between">
+	    				<p class="multi-user">
+	    				<c:forEach var="role" items="${btRoleVOList }" varStatus="status">
+	    					<c:if test="${role.USER_TYPE == 2}">
+	    						<c:out value="${role.USER_NAME }"/>
+	    					</c:if>
+	    				</c:forEach>
+	    				</p>
 	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="2"/>');">찾기</a>
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td class="tbtd_caption"><label for="LOCATION">출장 장소</label></td>
 	    			<td class="tbtd_content" colspan="3">
-	    				<form:input path="LOCATION" maxlength="30" cssClass="txt"/>
+	    				<form:input path="LOCATION" cssClass="txt"/>
 	    				&nbsp;<form:errors path="LOCATION" />
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td class="tbtd_caption"><label for="TRAVELER_ID">출장자</label></td>
-	    			<td class="tbtd_content" colspan="3">
-	    				<form:input path="TRAVELER_ID" maxlength="30" cssClass="txt"/>
-	    				&nbsp;<form:errors path="TRAVELER_ID" />
+	    			<td class="tbtd_content flex-between" colspan="3">
+		    			<p class="multi-user">
+		    				<c:forEach var="role" items="${btRoleVOList }" varStatus="status">
+		    					<c:if test="${role.USER_TYPE == 0}">
+		    						<c:out value="${role.USER_NAME} "/>
+		    					</c:if>
+		    				</c:forEach>
+		    			</p>
 	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="0"/>');">찾기</a>
 	    			</td>
 	    		</tr>

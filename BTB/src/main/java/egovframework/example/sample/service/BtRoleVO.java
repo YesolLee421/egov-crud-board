@@ -28,17 +28,23 @@ public class BtRoleVO extends SampleDefaultVO {
 	// 직원 id (일단 이름)
 	private String USER_ID;
 	
+	// 관련자 분류: 출장자=0, 결재자=1, 수신자=2
+	private int USER_TYPE;
+	
 	// 이름
 	private String USER_NAME;
 	
 	// 부서
-	private String USER_DEPT;
+	private String USER_DEPT_CODE;
 	
 	// 직급
-	private String USER_POSITION;
+	private String USER_POS_CODE;
 	
-	// 관련자 분류: 출장자=0, 결재자=1, 수신자=2
-	private int USER_TYPE;
+	// 부서
+	private String USER_DEPT_NAME;
+	
+	// 직급
+	private String USER_POS_NAME;
 
 	public int getBT_ROLE_ID() {
 		return BT_ROLE_ID;
@@ -64,6 +70,14 @@ public class BtRoleVO extends SampleDefaultVO {
 		USER_ID = uSER_ID;
 	}
 
+	public int getUSER_TYPE() {
+		return USER_TYPE;
+	}
+
+	public void setUSER_TYPE(int uSER_TYPE) {
+		USER_TYPE = uSER_TYPE;
+	}
+
 	public String getUSER_NAME() {
 		return USER_NAME;
 	}
@@ -72,31 +86,39 @@ public class BtRoleVO extends SampleDefaultVO {
 		USER_NAME = uSER_NAME;
 	}
 
-	public String getUSER_DEPT() {
-		return USER_DEPT;
+	public String getUSER_DEPT_CODE() {
+		return USER_DEPT_CODE;
 	}
 
-	public void setUSER_DEPT(String uSER_DEPT) {
-		USER_DEPT = uSER_DEPT;
+	public void setUSER_DEPT_CODE(String uSER_DEPT_CODE) {
+		USER_DEPT_CODE = uSER_DEPT_CODE;
 	}
 
-	public String getUSER_POSITION() {
-		return USER_POSITION;
+	public String getUSER_POS_CODE() {
+		return USER_POS_CODE;
 	}
 
-	public void setUSER_POSITION(String uSER_POSITION) {
-		USER_POSITION = uSER_POSITION;
+	public void setUSER_POS_CODE(String uSER_POS_CODE) {
+		USER_POS_CODE = uSER_POS_CODE;
 	}
 
-	public int getUSER_TYPE() {
-		return USER_TYPE;
+	public String getUSER_DEPT_NAME() {
+		return USER_DEPT_NAME;
 	}
 
-	public void setUSER_TYPE(int USER_TYPE) {
-		this.USER_TYPE = USER_TYPE;
+	public void setUSER_DEPT_NAME(String uSER_DEPT_NAME) {
+		USER_DEPT_NAME = uSER_DEPT_NAME;
+	}
+
+	public String getUSER_POS_NAME() {
+		return USER_POS_NAME;
+	}
+
+	public void setUSER_POS_NAME(String uSER_POS_NAME) {
+		USER_POS_NAME = uSER_POS_NAME;
 	}
 	
-	
+
 
 
 

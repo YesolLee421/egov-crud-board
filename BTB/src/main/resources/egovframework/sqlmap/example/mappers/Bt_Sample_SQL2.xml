@@ -24,10 +24,12 @@
 		<result property="BT_ROLE_ID" column="BT_ROLE_ID"/>
 		<result property="BT_ID" column="BT_ID"/>
 		<result property="USER_ID" column="USER_ID"/>
-		<result property="USER_NAME" column="USER_NAME"/>
-		<result property="USER_DEPT" column="USER_DEPT"/>
-		<result property="USER_POSITION" column="USER_POSITION"/>
 		<result property="USER_TYPE" column="USER_TYPE"/>
+		<result property="USER_NAME" column="USER_NAME"/>
+		<result property="USER_DEPT_CODE" column="USER_DEPT"/>
+		<result property="USER_POS_CODE" column="USER_POSITION"/>
+		<result property="USER_DEPT_NAME" column="DEPT_NAME"/>
+		<result property="USER_POS_NAME" column="POS_NAME"/>
 	</resultMap>
 	
 	<resultMap id="btExpVO" type="egovframework.example.sample.service.BtExpVO">
@@ -101,19 +103,14 @@
 				  , 0
 				  , NOW())
 	</insert>
+	
 	<insert id="insertBtRole" parameterType="btRoleVO">
 			INSERT INTO BUSINESSTRIP_ROLES
 				( BT_ID
 				  , USER_ID
-				  , USER_NAME
-				  , USER_DEPT
-				  , USER_POSITION
 				  , USER_TYPE )
 			VALUES ( #{BT_ID}
 				  , #{USER_ID}
-				  , #{USER_NAME}
-				  , #{USER_DEPT}
-				  , #{USER_POSITION}
 				  , #{USER_TYPE} )
 	</insert>
 	
@@ -182,16 +179,17 @@
 				, FILENAME=#{FILENAME}
 			WHERE BT_ID=#{BT_ID}
 	</update>
+	
+	
 	<update id="updateBtRole">
 			UPDATE BUSINESSTRIP_ROLES
 			SET BT_ID=#{BT_ID}
 				, USER_ID=#{USER_ID}
-				, USER_NAME=#{USER_NAME}
-				, USER_DEPT=#{USER_DEPT}
-				, USER_POSITION=#{USER_POSITION}
 				, USER_TYPE=#{USER_TYPE}
 			WHERE BT_ROLE_ID=#{BT_ROLE_ID}
-	</update>	
+	</update>
+	
+		
 	<update id="updateBtExp">
 			UPDATE BUSINESSTRIP_EXPENSES
 			SET 
@@ -301,15 +299,27 @@
 	
 	<select id="selectBtRoleList" parameterType="String" resultMap="btRoleVO">
 			SELECT 
-				BT_ROLE_ID
-				, BT_ID
-				, USER_ID
-				, USER_NAME
-				, USER_DEPT
-				, USER_POSITION
-				, USER_TYPE 
-			FROM BUSINESSTRIP_ROLES
-			WHERE BT_ID=#{BT_ID}
+				BTR.BT_ID, 
+				BT_ROLE_ID, 
+				BTR.USER_ID, 
+				USER_TYPE, 
+				EMP.EMP_Name AS USER_NAME, 
+				EMP.EMP_Dept AS USER_DEPT_CODE, 
+				EMP.EMP_Position AS USER_POS_CODE,
+				
+				(SELECT POS_NAME
+				FROM EMPLOYEE AS EMP
+				JOIN POS ON EMP.EMP_Position = POS_CODE
+				WHERE EMP.EMP_NO = BTR.USER_ID) AS USER_POS_NAME,
+				
+				(SELECT DEP_NAME
+				FROM EMPLOYEE AS EMP
+				JOIN DEP ON EMP.EMP_Dept = DEP_CODE
+				WHERE EMP.EMP_NO = BTR.USER_ID) AS USER_DEP_NAME
+				
+			FROM BUSINESSTRIP_ROLES AS BTR
+			JOIN EMPLOYEE AS EMP ON EMP.EMP_NO = BTR.USER_ID
+			WHERE BTR.BT_ID=#{BT_ID}
 	</select>
 	
 	<select id="selectBtExpList" parameterType="String" resultMap="btExpVO">

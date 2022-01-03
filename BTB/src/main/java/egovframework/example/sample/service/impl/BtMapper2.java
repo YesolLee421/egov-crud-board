@@ -96,7 +96,7 @@ public interface BtMapper2 {
 	 * @exception Exception
 	 */
 	List<?> selectBtList(SampleDefaultVO searchVO) throws Exception;
-//	List<BtRoleVO> selectBtRoleList(String btId) throws Exception;
+	List<BtRoleVO> selectBtRoleList(String btId) throws Exception;
 	List<BtExpVO> selectBtExpList(String btId) throws Exception;
 	
 	List<?> selectUserList(SampleDefaultVO searchVO) throws Exception;
@@ -111,6 +111,7 @@ public interface BtMapper2 {
 	int selectUserListTotCnt(SampleDefaultVO searchVO);
 	
 	void insertFile(BtFileVO fileVo);
+	
 
 
 

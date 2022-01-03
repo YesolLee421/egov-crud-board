@@ -69,7 +69,9 @@ public class BtVO extends SampleDefaultVO {
 	private Timestamp CREATED_AT;
 	
 	// 쿼리로 조인할 vo 리스트
-	//private List<BtRoleVO> btRoleVOList;
+	
+	private List<BtRoleVO> btRoleVOList;
+	
 	private List<BtExpVO> btExpVOList;
 
 	public String getBT_ID() {
@@ -198,6 +200,14 @@ public class BtVO extends SampleDefaultVO {
 
 	public void setBtExpVOList(List<BtExpVO> btExpVOList) {
 		this.btExpVOList = btExpVOList;
+	}
+
+	public List<BtRoleVO> getBtRoleVOList() {
+		return btRoleVOList;
+	}
+
+	public void setBtRoleVOList(List<BtRoleVO> btRoleVOList) {
+		this.btRoleVOList = btRoleVOList;
 	}
 
 

@@ -224,7 +224,17 @@ public class BtController2 {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-
+		
+		// 사용자 검색 시 한 페이지에 5명씩 보여주기
+		/**
+		 * Required Fields
+		 * - 이 필드들은 페이징 계산을 위해 반드시 입력되어야 하는 필드 값들이다.  
+		 * 
+		 * currentPageNo : 현재 페이지 번호
+		 * recordCountPerPage : 한 페이지당 게시되는 게시물 건 수
+		 * pageSize : 페이지 리스트에 게시되는 페이지 건수,
+		 * totalRecordCount : 전체 게시물 건 수. 
+		 */
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
@@ -235,14 +245,16 @@ public class BtController2 {
 		LOGGER.debug("selectUserList- userList = "+ userList.toString());
 		
 		int totCnt = btService.selectUserListTotCnt(searchVO);
-		//int totCnt = 5;
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
+		LOGGER.debug("selectUserList - paginationInfo" + paginationInfo.toString());
 		
-		BtRoleVO vo = new BtRoleVO();
-		vo.setBT_ID(btId);
-		vo.setUSER_TYPE(userType);
-		model.addAttribute("btRoleVO", vo);
+//		BtRoleVO vo = new BtRoleVO();
+//		vo.setBT_ID(btId);
+//		vo.setUSER_TYPE(userType);
+		model.addAttribute("USER_TYPE", userType);
+		model.addAttribute("BT_ID", btId);
+		//model.addAttribute("btRoleVO", vo);
 
 		return "searchBtRole";
 	}
@@ -272,6 +284,7 @@ public class BtController2 {
 		// 미리 ExpVO 4개 만들어서 ExpVOList에 넣어주기 (교통비, 일비, 숙박비, 기타)
 		List<BtExpVO> btExpList = new ArrayList<BtExpVO>();
 		
+		
 		String [] expenseType = {"교통비", "일비", "숙박비", "기타"};
 		for (int i=0; i<expenseType.length; i++) {
 			BtExpVO exp = new BtExpVO();
@@ -283,6 +296,7 @@ public class BtController2 {
 			btExpList.add(exp);
 		}
 		btVO.setBtExpVOList(btExpList);
+		btVO.setBtRoleVOList(new ArrayList<BtRoleVO>());
 		
 		LOGGER.debug("addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().toString());
 		
@@ -331,6 +345,15 @@ public class BtController2 {
 			}
 		} else {
 			LOGGER.error("addBt2.do btexpvolist is null ");
+		}
+		
+		if(btVO.getBtRoleVOList() != null) {
+			for (BtRoleVO roleVo : btVO.getBtRoleVOList()) {
+
+				btService.insertBtRole(roleVo);
+			}
+		} else {
+			LOGGER.error("addBt2.do btRoleList is null ");
 		}
 
 		status.setComplete();
@@ -386,8 +409,11 @@ public class BtController2 {
 
 		try {
 			BtVO newVO = btService.selectBt(btVO);
-			List<BtExpVO> list = selectBtExpList(btVO, searchVO);
-			newVO.setBtExpVOList(list);
+			List<BtExpVO> expList = selectBtExpList(btVO, searchVO);
+			newVO.setBtExpVOList(expList);
+			
+			List<BtRoleVO> roleList = selectBtRoleList(btVO, searchVO);
+			newVO.setBtRoleVOList(roleList);
 			
 			return newVO;
 		} catch (DataAccessException e) {
@@ -401,6 +427,14 @@ public class BtController2 {
 		List<BtExpVO> list = btService.selectBtExpList(btVO.getBT_ID());
 		
 		LOGGER.debug("selectBtExpList list = " + list.toString());
+		
+		return list;
+	}
+	
+	public List<BtRoleVO> selectBtRoleList(BtVO btVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
+		List<BtRoleVO> list = btService.selectBtRoleList(btVO.getBT_ID());
+		
+		LOGGER.debug("selectBtRoleList list = " + list.toString());
 		
 		return list;
 	}
@@ -460,6 +494,13 @@ public class BtController2 {
 			}
 		} else {
 			LOGGER.error("updateBt2.do - btexpvolist is null");
+		}
+		
+		if (btVO.getBtRoleVOList()!=null) {
+			for (BtRoleVO roleVo : btVO.getBtRoleVOList()) {
+				int role_id = roleVo.getBT_ROLE_ID();
+				
+			}
 		}
 
 		btService.updateBt(btVO);

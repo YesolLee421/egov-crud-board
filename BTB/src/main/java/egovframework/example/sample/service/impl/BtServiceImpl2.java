@@ -263,6 +263,10 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public List<BtRoleVO> selectBtRoleList(String bt_ID) throws Exception {
+		return btDAO.selectBtRoleList(bt_ID);
+	}
 
 
 
