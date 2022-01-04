@@ -169,8 +169,18 @@ a:hover {
 td.tbtd_content input {
 	max-width: 250px;
 }
+td.tbtd_content input#TITLE {
+	max-width: 700px;
+	width: 700px;
+}
 .tbtd_content p.multi-user {
 	display: inline-block;
+	height: 100%;
+	
+	max-width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 
@@ -191,6 +201,9 @@ a.btn {
   background-color: #ff8066;
   border-radius: 10px;
   color: #fff6e6;
+}
+td a.btn {
+	float:right;
 }
 
 #paging {
@@ -217,7 +230,6 @@ a.btn {
   width: 550px;
   margin: 0 auto;
   padding-top: 20px;
-  background-color: yellow;
 }
 
 
@@ -227,14 +239,32 @@ a.btn {
 
 }
 
-#dialog .dialog-container #selectUserList {
-	background-color: yellow;
+#dialog .dialog-container #selectUserList h3 {
+	
+	margin-top: 20px;
+	margin-bottom: 10px;
 }
+
 #dialog .dialog-container #selectUserList span.selectedUser {
+	display: inline-block;
 	background-color: #ededed;
-    padding: 3px 5px;
-    margin-left: 5px;
-    border-radius: 10px;
+    padding: 2px 4px;
+    margin-right: 5px;
+    margin-bottom: 7px;
+    border-radius: 5px;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%);
+    font-size: 11px;
+    word-break: keep-all;
 }
+.fa-window-close:before {
+    content: "\f410";
+    margin-left: 4px;
+    cursor:pointer;
+}
+.ellipse {
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 

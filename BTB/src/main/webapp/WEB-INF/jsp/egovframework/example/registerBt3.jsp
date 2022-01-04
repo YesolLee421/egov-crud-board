@@ -70,12 +70,19 @@
                 frm.submit();
             }
         }
+
         
         /* 직원 검색 dialog 띄우기 */
         var openWin;
+        const users = new Map();
+        
         function openUserSearch(BT_ID, userType) {
-        	openWin = window.open("<c:url value='/selectUserList.do?selectedId="+BT_ID+"&USER_TYPE="+userType+"'/>", "", "width=600, height=600, left=100, top=50");
+        	
+        	// users.set()
+        	
+        	openWin = window.open("<c:url value='/selectUserList.do?BT_ID="+BT_ID+"&USER_TYPE="+userType+"'/>", "", "width=800, height=800, left=100, top=50");
         }
+        
         
         
         /* jquery 날짜 입력 설정*/
@@ -122,6 +129,7 @@
             
             $(".PRICE").on("change keyup paste", setTotalPrice);
             
+            
     });
         
         
@@ -158,6 +166,10 @@
     	
     	
     	<form:form commandName="btVO" id="detailForm" name="detailForm">
+    	
+    	<!-- json으로 controller에 전달 -->        
+        <input type="text" name="SELECTED_USERS" id="SELECTED_USERS"/>
+    	
     	<h1 class="board-TITLE">
     		<c:if test="${registerFlag == 'create'}">출장 정보 생성</c:if>
 	        <c:if test="${registerFlag == 'modify'}">출장 정보 수정</c:if>
@@ -168,9 +180,9 @@
 	    	<table class="main-table" width="100%" cellpadding="0" cellspacing="0">
 	    		<colgroup>
 	    			<col width="150"/>
-	    			<col width="?"/>
+	    			<col width="300"/>
 	    			<col width="150"/>
-	    			<col width="?"/>
+	    			<col width="300"/>
 	    		</colgroup>
 	    		<c:if test="${registerFlag == 'modify'}">
 	        		<tr>
@@ -213,8 +225,8 @@
 	    		<c:set var="btRoleVOList" value="${btVO.btRoleVOList }"/>
 	    		<tr>
 	    			<td class="tbtd_caption"><label for="APPROVER_ID">결재자</label></td>
-	    			<td class="tbtd_content flex-between">
-						<p class="multi-user">
+	    			<td class="tbtd_content ">
+						<p id="APPROVER_ID" class="multi-user">
 		    				<c:forEach var="role" items="${btRoleVOList }" varStatus="status">
 		    					<c:if test="${role.USER_TYPE == 1}">
 		    						<c:out value="${role.USER_NAME }"/>
@@ -224,9 +236,9 @@
 	    				<a class="btn" href="javascript:openUserSearch('<c:out value="${btVO.BT_ID}"/>','<c:out value="1"/>');">찾기</a>
 	    			</td>
 	    			
-	    			<td class="tbtd_caption"><label for=RECEIVER_ID>수신자</label></td>
-	    			<td class="tbtd_content flex-between">
-	    				<p class="multi-user">
+	    			<td class="tbtd_caption"><label for="RECEIVER_ID">수신자</label></td>
+	    			<td class="tbtd_content ">
+	    				<p id="RECEIVER_ID" class="multi-user">
 	    				<c:forEach var="role" items="${btRoleVOList }" varStatus="status">
 	    					<c:if test="${role.USER_TYPE == 2}">
 	    						<c:out value="${role.USER_NAME }"/>
@@ -245,8 +257,8 @@
 	    		</tr>
 	    		<tr>
 	    			<td class="tbtd_caption"><label for="TRAVELER_ID">출장자</label></td>
-	    			<td class="tbtd_content flex-between" colspan="3">
-		    			<p class="multi-user">
+	    			<td class="tbtd_content " colspan="3">
+		    			<p id="TRAVELER_ID" class="multi-user" style="max-width: 700px;">
 		    				<c:forEach var="role" items="${btRoleVOList }" varStatus="status">
 		    					<c:if test="${role.USER_TYPE == 0}">
 		    						<c:out value="${role.USER_NAME} "/>

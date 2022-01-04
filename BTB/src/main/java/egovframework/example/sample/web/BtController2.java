@@ -53,6 +53,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Controller
 public class BtController2 {
@@ -213,13 +215,13 @@ public class BtController2 {
 	
 	
 	@RequestMapping(value = "/selectUserList.do")
-	public String selectUserList(@RequestParam("selectedId") String btId, @RequestParam("USER_TYPE") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+	public String selectUserList(@RequestParam("BT_ID") String btId, @RequestParam("USER_TYPE") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
 
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
-		/** pageing setting */
+		/** paging setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -241,23 +243,32 @@ public class BtController2 {
 		
 		List<?> userList = btService.selectUserList(searchVO);
 		model.addAttribute("userList", userList);
-		
 		LOGGER.debug("selectUserList- userList = "+ userList.toString());
+		
+		List<BtRoleVO> roleList = btService.selectBtRoleList(btId);
+		model.addAttribute("roleList", roleList);
+		LOGGER.error("selectroleList- roleList = "+ roleList);
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonRole = mapper.writeValueAsString(roleList);
+		model.addAttribute("jsonRole", jsonRole);
+		
+		LOGGER.error("selectroleList- jsonRole = "+ jsonRole);
+
 		
 		int totCnt = btService.selectUserListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-		LOGGER.debug("selectUserList - paginationInfo" + paginationInfo.toString());
+
 		
-//		BtRoleVO vo = new BtRoleVO();
-//		vo.setBT_ID(btId);
-//		vo.setUSER_TYPE(userType);
 		model.addAttribute("USER_TYPE", userType);
 		model.addAttribute("BT_ID", btId);
-		//model.addAttribute("btRoleVO", vo);
 
 		return "searchBtRole";
 	}
+	
+	
 
 	/**
 	 * 글 등록 화면을 조회한다.
@@ -296,7 +307,6 @@ public class BtController2 {
 			btExpList.add(exp);
 		}
 		btVO.setBtExpVOList(btExpList);
-		btVO.setBtRoleVOList(new ArrayList<BtRoleVO>());
 		
 		LOGGER.debug("addBtView2 - btVO.btExpVOList = " + btVO.getBtExpVOList().toString());
 		
@@ -347,9 +357,9 @@ public class BtController2 {
 			LOGGER.error("addBt2.do btexpvolist is null ");
 		}
 		
+		// javascript list (json?) 받은것으로  roleVo 생성해서 넣기
 		if(btVO.getBtRoleVOList() != null) {
 			for (BtRoleVO roleVo : btVO.getBtRoleVOList()) {
-
 				btService.insertBtRole(roleVo);
 			}
 		} else {
@@ -379,22 +389,13 @@ public class BtController2 {
 		btVO.setBT_ID(id);
 		BtVO newVO = selectBtAll(btVO, searchVO);
 		
-		
 		LOGGER.debug("updateView2 - btVO = " + newVO.toString());
 		
 		model.addAttribute("btVO", newVO);
 		
 		return registerPage;
 	}
-	
-//	@RequestMapping(value = "/searchBtRoleView.do", method = RequestMethod.GET)
-//	public String searchBtRoleView(@RequestParam("selectedId") String btId, @RequestParam("USER_TYPE") int userType, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception{
-//		BtRoleVO vo = new BtRoleVO();
-//		vo.setBT_ID(btId);
-//		vo.setUSER_TYPE(userType);
-//		model.addAttribute("btRoleVO", vo);
-//		return "searchBtRole";
-//	}
+
 
 	/**
 	 * 글을 조회한다.
@@ -496,11 +497,13 @@ public class BtController2 {
 			LOGGER.error("updateBt2.do - btexpvolist is null");
 		}
 		
+		// javascript list로  roleVO 만들기
 		if (btVO.getBtRoleVOList()!=null) {
 			for (BtRoleVO roleVo : btVO.getBtRoleVOList()) {
 				int role_id = roleVo.getBT_ROLE_ID();
-				
 			}
+		}else {
+			LOGGER.error("updateBt2.do - BtRoleVOList is null");
 		}
 
 		btService.updateBt(btVO);
@@ -530,6 +533,15 @@ public class BtController2 {
 			}
 		} else {
 			LOGGER.error("deleteBt2.do - btexpvolist is null");
+		}
+		
+		// javascript list로  roleVO 만들기
+		if (btVO.getBtRoleVOList()!=null) {
+			for (BtRoleVO roleVo : btVO.getBtRoleVOList()) {
+				btService.deleteBtRole(roleVo);
+			}
+		} else {
+			LOGGER.error("deleteBt2.do - BtRoleVOList is null");
 		}
 
 		btService.deleteBt(btVO);

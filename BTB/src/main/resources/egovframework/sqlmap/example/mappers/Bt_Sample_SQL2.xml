@@ -26,10 +26,10 @@
 		<result property="USER_ID" column="USER_ID"/>
 		<result property="USER_TYPE" column="USER_TYPE"/>
 		<result property="USER_NAME" column="USER_NAME"/>
-		<result property="USER_DEPT_CODE" column="USER_DEPT"/>
-		<result property="USER_POS_CODE" column="USER_POSITION"/>
-		<result property="USER_DEPT_NAME" column="DEPT_NAME"/>
-		<result property="USER_POS_NAME" column="POS_NAME"/>
+		<result property="USER_DEPT_CODE" column="USER_DEPT_CODE"/>
+		<result property="USER_POS_CODE" column="USER_POS_CODE"/>
+		<result property="USER_DEPT_NAME" column="USER_DEPT_NAME"/>
+		<result property="USER_POS_NAME" column="USER_POS_NAME"/>
 	</resultMap>
 	
 	<resultMap id="btExpVO" type="egovframework.example.sample.service.BtExpVO">
@@ -315,7 +315,7 @@
 				(SELECT DEP_NAME
 				FROM EMPLOYEE AS EMP
 				JOIN DEP ON EMP.EMP_Dept = DEP_CODE
-				WHERE EMP.EMP_NO = BTR.USER_ID) AS USER_DEP_NAME
+				WHERE EMP.EMP_NO = BTR.USER_ID) AS USER_DEPT_NAME
 				
 			FROM BUSINESSTRIP_ROLES AS BTR
 			JOIN EMPLOYEE AS EMP ON EMP.EMP_NO = BTR.USER_ID

@@ -37,23 +37,45 @@
     <script type="text/javaScript" language="javascript" defer="defer">  
     
         /* 사용자 목록 화면 function */
-        function fn_egov_selectUserList(BT_ID, userType) {
-           	document.listForm.action = "<c:url value='/selectUserList.do?selectedId="+BT_ID+"&USER_TYPE="+userType+"'/>";
+        function fn_egov_selectUserList(BT_ID, USER_TYPE) {
+           	document.listForm.action = "<c:url value='/selectUserList.do?BT_ID="+BT_ID+"&USER_TYPE="+USER_TYPE+"'/>";
            	document.listForm.submit();
         }
     	
         /* pagination 페이지 링크 function */
-        function fn_egov_link_page(pageNo){
+        function fn_egov_link_page(BT_ID, USER_TYPE, pageNo){
         	document.listForm.pageIndex.value = pageNo;
-        	document.listForm.action = "<c:url value='/selectUserList.do'/>";
+        	document.listForm.action = "<c:url value='/selectUserList.do?BT_ID="+BT_ID+"&USER_TYPE="+USER_TYPE+"'/>";
            	document.listForm.submit();
         }
+        
+        /* 부모 페이지의 직원 정보 가져오기 */
+
         /* 개별 직원 선택 function */
         
         const users = new Map();
         
-        function fn_egov_select(USER_ID, USER_NAME) {
-        	
+        const jsonRole = ${jsonRole};
+        
+        
+        /*
+		window.onload = function() {
+			
+	        if(jsonRole!="" || jsonRole!=null) {
+	            jsonRole.forEach(function(role, key) {
+	            	console.log("jsonRole - role.userTYPE = " + role.user_TYPE);
+	            	if(role.user_TYPE == ${USER_TYPE}) {
+	            		let userData = {"BT_ID":role.bt_ID, "USER_ID": role.empNo, "USER_TYPE":role.user_TYPE};
+	            		setRoles(role.empNo, role.user_NAME);
+	            		users.set(role.empNo, userData);
+	            		
+	            		console.log(users);
+	            	}
+	            });
+	        }
+		}
+
+        function setRoles (USER_ID, USER_NAME) {
         	if(!users.has(USER_ID)) {
             	var showResult = document.getElementById('selectUserList');
             	var showUser = document.createElement('span');
@@ -74,44 +96,49 @@
             		e.target.parentElement.remove();
             		console.log(users);
             	});
-            	
             	showResult.appendChild(showUser);
+        	}
+        }
+
+        function fn_egov_select(user, USER_TYPE) {
+        	if(!users.has(user.USER_ID)) {
+        		
+        		setRoles(user.USER_ID, user.USER_NAME);
+
         	} else {
         		alert("이미 추가한 인물입니다.");
         	}
+        	const BT_ID = ${BT_ID};
+        	let userData = {"BT_ID":BT_ID, "USER_ID": USER_ID, "USER_NAME": USER_NAME, "USER_TYPE":USER_TYPE};
         	
-        	users.set(USER_ID, USER_NAME);
+        	users.set(USER_ID, userData);
         	console.log(users);
-
         }
+        */
         
-        // 이름만 원래 form에 넣어주는 function
-        
-        function setRegisterPage(USER_NAME, USER_TYPE) {
+        /* 글 수정 화면 function */
+        function back_to_register() {
+        	console.log(users);
         	var parent = window.opener.document;
         	
-        	console.log(parent);
-        	var tb;
+        	var json = parent.getElementById("SELECTED_USERS");
         	
-        	switch(USER_TYPE) {
-        	case "0":
-        		tb = parent.getElementById("TRAVELER_ID");
-        		break;
-        	case "1":
-        		tb = parent.getElementById("APPROVER_ID");
-        		break;
-        	case "2":
-        		tb = parent.getElementById("RECEIVER_ID");
-        		break;
+        	// 부모 화면 input-hidden에 값 전달
+        	if(json) {
+        		json.value = "";
+        		json.value = JSON.stringify(Array.from(users.entries()));
         	}
-        	console.log(tb);
-    		if(tb.value.length==0) {
-    			tb.value = USER_NAME;
-    		}else {
-    			tb.value = tb.value+  ", " + USER_NAME;
-    		}
-    		self.close();
-    		
+        	
+        	// 부모 화면 input-text에 이름 추가
+        	var id_arr = ["TRAVELER", "APPROVER", "RECEIVER"];
+        	
+        	users.forEach( function(user, key) {
+        		
+        		var txt = parent.getElementById(id_arr[user.USER_TYPE] + "_ID");
+        		console.log(txt.value);
+        		txt.innerText += " " + user.USER_NAME;
+        	}); 
+           	self.close();
         }
         
         
@@ -139,6 +166,9 @@
         </h1>
         
         <form:form commandName="searchVO" id="listForm" name="listForm" method="post">
+        
+        <!-- json으로 controller에 전달 -->     
+        
 
             <div id="search" class="flex-center">
                 <ul class="flex-center">    
@@ -160,11 +190,20 @@
                 </ul>
             </div>
 
-            <input type="hidden" name="selectedId" />
             
-	    	<div id="table">
+            
+
+	      	
+	      	<div id="table">
+	      	
 		    	<table class="main-table" width="100%" cellpadding="0" cellspacing="0">
-	                <tr>
+			    	<colgroup>
+		    			<col width="10%"/>
+		    			<col width="30%"/>
+		    			<col width="30%"/>
+		    			<col width="30%"/>
+		    		</colgroup>
+	                <tr class="table-head">
 	                    <th align="center">No</th>
 	                    <th align="center">이름</th>
 	                    <th align="center">부서명</th>
@@ -174,28 +213,59 @@
                     <c:forEach var="user" items="${userList}" varStatus="status">
 	                    <tr>
 	                        <td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${user.empNo}"/>', '<c:out value="${user.empName}"/>')"><c:out value="${user.empName}"/>&nbsp;</a></td>
+	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${user}"/>', '<c:out value="${USER_TYPE}"/>')"><c:out value="${user.empName}"/>&nbsp;</a></td>
                             <td align="center" class="listtd"><c:out value="${user.depName}"/>&nbsp;</td>
 	                        <td align="center" class="listtd"><c:out value="${user.posName}"/>&nbsp;</td>	                        
 	                    </tr>
 	                </c:forEach>
 		    	</table>
 	      	</div>
+	      	
+	      	
+	      	<div id="selectUserList">
+	      		<h3>선택 결과</h3>
+		    	<table class="main-table" width="100%" cellpadding="0" cellspacing="0">
+			    	<colgroup>
+		    			<col width="10%"/>
+		    			<col width="30%"/>
+		    			<col width="30%"/>
+		    			<col width="30%"/>
+		    		</colgroup>		    	
+	                <tr class="table-head">
+	                    <th align="center">No</th>
+	                    <th align="center">이름</th>
+	                    <th align="center">부서명</th>
+	                    <th align="center">직급</th>
+	                </tr>
+
+                    <c:forEach var="role" items="${roleList}" varStatus="status">
+                    	<c:if test="${role.USER_TYPE eq USER_TYPE}">
+	                    <tr>
+	                        <td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${role}"/>', '<c:out value="${USER_TYPE}"/>')"><c:out value="${role.USER_NAME}"/>&nbsp;</a></td>
+                            <td align="center" class="listtd"><c:out value="${role.USER_DEPT_NAME}"/>&nbsp;</td>
+	                        <td align="center" class="listtd"><c:out value="${role.USER_POS_NAME}"/>&nbsp;</td>	                        
+	                    </tr>
+	                    </c:if>
+	                </c:forEach>
+		    	</table>
+	      	</div>
 
         	<div id="paging">
-        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page" />
+        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page('<c:out value="${BT_ID }"/>', '<c:out value="${USER_TYPE}"/>')" />
         		<form:hidden path="pageIndex" />
         	</div>
         	
+        	<!-- 
         	<div class="flex-between">
         		
 	        	<div id="selectUserList">
 	        		<h3>선택 결과</h3>
 	        		
 	        	</div>
-	        	<a class="btn" href="#">추가</a>
+	        	<a class="btn" href="javascript:back_to_register()">추가</a>
         	</div>
-        	
+        	 -->
 
         </form:form>
         
