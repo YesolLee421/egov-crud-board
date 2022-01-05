@@ -241,9 +241,9 @@ public class BtController2 {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		List<?> userList = btService.selectUserList(searchVO);
-		model.addAttribute("userList", userList);
-		LOGGER.debug("selectUserList- userList = "+ userList.toString());
+		List<?> empList = btService.selectEmpList(searchVO);
+		model.addAttribute("empList", empList);
+		LOGGER.debug("selectEmpList- empList = "+ empList.toString());
 		
 		List<BtRoleVO> roleList = btService.selectBtRoleList(btId);
 		model.addAttribute("roleList", roleList);
@@ -257,7 +257,7 @@ public class BtController2 {
 		LOGGER.error("selectroleList- jsonRole = "+ jsonRole);
 
 		
-		int totCnt = btService.selectUserListTotCnt(searchVO);
+		int totCnt = btService.selectEmpListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 

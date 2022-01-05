@@ -59,15 +59,7 @@
 		<result property="FILENAME" column="FILENAME"/>
 		<result property="UPLOADED_AT" column="UPLOADED_AT"/>
 	</resultMap>
-	
-	<resultMap id="userVO" type="egovframework.example.sample.service.UserVO">
-		<result property="USER_ID" column="EMP_NO"/>
-		<result property="USER_NAME" column="EMP_NAME"/>
-		<result property="USER_DEPT_CODE" column="EMP_DEPT"/>
-		<result property="USER_POS_CODE" column="EMP_POSITION"/>
-		<result property="USER_DEPT_NAME" column="POS_NAME"/>
-		<result property="USER_POS_NAME" column="DEP_NAME"/>
-	</resultMap>	
+		
 
 
 	<insert id="insertBt" parameterType="btVO">
@@ -353,15 +345,15 @@
 			</if>
 	</select>
 	
-	<select id="selectUserList" parameterType="searchVO" resultType="egovMap">
+	<select id="selectEmpList" parameterType="searchVO" resultType="egovMap">
 	
 			SELECT
-				EMP_NO
+				EMP_NO AS EMP_SEQ
 				, EMP_NAME
-				, EMP_DEPT
-				, EMP_POSITION
-				, POS_NAME
-				, DEP_NAME
+				, EMP_DEPT AS EMP_DEPT_CODE
+				, EMP_POSITION AS EMP_POS_CODE
+				, POS_NAME AS EMP_POS_NAME
+				, DEP_NAME AS EMP_DEPT_NAME
 			FROM EMPLOYEE AS EMP
 			
 			JOIN DEP
@@ -388,7 +380,7 @@
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>	
 	
-	<select id="selectUserListTotCnt" parameterType="searchVO" resultType="int">
+	<select id="selectEmpListTotCnt" parameterType="searchVO" resultType="int">
 	
 				SELECT COUNT(EMP_NO) totcnt
 				FROM EMPLOYEE AS EMP

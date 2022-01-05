@@ -77,7 +77,7 @@ public interface BtService2 {
 	List<BtExpVO> selectBtExpList(String btId) throws Exception;
 	
 	// 사용자 검색
-	List<?> selectUserList(SampleDefaultVO searchVO) throws Exception;
+	List<?> selectEmpList(SampleDefaultVO searchVO) throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.
@@ -88,7 +88,7 @@ public interface BtService2 {
 	int selectBtListTotCnt(SampleDefaultVO searchVO);
 	
 	// 사용자 검색 결과 갯수 조회
-	int selectUserListTotCnt(SampleDefaultVO searchVO);
+	int selectEmpListTotCnt(SampleDefaultVO searchVO);
 	
 	
 	void fileUpload(BtFileVO fileVo) throws Exception;

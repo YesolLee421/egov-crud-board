@@ -75,17 +75,7 @@ public class BtVO extends SampleDefaultVO {
 	private List<BtRoleVO> btRoleVOList;
 	
 	private List<BtExpVO> btExpVOList;
-	
-	// 테스트용
-//	private String SELECTED_USERS;
-//
-//	public String getSELECTED_USERS() {
-//		return SELECTED_USERS;
-//	}
-//
-//	public void setSELECTED_USERS(String sELECTED_USERS) {
-//		SELECTED_USERS = sELECTED_USERS;
-//	}
+
 
 	public String getBT_ID() {
 		return BT_ID;

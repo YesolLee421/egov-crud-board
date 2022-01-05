@@ -97,6 +97,14 @@ a:hover {
   margin: 0 auto;
 }
 
+.td-hover {
+	cursor: pointer;
+}
+.td-hover:hover {
+  color: #2186c4;
+  text-decoration: none;
+}
+
 
 #header {
   margin: 20px 0 40px;
@@ -173,6 +181,8 @@ td.tbtd_content input#TITLE {
 	max-width: 700px;
 	width: 700px;
 }
+
+
 .tbtd_content p.multi-user {
 	display: inline-block;
 	height: 100%;
@@ -256,6 +266,11 @@ td a.btn {
     font-size: 11px;
     word-break: keep-all;
 }
+
+#dialog tbody tr td {
+  text-align: center;
+} 
+
 .fa-window-close:before {
     content: "\f410";
     margin-left: 4px;

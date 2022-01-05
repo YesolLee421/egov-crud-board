@@ -19,9 +19,7 @@ import java.util.List;
 
 import egovframework.example.sample.service.BtService;
 import egovframework.example.sample.service.BtVO;
-import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;

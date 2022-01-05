@@ -28,6 +28,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
+	
+	<!-- jQuery -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
@@ -53,92 +58,143 @@
 
         /* 개별 직원 선택 function */
         
-        const users = new Map();
+        const allRoles = [];
+        
+        var selectedRoles = [];
         
         const jsonRole = ${jsonRole};
         
+        const btId = `${BT_ID}`;
+        const userType = ${USER_TYPE};
         
-        /*
-		window.onload = function() {
-			
+
+        window.onload = function() {
+        	
 	        if(jsonRole!="" || jsonRole!=null) {
 	            jsonRole.forEach(function(role, key) {
-	            	console.log("jsonRole - role.userTYPE = " + role.user_TYPE);
-	            	if(role.user_TYPE == ${USER_TYPE}) {
-	            		let userData = {"BT_ID":role.bt_ID, "USER_ID": role.empNo, "USER_TYPE":role.user_TYPE};
-	            		setRoles(role.empNo, role.user_NAME);
-	            		users.set(role.empNo, userData);
-	            		
-	            		console.log(users);
+
+	            	let userData = {
+            				"BT_ID":role.bt_ID, 
+            				"BT_ROLE_ID": role.bt_ROLE_ID ,
+            				"USER_ID": role.user_ID, 
+            				"USER_TYPE":role.user_TYPE,
+            				"USER_NAME": role.user_NAME,
+            				"USER_DEPT_NAME": role.user_DEPT_NAME,
+            				"USER_POS_NAME": role.user_POS_NAME
+            				};
+	            	
+	            	if(role.user_TYPE == userType){
+	            		selectedRoles.push(userData);
+	            		setRole(userData);
+	            	} else {
+	            		allRoles.push(userData);
 	            	}
-	            });
+	            })
 	        }
-		}
-
-        function setRoles (USER_ID, USER_NAME) {
-        	if(!users.has(USER_ID)) {
-            	var showResult = document.getElementById('selectUserList');
-            	var showUser = document.createElement('span');
-            	var icon = document.createElement('i');
-            	icon.classList.add("fas");
-            	icon.classList.add("fa-window-close");
-            	
-            	console.log(showResult);
-            	
-            	showUser.setAttribute('id', USER_ID);
-            	showUser.innerHTML = USER_NAME;
-            	showUser.appendChild(icon);
-            	showUser.className = "selectedUser";
-            	
-            	icon.addEventListener('click', function(e) {
-            		users.delete(USER_ID);
-
-            		e.target.parentElement.remove();
-            		console.log(users);
-            	});
-            	showResult.appendChild(showUser);
-        	}
         }
 
-        function fn_egov_select(user, USER_TYPE) {
-        	if(!users.has(user.USER_ID)) {
-        		
-        		setRoles(user.USER_ID, user.USER_NAME);
+        
+        function setRole (userData) {
+        	var parent = document.querySelector('#selectUserList .main-table tbody');
+        	var tr = document.createElement('tr');
+        	tr.setAttribute('id', userData.USER_ID);
+        	
+        	const columns = ["NUM", "USER_NAME", "USER_DEPT_NAME", "USER_POS_NAME"];
+        	
+        	for (col of columns) {
+        		var td = document.createElement('td');
 
-        	} else {
+        		if(col=="NUM") { // num 부분엔 map의 사이즈 넣기
+        			td.innerHTML = 1 +  selectedRoles.findIndex(function(role) {
+        				return role.USER_ID == userData.USER_ID;
+        			});
+        		} else {	
+        			td.innerHTML = userData[col];
+        			
+        			// USER_NAME 클릭 시 role 테이블에서 삭제
+        			if(col=="USER_NAME") {
+        				td.classList.add('td-hover');
+        				
+        				td.addEventListener('click', function(e) {
+                    		e.target.parentElement.remove();
+                    		selectedRoles = selectedRoles.filter(function(role) {
+                    			return role.USER_ID != userData.USER_ID
+                    		});
+                    		
+                    		console.log(selectedRoles);
+                    	})
+        			}
+        		}
+        		tr.appendChild(td);
+        	}
+    		var filter = selectedRoles.filter(function(role) {
+        		return role.USER_ID == userData.USER_ID
+        	});
+        	console.log("filter = " + filter[0].USER_ID);
+        	parent.appendChild(tr);
+        }
+        
+        function addRoleList(EMP_SEQ, EMP_NAME, EMP_DEPT_NAME, EMP_POS_NAME) {
+        
+        	let userData = {
+    				"BT_ID":btId, 
+    				"BT_ROLE_ID": "" ,
+    				"USER_ID": EMP_SEQ, 
+    				"USER_TYPE":userType,
+    				"USER_NAME": EMP_NAME,
+    				"USER_DEPT_NAME": EMP_DEPT_NAME,
+    				"USER_POS_NAME": EMP_POS_NAME
+    				};
+
+        	console.log("userData.USER_ID = " + userData.USER_ID);
+        	
+    		var hasUser = selectedRoles.filter(function(role) {
+        		return role.USER_ID == userData.USER_ID
+        	}).length > 0;
+        	
+        	console.log("hasUser = " + hasUser);
+        	
+        	if(!hasUser) {
+        		selectedRoles.push(userData);
+        		setRole(userData);
+        	}else {
         		alert("이미 추가한 인물입니다.");
         	}
-        	const BT_ID = ${BT_ID};
-        	let userData = {"BT_ID":BT_ID, "USER_ID": USER_ID, "USER_NAME": USER_NAME, "USER_TYPE":USER_TYPE};
-        	
-        	users.set(USER_ID, userData);
-        	console.log(users);
         }
-        */
+        	
+
         
         /* 글 수정 화면 function */
         function back_to_register() {
-        	console.log(users);
+        	console.log(selectedRoles);
         	var parent = window.opener.document;
         	
         	var json = parent.getElementById("SELECTED_USERS");
         	
         	// 부모 화면 input-hidden에 값 전달
         	if(json) {
+        		var str = JSON.stringify(allRoles.concat(selectedRoles));
+        		console.log("str = " + str);
         		json.value = "";
-        		json.value = JSON.stringify(Array.from(users.entries()));
+        		json.value = str;
         	}
         	
         	// 부모 화면 input-text에 이름 추가
         	var id_arr = ["TRAVELER", "APPROVER", "RECEIVER"];
         	
-        	users.forEach( function(user, key) {
-        		
-        		var txt = parent.getElementById(id_arr[user.USER_TYPE] + "_ID");
-        		console.log(txt.value);
-        		txt.innerText += " " + user.USER_NAME;
-        	}); 
-           	self.close();
+        	var txt = parent.getElementById(id_arr[userType] + "_ID");
+        	
+        	txt.innerText = "";
+        	
+        	for (i in selectedRoles) {
+        		if (i!=0) {
+        			txt.innerText += ",\u00A0";
+        			
+        		} 
+        		txt.innerText += selectedRoles[i].USER_NAME;
+        	}
+        	
+           	//self.close();
         }
         
         
@@ -210,20 +266,29 @@
 	                    <th align="center">직급</th>
 	                </tr>
 
-                    <c:forEach var="user" items="${userList}" varStatus="status">
+                    <c:forEach var="emp" items="${empList}" varStatus="status">
 	                    <tr>
 	                        <td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${user}"/>', '<c:out value="${USER_TYPE}"/>')"><c:out value="${user.empName}"/>&nbsp;</a></td>
-                            <td align="center" class="listtd"><c:out value="${user.depName}"/>&nbsp;</td>
-	                        <td align="center" class="listtd"><c:out value="${user.posName}"/>&nbsp;</td>	                        
+	                        <td align="center" class="listtd"><a href="javascript:addRoleList('<c:out value="${emp.empSeq}"/>','<c:out value="${emp.empName}"/>','<c:out value="${emp.empDeptName}"/>','<c:out value="${emp.empPosName}"/>')"><c:out value="${emp.empName}"/>&nbsp;</a></td>
+                            <td align="center" class="listtd"><c:out value="${emp.empDeptName}"/>&nbsp;</td>
+	                        <td align="center" class="listtd"><c:out value="${emp.empPosName}"/>&nbsp;</td>	                        
 	                    </tr>
 	                </c:forEach>
 		    	</table>
 	      	</div>
 	      	
+	      	<div id="paging">
+        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page('<c:out value="${BT_ID }"/>', '<c:out value="${USER_TYPE}"/>')" />
+        		<form:hidden path="pageIndex" />
+        	</div>
+	      	
 	      	
 	      	<div id="selectUserList">
-	      		<h3>선택 결과</h3>
+	      		<div class="flex-between">
+		      		<h3>선택 결과</h3>
+		      		<a class="btn" href="javascript:back_to_register()">추가</a>
+	      		</div>
+	      		
 		    	<table class="main-table" width="100%" cellpadding="0" cellspacing="0">
 			    	<colgroup>
 		    			<col width="10%"/>
@@ -237,24 +302,22 @@
 	                    <th align="center">부서명</th>
 	                    <th align="center">직급</th>
 	                </tr>
-
-                    <c:forEach var="role" items="${roleList}" varStatus="status">
+					<!--
+                    <c:forEach var="role" items="${selectedRoles}" varStatus="status">
                     	<c:if test="${role.USER_TYPE eq USER_TYPE}">
 	                    <tr>
-	                        <td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+	                        <td align="center" class="listtd"><c:out value="${status.count}"/></td>
 	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${role}"/>', '<c:out value="${USER_TYPE}"/>')"><c:out value="${role.USER_NAME}"/>&nbsp;</a></td>
                             <td align="center" class="listtd"><c:out value="${role.USER_DEPT_NAME}"/>&nbsp;</td>
 	                        <td align="center" class="listtd"><c:out value="${role.USER_POS_NAME}"/>&nbsp;</td>	                        
 	                    </tr>
 	                    </c:if>
 	                </c:forEach>
+	                  -->
 		    	</table>
 	      	</div>
 
-        	<div id="paging">
-        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page('<c:out value="${BT_ID }"/>', '<c:out value="${USER_TYPE}"/>')" />
-        		<form:hidden path="pageIndex" />
-        	</div>
+
         	
         	<!-- 
         	<div class="flex-between">

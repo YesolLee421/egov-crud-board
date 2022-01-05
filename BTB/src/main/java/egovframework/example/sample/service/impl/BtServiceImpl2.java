@@ -221,12 +221,12 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 	}
 	
 	@Override
-	public List<?> selectUserList(SampleDefaultVO searchVO) throws Exception {
-		return btDAO.selectUserList(searchVO);
+	public List<?> selectEmpList(SampleDefaultVO searchVO) throws Exception {
+		return btDAO.selectEmpList(searchVO);
 	}
 	@Override
-	public int selectUserListTotCnt(SampleDefaultVO searchVO){
-		return btDAO.selectUserListTotCnt(searchVO);
+	public int selectEmpListTotCnt(SampleDefaultVO searchVO){
+		return btDAO.selectEmpListTotCnt(searchVO);
 	}
 
 	@Override

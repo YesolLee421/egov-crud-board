@@ -24,7 +24,6 @@ import egovframework.example.sample.service.BtRoleVO;
 import egovframework.example.sample.service.BtVO;
 import egovframework.example.sample.service.ComExpVO;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -99,7 +98,7 @@ public interface BtMapper2 {
 	List<BtRoleVO> selectBtRoleList(String btId) throws Exception;
 	List<BtExpVO> selectBtExpList(String btId) throws Exception;
 	
-	List<?> selectUserList(SampleDefaultVO searchVO) throws Exception;
+	List<?> selectEmpList(SampleDefaultVO searchVO) throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.
@@ -108,7 +107,7 @@ public interface BtMapper2 {
 	 * @exception
 	 */
 	int selectBtListTotCnt(SampleDefaultVO searchVO);
-	int selectUserListTotCnt(SampleDefaultVO searchVO);
+	int selectEmpListTotCnt(SampleDefaultVO searchVO);
 	
 	void insertFile(BtFileVO fileVo);
 	
