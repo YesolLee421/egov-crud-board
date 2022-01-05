@@ -2,16 +2,17 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+
     <typeAliases>
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+		<typeAlias alias="searchVO" type="egovframework.example.bt.service.SampleDefaultVO"/>
 		
-		<typeAlias alias="btVO" type="egovframework.example.sample.service.BtVO"/>
-		<typeAlias alias="btRoleVO" type="egovframework.example.sample.service.BtRoleVO"/>
-		<typeAlias alias="btExpVO" type="egovframework.example.sample.service.BtExpVO"/>
-		<typeAlias alias="comExpVO" type="egovframework.example.sample.service.ComExpVO"/>
-		<typeAlias alias="btFileVO" type="egovframework.example.sample.service.BtFileVO"/>
-		<typeAlias alias="empVO" type="egovframework.example.sample.service.EmployeeVO"/>
+		<typeAlias alias="btVO" type="egovframework.example.bt.service.BtVO"/>
+		<typeAlias alias="btRoleVO" type="egovframework.example.bt.service.BtRoleVO"/>
+		<typeAlias alias="btExpVO" type="egovframework.example.bt.service.BtExpVO"/>
+		<typeAlias alias="comExpVO" type="egovframework.example.bt.service.ComExpVO"/>
+		<typeAlias alias="btFileVO" type="egovframework.example.bt.service.BtFileVO"/>
+		<typeAlias alias="empVO" type="egovframework.example.bt.service.EmployeeVO"/>
     </typeAliases>
     
 

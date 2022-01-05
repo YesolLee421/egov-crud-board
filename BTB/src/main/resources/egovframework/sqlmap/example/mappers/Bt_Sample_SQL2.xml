@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovframework.example.sample.service.impl.BtMapper2">
+<mapper namespace="egovframework.example.bt.service.impl.BtMapper2">
 	
-	<resultMap id="btVO" type="egovframework.example.sample.service.BtVO">
+	<resultMap id="btVO" type="egovframework.example.bt.service.BtVO">
 		<result property="BT_ID" column="BT_ID"/>
 		<result property="AUTHOR_ID" column="AUTHOR_ID"/>
 		<result property="AUTHOR_DEPT" column="AUTHOR_DEPT"/>
@@ -20,7 +20,7 @@
 		<result property="CREATED_AT" column="CREATED_AT"/>
 	</resultMap>
 	
-	<resultMap id="btRoleVO" type="egovframework.example.sample.service.BtRoleVO">
+	<resultMap id="btRoleVO" type="egovframework.example.bt.service.BtRoleVO">
 		<result property="BT_ROLE_ID" column="BT_ROLE_ID"/>
 		<result property="BT_ID" column="BT_ID"/>
 		<result property="USER_ID" column="USER_ID"/>
@@ -32,7 +32,7 @@
 		<result property="USER_POS_NAME" column="USER_POS_NAME"/>
 	</resultMap>
 	
-	<resultMap id="btExpVO" type="egovframework.example.sample.service.BtExpVO">
+	<resultMap id="btExpVO" type="egovframework.example.bt.service.BtExpVO">
 		<result property="BT_EXP_ID" column="BT_EXP_ID"/>
 		<result property="BT_ID" column="BT_ID"/>
 		<result property="EXPENSE_ID" column="EXPENSE_ID"/>
@@ -42,7 +42,7 @@
 		<result property="PRICE" column="PRICE"/>
 	</resultMap>
 	
-	<resultMap id="comExpVO" type="egovframework.example.sample.service.ComExpVO">
+	<resultMap id="comExpVO" type="egovframework.example.bt.service.ComExpVO">
 		<result property="EXPENSE_SEQ" column="EXPENSE_SEQ"/>
 		<result property="EXPENSE_ID" column="EXPENSE_ID"/>
 		<result property="EXPENSE_DATE" column="EXPENSE_DATE"/>
@@ -52,7 +52,7 @@
 		<result property="PRICE" column="PRICE"/>
 	</resultMap>
 	
-	<resultMap id="btFileVO" type="egovframework.example.sample.service.BtFileVO">
+	<resultMap id="btFileVO" type="egovframework.example.bt.service.BtFileVO">
 		<result property="FILE_ID" column="FILE_ID"/>
 		<result property="BT_ID" column="BT_ID"/>
 		<result property="ORIGIN_FILENAME" column="ORIGIN_FILENAME"/>
