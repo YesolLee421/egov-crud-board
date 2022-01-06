@@ -30,7 +30,7 @@
     <title>출장 정보 <c:if test="${registerFlag == 'create'}">생성</c:if>
                   <c:if test="${registerFlag == 'modify'}">수정</c:if>
     </title>
-	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
+	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/bt_style.css'/>"/>
     
     <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
@@ -80,7 +80,7 @@
         	
         	// users.set()
         	
-        	openWin = window.open("<c:url value='/selectUserList.do?BT_ID="+BT_ID+"&USER_TYPE="+userType+"'/>", "", "width=800, height=800, left=100, top=50");
+        	openWin = window.open("<c:url value='/selectUserList.do?BT_ID="+BT_ID+"&USER_TYPE="+userType+"'/>", "", "width=800, height=800, left=100, top=100");
         }
         
         

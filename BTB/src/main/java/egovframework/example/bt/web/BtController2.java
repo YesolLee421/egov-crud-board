@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import egovframework.example.bt.service.BtDefaultVO;
 import egovframework.example.bt.service.BtExpVO;
 import egovframework.example.bt.service.BtFileVO;
 import egovframework.example.bt.service.BtRoleVO;
@@ -72,8 +73,9 @@ public class BtController2 {
 	protected DefaultBeanValidator beanValidator;
 	
 	// page test
-	private String listPage = "selectBtList2";
-	private String registerPage = "registerBt3";
+	private String listPage = "/bt/selectBtList";
+	private String registerPage = "/bt/registerBt";
+	private String searchEmpPage = "/bt/searchBtRole";
 	
 	
 	@Resource(name = "multipartResolver")
@@ -146,7 +148,7 @@ public class BtController2 {
 //		}
 		
 		status.setComplete();
-		return "forward:/selectBtList2.do";
+		return "forward:" + listPage;
 	}
 	
 	// @RequestParam("file") MultipartFile file
@@ -185,7 +187,8 @@ public class BtController2 {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/selectBtList2.do")
-	public String selectBtList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+	public String selectBtList(@ModelAttribute("searchVO") BtDefaultVO searchVO, ModelMap model) throws Exception {
+		LOGGER.debug("selectList2- 여기까진 됨 1 = ");
 
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -200,6 +203,10 @@ public class BtController2 {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		LOGGER.debug("selectList2- 여기까진 됨 2 = ");
+		
+		LOGGER.error("selectList2- searchVO = "+ searchVO);
+		
 
 		List<?> btList = btService.selectBtList(searchVO);
 		model.addAttribute("resultList", btList);
@@ -265,7 +272,7 @@ public class BtController2 {
 		model.addAttribute("USER_TYPE", userType);
 		model.addAttribute("BT_ID", btId);
 
-		return "searchBtRole";
+		return searchEmpPage;
 	}
 	
 	
@@ -280,7 +287,7 @@ public class BtController2 {
 	public BtVO setDefault(BtVO btVO) {
 		btVO.setAUTHOR_ID("관리자");
 		btVO.setLOCATION("서울 00구");
-		btVO.setTRAVELER_ID("이예솔");
+		btVO.setTRAVELER_NAME("이예솔");
 		btVO.setTRIP_START_DATE(new Date());
 		btVO.setTRIP_END_DATE(new Date());
 		
@@ -367,7 +374,7 @@ public class BtController2 {
 		}
 
 		status.setComplete();
-		return "forward:/selectBtList2.do";
+		return "forward:" + listPage;
 	}
 
 
@@ -509,7 +516,7 @@ public class BtController2 {
 		btService.updateBt(btVO);
 		
 		status.setComplete();
-		return "forward:/selectBtList2.do";
+		return "forward:" + listPage;
 	}
 
 	/**
@@ -546,7 +553,7 @@ public class BtController2 {
 
 		btService.deleteBt(btVO);
 		status.setComplete();
-		return "forward:/selectBtList2.do";
+		return "forward:" + listPage;
 	}
 
 }

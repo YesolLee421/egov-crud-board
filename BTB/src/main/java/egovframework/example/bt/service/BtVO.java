@@ -34,14 +34,14 @@ public class BtVO extends SampleDefaultVO {
 	// 기안부서
 	private String AUTHOR_DEPT;
 	
-	// 결재자 id (이름)
-	private String APPROVER_ID;
+	// 결재자 이름
+	private String APPROVER_NAME;
 	
-	// 수신자 id (이름)
-	private String RECEIVER_ID;
+	// 수신자 이름
+	private String RECEIVER_NAME;
 	
-	// 출장자 id 
-	private String TRAVELER_ID;
+	// 출장자 이름 
+	private String TRAVELER_NAME;
 	
 	// 제목
 	private String TITLE;
@@ -101,28 +101,29 @@ public class BtVO extends SampleDefaultVO {
 		AUTHOR_DEPT = aUTHOR_DEPT;
 	}
 
-	public String getAPPROVER_ID() {
-		return APPROVER_ID;
+
+	public String getAPPROVER_NAME() {
+		return APPROVER_NAME;
 	}
 
-	public void setAPPROVER_ID(String aPPROVER_ID) {
-		APPROVER_ID = aPPROVER_ID;
+	public void setAPPROVER_NAME(String aPPROVER_NAME) {
+		APPROVER_NAME = aPPROVER_NAME;
 	}
 
-	public String getRECEIVER_ID() {
-		return RECEIVER_ID;
+	public String getRECEIVER_NAME() {
+		return RECEIVER_NAME;
 	}
 
-	public void setRECEIVER_ID(String rECEIVER_ID) {
-		RECEIVER_ID = rECEIVER_ID;
+	public void setRECEIVER_NAME(String rECEIVER_NAME) {
+		RECEIVER_NAME = rECEIVER_NAME;
 	}
 
-	public String getTRAVELER_ID() {
-		return TRAVELER_ID;
+	public String getTRAVELER_NAME() {
+		return TRAVELER_NAME;
 	}
 
-	public void setTRAVELER_ID(String tRAVELER_ID) {
-		TRAVELER_ID = tRAVELER_ID;
+	public void setTRAVELER_NAME(String tRAVELER_NAME) {
+		TRAVELER_NAME = tRAVELER_NAME;
 	}
 
 	public String getTITLE() {

@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>출장 관리 게시판</title>
 
-	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
+	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/bt_style.css'/>"/>
 	<!-- datePicker를 위한 코드 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -127,7 +127,7 @@
 	                        <td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.btId}"/>')"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></a></td>                      
 	                        <td align="left" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.btId}"/>')"><c:out value="${result.location}"/></a></td>
 	                        <td align="center" class="listtd"><c:out value="${result.authorId}"/>&nbsp;</td>
-	                        <td align="center" class="listtd"><c:out value="${result.travelerId}"/>&nbsp;</td>	                        
+	                        <td align="center" class="listtd"><c:out value="${result.travelerName}"/>&nbsp;</td>	                        
 	                        <td align="center" class="listtd"><c:out value="${result.tripStartDate} ~ ${result.tripEndDate} (${result.tripPeriod})"/>&nbsp;</td>
 	                    </tr>
 	                </c:forEach>

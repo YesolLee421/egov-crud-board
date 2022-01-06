@@ -283,3 +283,8 @@ td a.btn {
 }
 
 
+.input_bt {
+  display: inline-block;
+  width: 99.8%
+}
+

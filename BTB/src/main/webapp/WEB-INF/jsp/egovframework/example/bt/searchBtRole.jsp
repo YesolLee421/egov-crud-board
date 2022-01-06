@@ -27,7 +27,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/style2.css'/>"/>
+	<link type="text/css" rel="stylesheet" href="<c:url value='/css/bt_style.css'/>"/>
 	
 	<!-- jQuery -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -57,16 +57,12 @@
         /* 부모 페이지의 직원 정보 가져오기 */
 
         /* 개별 직원 선택 function */
-        
-        const allRoles = [];
-        
-        var selectedRoles = [];
-        
-        const jsonRole = ${jsonRole};
-        
-        const btId = `${BT_ID}`;
-        const userType = ${USER_TYPE};
-        
+		const btId = `${BT_ID}`;
+		const userType = ${USER_TYPE};
+		const jsonRole = ${jsonRole}; // 전체 role 정보 json
+		
+		var selectedRoles = []; // userType에 맞는 role만 저장
+		const allRoles = []; // userType 다른 나머지 role. 추후 selectedRoles와 합쳐서 리턴
 
         window.onload = function() {
         	
@@ -104,7 +100,7 @@
         	for (col of columns) {
         		var td = document.createElement('td');
 
-        		if(col=="NUM") { // num 부분엔 map의 사이즈 넣기
+        		if(col=="NUM") { // 객체 배열에서 특정 값의 인덱스 찾아 출력
         			td.innerHTML = 1 +  selectedRoles.findIndex(function(role) {
         				return role.USER_ID == userData.USER_ID;
         			});
@@ -120,8 +116,6 @@
                     		selectedRoles = selectedRoles.filter(function(role) {
                     			return role.USER_ID != userData.USER_ID
                     		});
-                    		
-                    		console.log(selectedRoles);
                     	})
         			}
         		}
@@ -194,7 +188,7 @@
         		txt.innerText += selectedRoles[i].USER_NAME;
         	}
         	
-           	//self.close();
+           	self.close();
         }
         
         

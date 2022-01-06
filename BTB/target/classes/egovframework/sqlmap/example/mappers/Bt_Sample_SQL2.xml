@@ -6,9 +6,6 @@
 		<result property="BT_ID" column="BT_ID"/>
 		<result property="AUTHOR_ID" column="AUTHOR_ID"/>
 		<result property="AUTHOR_DEPT" column="AUTHOR_DEPT"/>
-		<result property="APPROVER_ID" column="APPROVER_ID"/>
-		<result property="RECEIVER_ID" column="RECEIVER_ID"/>
-		<result property="TRAVELER_ID" column="TRAVELER_ID"/>
 		<result property="TITLE" column="TITLE"/>
 		<result property="LOCATION" column="LOCATION"/>
 		<result property="TRIP_START_DATE" column="TRIP_START_DATE"/>
@@ -64,92 +61,86 @@
 
 	<insert id="insertBt" parameterType="btVO">
 			INSERT INTO BUSINESSTRIP
-				( BT_ID
-				  , AUTHOR_ID
-				  , AUTHOR_DEPT
-				  , APPROVER_ID
-				  , RECEIVER_ID
-				  , TRAVELER_ID
-				  , TITLE
-				  , LOCATION
-				  , TRIP_START_DATE
-				  , TRIP_END_DATE
-				  , TRANSPORTATION_TYPE
-				  , TRIP_PURPOSE
-				  , FILENAME
-				  , APPROVAL_STATE
-				  , CREATED_AT )
-			VALUES ( #{BT_ID}
-				  , #{AUTHOR_ID}
-				  , #{AUTHOR_DEPT}
-				  , #{APPROVER_ID}
-				  , #{RECEIVER_ID}
-				  , #{TRAVELER_ID}
-				  , #{TITLE}
-				  , #{LOCATION}
-				  , #{TRIP_START_DATE}
-				  , #{TRIP_END_DATE}
-				  , #{TRANSPORTATION_TYPE}
-				  , #{TRIP_PURPOSE}
-				  , #{FILENAME}
-				  , 0
-				  , NOW())
+				( BT_ID,
+				  AUTHOR_ID,
+				  AUTHOR_DEPT,
+				  TITLE,
+				  LOCATION,
+				  TRIP_START_DATE,
+				  TRIP_END_DATE,
+				  TRANSPORTATION_TYPE,
+				  TRIP_PURPOSE,
+				  FILENAME,
+				  APPROVAL_STATE,
+				  CREATED_AT )
+			VALUES ( #{BT_ID},
+				  #{AUTHOR_ID},
+				  #{AUTHOR_DEPT},
+				  #{TITLE},
+				  #{LOCATION},
+				  #{TRIP_START_DATE},
+				  #{TRIP_END_DATE},
+				  #{TRANSPORTATION_TYPE},
+				  #{TRIP_PURPOSE},
+				  #{FILENAME},
+				  0,
+				  NOW())
 	</insert>
 	
 	<insert id="insertBtRole" parameterType="btRoleVO">
 			INSERT INTO BUSINESSTRIP_ROLES
-				( BT_ID
-				  , USER_ID
-				  , USER_TYPE )
-			VALUES ( #{BT_ID}
-				  , #{USER_ID}
-				  , #{USER_TYPE} )
+				( BT_ID,
+				  USER_ID,
+				  USER_TYPE )
+			VALUES ( #{BT_ID},
+				  #{USER_ID},
+				  #{USER_TYPE} )
 	</insert>
 	
 	<insert id="insertBtExp" parameterType="btExpVO">
 			INSERT INTO BUSINESSTRIP_EXPENSES
-				( BT_ID
-				  , EXPENSE_ID
-				  , EXPENSE_TYPE
-				  , EXPENSE_DETAIL
-				  , PAYMENT_METHOD
-				  , PRICE )
-			VALUES ( #{BT_ID}
-				  , #{EXPENSE_ID}
-				  , #{EXPENSE_TYPE}
-				  , #{EXPENSE_DETAIL}
-				  , #{PAYMENT_METHOD}
-				  , #{PRICE} )
+				( BT_ID,
+				  EXPENSE_ID,
+				  EXPENSE_TYPE,
+				  EXPENSE_DETAIL,
+				  PAYMENT_METHOD,
+				  PRICE )
+			VALUES ( #{BT_ID},
+				  #{EXPENSE_ID},
+				  #{EXPENSE_TYPE},
+				  #{EXPENSE_DETAIL},
+				  #{PAYMENT_METHOD},
+				  #{PRICE} )
 	</insert>	
 
 	<insert id="insertComExp" parameterType="comExpVO">
 			INSERT INTO COMPANY_EXPENSES
-				( EXPENSE_ID
-				  , EXPENSE_DATE
-				  , EXPENSE_DETAIL
-				  , EXPENSE_TYPE
-				  , PAYMENT_METHOD
-				  , PRICE )
-			VALUES ( #{EXPENSE_ID}
-				  , #{EXPENSE_DATE}
-				  , #{EXPENSE_DETAIL}
-				  , #{EXPENSE_TYPE}
-				  , #{PAYMENT_METHOD}
-				  , #{PRICE} )
+				( EXPENSE_ID,
+				  EXPENSE_DATE,
+				  EXPENSE_DETAIL,
+				  EXPENSE_TYPE,
+				  PAYMENT_METHOD,
+				  PRICE )
+			VALUES ( #{EXPENSE_ID},
+				  #{EXPENSE_DATE},
+				  #{EXPENSE_DETAIL},
+				  #{EXPENSE_TYPE},
+				  #{PAYMENT_METHOD},
+				  #{PRICE} )
 	</insert>	
 	
 	
 	
 	<insert id="insertFile" parameterType="btFileVO" >
 			INSERT INTO BUSINESSTRIP_FILES
-				( BT_ID
-				  , ORIGIN_FILE_NAME
-				  , FILENAME
-				  , UPLOADED_AT )
-			VALUES ( #{BT_ID}
-				  , #{ORIGIN_FILE_NAME}
-				  , #{FILENAME}
-				  , #{UPLOADED_AT})
+				( BT_ID,
+				  ORIGIN_FILE_NAME,
+				  FILENAME,
+				  UPLOADED_AT )
+			VALUES ( #{BT_ID},
+				  #{ORIGIN_FILE_NAME},
+				  #{FILENAME},
+				  #{UPLOADED_AT})
 	</insert>
 	
 		
@@ -157,27 +148,24 @@
 	<update id="updateBt">
 			UPDATE BUSINESSTRIP
 			SET 
-				 AUTHOR_ID=#{AUTHOR_ID}
-				, AUTHOR_DEPT=#{AUTHOR_DEPT}
-				, APPROVER_ID=#{APPROVER_ID}
-				, RECEIVER_ID=#{RECEIVER_ID}
-				, TRAVELER_ID=#{TRAVELER_ID}
-				, TITLE=#{TITLE}
-				, LOCATION=#{LOCATION}
-				, TRIP_START_DATE=#{TRIP_START_DATE}
-				, TRIP_END_DATE=#{TRIP_END_DATE}
-				, TRANSPORTATION_TYPE=#{TRANSPORTATION_TYPE}
-				, TRIP_PURPOSE=#{TRIP_PURPOSE}
-				, FILENAME=#{FILENAME}
+				AUTHOR_ID=#{AUTHOR_ID},
+				AUTHOR_DEPT=#{AUTHOR_DEPT},
+				TITLE=#{TITLE},
+				LOCATION=#{LOCATION},
+				TRIP_START_DATE=#{TRIP_START_DATE},
+				TRIP_END_DATE=#{TRIP_END_DATE},
+				TRANSPORTATION_TYPE=#{TRANSPORTATION_TYPE},
+				TRIP_PURPOSE=#{TRIP_PURPOSE},
+				FILENAME=#{FILENAME}
 			WHERE BT_ID=#{BT_ID}
 	</update>
 	
 	
 	<update id="updateBtRole">
 			UPDATE BUSINESSTRIP_ROLES
-			SET BT_ID=#{BT_ID}
-				, USER_ID=#{USER_ID}
-				, USER_TYPE=#{USER_TYPE}
+			SET BT_ID=#{BT_ID},
+				USER_ID=#{USER_ID},
+				USER_TYPE=#{USER_TYPE}
 			WHERE BT_ROLE_ID=#{BT_ROLE_ID}
 	</update>
 	
@@ -185,22 +173,22 @@
 	<update id="updateBtExp">
 			UPDATE BUSINESSTRIP_EXPENSES
 			SET 
-				EXPENSE_ID=#{EXPENSE_ID}
-				, EXPENSE_TYPE=#{EXPENSE_TYPE}
-				, EXPENSE_DETAIL=#{EXPENSE_DETAIL}
-				, PAYMENT_METHOD=#{PAYMENT_METHOD}
-				, PRICE=#{PRICE}
+				EXPENSE_ID=#{EXPENSE_ID},
+				EXPENSE_TYPE=#{EXPENSE_TYPE},
+				EXPENSE_DETAIL=#{EXPENSE_DETAIL},
+				PAYMENT_METHOD=#{PAYMENT_METHOD},
+				PRICE=#{PRICE}
 			WHERE BT_EXP_ID=#{BT_EXP_ID}
 	</update>
 	
 	<update id="updateComExp">
 			UPDATE COMPANY_EXPENSES
 			SET 
-				EXPENSE_DATE=#{EXPENSE_DATE}
-				, EXPENSE_DETAIL=#{EXPENSE_DETAIL}
-				, EXPENSE_TYPE=#{EXPENSE_TYPE}
-				, PAYMENT_METHOD=#{PAYMENT_METHOD}
-				, PRICE=#{PRICE}
+				EXPENSE_DATE=#{EXPENSE_DATE},
+				EXPENSE_DETAIL=#{EXPENSE_DETAIL},
+				EXPENSE_TYPE=#{EXPENSE_TYPE},
+				PAYMENT_METHOD=#{PAYMENT_METHOD},
+				PRICE=#{PRICE}
 			WHERE EXPENSE_ID=#{EXPENSE_ID}
 			
 	</update>		
@@ -242,21 +230,18 @@
 	<select id="selectBt" resultMap="btVO">
 
             SELECT
-                BT_ID
-				  , AUTHOR_ID
-				  , AUTHOR_DEPT
-				  , APPROVER_ID
-				  , RECEIVER_ID
-				  , TRAVELER_ID
-				  , TITLE
-				  , LOCATION
-				  , TRIP_START_DATE
-				  , TRIP_END_DATE
-				  , TRANSPORTATION_TYPE
-				  , TRIP_PURPOSE
-				  , FILENAME
-				  , APPROVAL_STATE
-				  , CREATED_AT
+                BT_ID,
+                AUTHOR_ID,
+				AUTHOR_DEPT,
+				TITLE,
+				LOCATION,
+				TRIP_START_DATE,
+				TRIP_END_DATE,
+				TRANSPORTATION_TYPE,
+				TRIP_PURPOSE,
+				FILENAME,
+				APPROVAL_STATE,
+				CREATED_AT
             FROM BUSINESSTRIP
             WHERE BT_ID=#{BT_ID}
 
@@ -266,23 +251,33 @@
 	<select id="selectBtList" parameterType="searchVO" resultType="egovMap">
 	
 			SELECT
-				BT_ID
-				, LOCATION
-				, AUTHOR_ID
-				, TRAVELER_ID
-				, TRIP_START_DATE
-				, TRIP_END_DATE
-				, CONCAT(DATEDIFF(TRIP_END_DATE, TRIP_START_DATE)+1, "일") AS TRIP_PERIOD
-			FROM BUSINESSTRIP
+				BT_ID,
+			    LOCATION,
+			    AUTHOR_ID,
+			    TRIP_START_DATE,
+			    TRIP_END_DATE,
+			    CONCAT(DATEDIFF(TRIP_END_DATE, TRIP_START_DATE)+1, "일") AS TRIP_PERIOD,
+			    
+			    (SELECT GROUP_CONCAT(EMP.EMP_Name SEPARATOR ', ')
+				FROM BUSINESSTRIP_ROLES AS BTR
+				JOIN EMPLOYEE AS EMP ON EMP.EMP_NO = BTR.USER_ID
+				WHERE BTR.BT_ID = BT.BT_ID
+			    AND BTR.USER_TYPE = 0) AS TRAVELER_NAME
+			    
+			FROM BUSINESSTRIP AS BT
 			WHERE 1=1
+			
+			<if test="searchTripDate!=null and searchTripDate != ''">
+        		AND #{searchTripDate} BETWEEN TRIP_START_DATE AND TRIP_END_DATE
+        	</if>
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
-		            <when test="searchCondition == 0">
-						AND	TRAVELER_ID LIKE CONCAT('%', #{searchKeyword},'%')
-					</when>
 		            <when test="searchCondition == 1">
-						AND #{searchKeyword} BETWEEN TRIP_START_DATE AND TRIP_END_DATE
-					</when>
+						AND LOCATION LIKE CONCAT('%',  #{searchKeyword} ,'%')
+					</when>						
+		            <when test="searchCondition == 0">
+						HAVING TRAVELER_NAME LIKE CONCAT('%',  #{searchKeyword} ,'%')
+					</when>	
 				</choose>
 			</if>
 			ORDER BY CREATED_AT DESC
@@ -316,13 +311,13 @@
 	
 	<select id="selectBtExpList" parameterType="String" resultMap="btExpVO">
 			SELECT 
-				BT_EXP_ID
-				, EXPENSE_ID
-				, BT_ID
-				, EXPENSE_TYPE
-				, EXPENSE_DETAIL
-				, PAYMENT_METHOD
-				, PRICE 
+				BT_EXP_ID,
+				EXPENSE_ID,
+				BT_ID,
+				EXPENSE_TYPE,
+				EXPENSE_DETAIL,
+				PAYMENT_METHOD,
+				PRICE 
 			FROM BUSINESSTRIP_EXPENSES
 			WHERE BT_ID=#{BT_ID}
 	</select>
@@ -331,16 +326,29 @@
 	<select id="selectBtListTotCnt" parameterType="searchVO" resultType="int">
 
 			SELECT COUNT(*) totcnt
-			FROM BUSINESSTRIP
+			FROM (SELECT 
+					BT.BT_ID, 
+					USER_ID, 
+					EMP_NAME,
+					TRIP_START_DATE,
+					TRIP_END_DATE,
+					LOCATION
+				FROM BUSINESSTRIP AS BT
+				LEFT JOIN BUSINESSTRIP_ROLES AS BTR ON BT.BT_ID = BTR.BT_ID
+				LEFT JOIN EMPLOYEE AS EMP ON BTR.USER_ID = EMP.EMP_NO
+				WHERE USER_TYPE=0) BT
 			WHERE 1=1
+			<if test="searchTripDate!=null and searchTripDate != ''">
+        		AND #{searchTripDate} BETWEEN TRIP_START_DATE AND TRIP_END_DATE
+        	</if>
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
+		            <when test="searchCondition == 1">
+						AND LOCATION LIKE CONCAT('%',  #{searchKeyword} ,'%')
+					</when>						
 		            <when test="searchCondition == 0">
-						AND	TRAVELER_ID LIKE CONCAT('%', #{searchKeyword},'%')
-					</when>
-		            <when test="searchCondition == 1">						
-						AND #{searchKeyword} BETWEEN TRIP_START_DATE AND TRIP_END_DATE
-					</when>
+						AND EMP_NAME LIKE CONCAT('%',  #{searchKeyword} ,'%')
+					</when>	
 				</choose>
 			</if>
 	</select>
@@ -348,12 +356,12 @@
 	<select id="selectEmpList" parameterType="searchVO" resultType="egovMap">
 	
 			SELECT
-				EMP_NO AS EMP_SEQ
-				, EMP_NAME
-				, EMP_DEPT AS EMP_DEPT_CODE
-				, EMP_POSITION AS EMP_POS_CODE
-				, POS_NAME AS EMP_POS_NAME
-				, DEP_NAME AS EMP_DEPT_NAME
+				EMP_NO AS EMP_SEQ,
+				EMP_NAME,
+				EMP_DEPT AS EMP_DEPT_CODE,
+				EMP_POSITION AS EMP_POS_CODE,
+				POS_NAME AS EMP_POS_NAME,
+				DEP_NAME AS EMP_DEPT_NAME
 			FROM EMPLOYEE AS EMP
 			
 			JOIN DEP
@@ -363,6 +371,7 @@
 			ON EMP_POSITION = POS_CODE
 			
 			WHERE 1=1
+			
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
@@ -389,6 +398,8 @@
 				JOIN POS
 				ON EMP_POSITION = POS_CODE
 				WHERE 1=1
+				
+				
 				<if test="searchKeyword != null and searchKeyword != ''">
 			        <choose>
 			            <when test="searchCondition == 0">

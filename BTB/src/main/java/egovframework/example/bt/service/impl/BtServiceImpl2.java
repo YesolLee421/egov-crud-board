@@ -120,7 +120,7 @@ public class BtServiceImpl2 extends EgovAbstractServiceImpl implements BtService
 		LOGGER.error("makeComExp comExp.getEXPENSE_ID() = " + comExp.getEXPENSE_ID());
 		
 		comExp.setEXPENSE_DATE(btVO.getTRIP_END_DATE());
-		comExp.setEXPENSE_DETAIL(btVO.getTRAVELER_ID() + " 출장 " + expenseTypeText[expVo.getEXPENSE_TYPE()] );
+		comExp.setEXPENSE_DETAIL(btVO.getTRAVELER_NAME() + " 출장 " + expenseTypeText[expVo.getEXPENSE_TYPE()] );
 		comExp.setEXPENSE_TYPE(expVo.getEXPENSE_TYPE());
 		comExp.setPRICE(expVo.getPRICE());
 		comExp.setPAYMENT_METHOD(expVo.getPAYMENT_METHOD());
